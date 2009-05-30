@@ -1,0 +1,23 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  name: 
+  location: 
+  slug: 
+  address: 
+  postcode: 
+  phone: 
+  email: 
+  url: 
+  description: MyText
+
+two:
+  name: 
+  location: 
+  slug: 
+  address: 
+  postcode: 
+  phone: 
+  email: 
+  url: 
+  description: MyText

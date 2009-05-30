@@ -4,5 +4,6 @@ tmp/**/*
 config/database.yml
 coverage/*
 db/backup/*
+db/*.sqlite3
 doc/*
 public/stylesheets/*.css
