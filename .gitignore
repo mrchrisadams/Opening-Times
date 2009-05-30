@@ -2,6 +2,7 @@ log/*.log
 tmp/**/*
 .DS_Store
 config/database.yml
+coverage/*
 db/backup/*
 doc/*
 public/stylesheets/*.css
