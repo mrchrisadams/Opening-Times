@@ -1,0 +1,465 @@
+!foreground1 = #033649
+!foreground2 = #036564
+
+!highlight = #fcfccc
+!subtle1 = #deddcb
+!subtle2 = #cdb380
+!strong1 = #031634
+
+!font_list = "sans-serif"
+!content_width = 950px
+
+body
+  :margin 0px
+  :font-family = !font_list
+  :background-color #e8ddcb
+  :color #000
+
+input, textarea, select
+  :font-size large
+  :font-family = !font_list
+  :padding 4px
+  :background = !subtle1
+  :border 1px solid
+  :border-color = !foreground2
+  &:focus
+    :background= !highlight
+
+input.shy
+  :border-color #999
+  :font-size small
+
+input.button
+  :border 1px outset
+
+input.tick
+  :padding-left 32px
+  :background url(/images/tick.png) no-repeat 8px 8px #cec
+  :color #070
+
+input.cross
+  :padding-left 32px
+  :background url(/images/cross.png) no-repeat 8px 8px #ecc
+  :color #700
+
+fieldset
+  :border 1px solid
+  :border-color= !foreground2
+  legend
+    :color= !foreground2
+    :font-size 1.5em
+
+
+.errorExplanation
+  :background #fdd
+  :border 1px solid #c00
+  :padding 8px
+  h2
+    :color #c00
+    :font-size 1.2em
+
+.fieldWithErrors
+  :display inline
+  input, textarea, select
+    :border 2px solid #C00
+    :background = #fdd
+    &:focus
+      :background= !highlight
+
+
+h1, h2, h3
+  :color = !foreground2
+  :font-weight normal
+  :margin .3em 0 .1em 0
+
+h1
+  :font
+    :size 3em
+
+a
+  :color = !foreground2
+  :text-decoration underline
+  &:visited
+    :color = !strong1
+  &:hover
+    :background = !foreground2
+    :padding 2px 0
+    :color = #fff
+
+a#skipToContent
+  :float left
+
+img
+  :border none
+
+dl
+  dt
+    :color= !foreground1
+    :font-weight bold
+  dd
+    :margin-bottom 1em
+
+ul.paddedList
+  li
+    :padding-bottom 6px
+
+li
+  :list-style-image url(/images/bullet.png)
+
+ins
+  :background #9f9
+
+del
+  :background #f99
+
+address
+  :font-style normal
+
+.foreBack1
+  :background= !foreground1
+
+.foreBack2
+  :background= !foreground2
+
+.subtle1
+  :background= !subtle1
+
+.subtle2
+  :background= !subtle2
+
+.open, .closed, .unsure
+  :padding 2px 4px 2px 4px
+  :color #fff
+
+.open
+  :background #060
+
+.closed
+  :background #600
+
+.unsure
+  :background #666
+
+.highlight
+  :background #ffc
+  :border 1px solid #cc6
+  :padding 4px
+
+.alert
+  :background #ff6 url(/images/error.png) no-repeat 5px 5px
+  :border 1px solid #999
+  :padding 4px 4px 4px 24px
+
+.compareBox
+  :scroll auto
+  :font-family monospace
+  :whitespace preserve
+
+#allContent
+  :width = !content_width
+  :margin auto
+  :margin-top 0
+  :background #fff
+
+#flash
+  :margin auto
+  :margin-top .5em
+  :background #ff9
+  :border 1px solid #ff0
+  :color #000
+  :font-weight bold
+  :text-align center
+  :font-family sans-serif
+  :padding 4px 12px 4px 12px
+  :width 70%
+
+.highlight
+  :background= #ffc
+  :border 1px solid #cc6
+  :padding 4px
+
+#plainPage
+  :text-align center
+
+#homelogo
+  :margin-top 2em
+
+#userLinks
+  :background #aaa
+  :color #444
+  :margin 0 0 1px 0
+  :padding 2px 8px
+  :text-align right
+  a
+    :color #fff
+
+#banner
+  :padding 2px
+  :background = !foreground2
+  :border-bottom 1px solid #fff
+  h2
+    :margin 0
+    a
+      :color = #fff
+      :background = !foreground2
+      :font-size 1.8em
+      :padding 0
+      :margin 0
+      :text-decoration none
+      img
+        :margin 6px 12px
+        :vertical-align middle
+
+#searchBar
+  :background = !foreground2
+  :padding 4px
+  a, a:visited
+    :color = #fff
+  .rightBorder
+    :padding-right 4px
+    :border-right 1px solid #888
+  #group, #location
+    :width 12em
+  label
+    :color #fff
+
+#mainContent
+  :padding 0 16px 0 16px
+
+#map_div_id
+  :border 1px solid
+  :border-color= !foreground1
+
+#footer
+  :clear both
+  :background-color = !foreground2
+  :padding 1em
+  :padding-bottom 6em
+  :margin-top 16px
+  :text-align center
+  p
+    :font-size .7em
+    :color #ddd
+  p.bookmark a
+    &:hover, &:focus
+      :background = !foreground2
+      :text-decoration none
+  ul
+    :list-style none
+    :padding 0
+    :margin 0
+    li
+      :display inline
+      :border-left 1px solid
+      :border-color #fff
+      :padding-left .25em
+      &:first-child
+        :border none
+      a
+        :text-decoration none
+        :color = #fff
+        :padding .5em
+        &:hover
+          :color = !foreground1
+          :background-color = #ccc
+
+ul.noBullet
+  :padding 0
+  li
+    :padding 0
+    :list-style none
+
+.advertBox
+  :margin auto
+  :margin-bottom 1em
+  :text-align center
+
+.metaBox
+  :border 1px solid #ccc
+  :background #eee
+  :font-size smaller
+  :padding 4px
+
+table.layout
+  :padding 0
+  :margin 0
+  th, td
+    :vertical-align top
+    :padding 0
+    :margin 0
+    :border-collapse collapse
+
+table.inputFormTable
+  :border-collapse collapse
+  :border none
+  th, td
+    :padding 4px
+    :vertical-align top
+  th
+    :text-align right
+  th.top
+    :text-align center
+  td.hint
+    :font-size .8em
+    :color #444
+  label
+    :display block
+    :padding 4px 0 0 0
+
+table.openingsForm
+  :border-collapse collapse
+  tr
+    td
+      :padding 2px
+      :vertical-align top
+      :border-bottom 1px solid #ddd
+    td.action
+      :font-size 0.8em
+
+
+table.openingTimes
+  :padding 0
+  :border-collapse collapse
+  col.day
+    :width 10em
+  col.time
+    :width 6em
+  col.dash
+    :width 1em
+  col.comment
+    :width 14em
+  tr#holidayOpenings
+    :border-top 3px double #bbb
+  tr.today
+    :background = !highlight
+    td.day
+      :color #000
+  th
+    :font-weight normal
+    :font-size 1.3em
+  td
+    :font-size 2em
+    :padding 0 8px 0 8px
+    :border-top 1px solid #ccc
+    :border-bottom 1px solid #ccc
+  .closed
+    :color #000
+  td.day
+    :color #333
+    :padding-right 16px
+    .info
+      :font-size .4em
+  td.hday
+    :color #333
+    :font-size 1.2em
+    :padding-top 4px
+    .info
+      :font-size .6em
+  td.comment
+    :padding 2px
+    :font-size small
+  td
+    .ampm
+      :color #333
+      :font-weight normal
+      :font-size .7em
+    .info
+      :font-size .4em
+
+
+table.resultsList
+  :border-collapse collapse
+  :border none
+  :margin-right 16px
+  :width 100%
+  :table-layout fixed
+  tr
+    :border-bottom 1px dashed #ccc
+  td
+    :padding 4px 0 8px 0
+    :vertical-align top
+    a
+      :font-size 1.2em
+    .info
+      :font-size .8em
+  td.nearby
+    :padding-top 4px
+    :vertical-align top
+    a
+      :font-size 1em
+    .info
+      :font-size .7em
+  td.oc
+    :padding 8px 8px 0 0
+    :text-align center
+    :font-size .7em
+    :width 6em
+    img
+      :margin-bottom 6px
+  td.top
+    :vertical-align middle
+    :font-size .7em
+    :width 6em
+  td .ampm
+    :color #333
+    :font-weight normal
+    :font-size .7em
+
+
+table.altList
+  :border-collapse collapse
+  :border none
+  :margin-right 16px
+  :width 100%
+  tr
+    :border-bottom 1px dashed #ccc
+  td
+    :padding 4px 0 4px 0
+    :vertical-align top
+    a
+      :font-size 1em
+    .info
+      :font-size .7em
+      .ampm
+        :color #666
+        :font-size 80%
+  td.oc
+    :padding 8px 8px 0 0
+    :text-align center
+    :font-size .7em
+    :width 4em
+    img
+      :margin-bottom 6px
+    .open
+      :color #060
+      :background #fff
+    .closed
+      :color #600
+      :background #fff
+    .unsure
+      :color #333
+      :background #fff
+
+table.reports
+  :border-collapse collapse
+  th, td
+    :border 1px solid #999
+    :padding 3px
+    :vertical-align top
+  th
+    :background #ddd
+  td.num
+    :text-align right
+
+table.diff
+  :border-collapse collapse
+  td
+    :border 1px solid #999
+    :padding 2px
+    :vertical-align top
+  td.ln
+    :text-align right
+  tr.a td
+    :background #cfc
+  tr.r td
+    :background #fcc
