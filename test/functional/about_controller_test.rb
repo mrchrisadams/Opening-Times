@@ -1,6 +1,6 @@
 require 'test_helper'
 
-class FacilityTest < ActiveSupport::TestCase
+class AboutControllerTest < ActionController::TestCase
   # Replace this with your real tests.
   test "the truth" do
     assert true

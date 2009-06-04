@@ -27,7 +27,15 @@ config.action_mailer.delivery_method = :test
 # like if you have constraints or database-specific column types
 # config.active_record.schema_format = :sql
 
-config.gem "rspec", :lib=>false
-config.gem "rspec-rails", :lib=>false
-config.gem "webrat", :lib=>false
-config.gem "cucumber", :lib=>false
+config.gem "rspec", :lib => false
+config.gem "rspec-rails", :lib => false
+config.gem "webrat", :lib => false
+config.gem "cucumber", :lib => false
+config.gem "thoughtbot-factory_girl", :lib => "factory_girl", :source => "http://gems.github.com/"
+
+
+# 127.0.0.1:3000
+#GOOGLE_MAPS_API_KEY = "ABQIAAAAztgMQ8gk3qQo-szAq24XnRTX2XchcwgyHzp4Xo0DHRAzt2aLjhSJV4d-RJg9_TnCVJIbUnmufFmwKQ"
+
+# 127.0.0.1
+GOOGLE_MAPS_API_KEY = "ABQIAAAAztgMQ8gk3qQo-szAq24XnRRi_j0U6kJrkFvY4-OX2XYmEAa76BTgtTteRs_j2eg-IPM4tRlshkDZlQ"

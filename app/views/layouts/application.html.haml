@@ -1,0 +1,36 @@
+!!!
+%html
+  %head
+    %title= @page_title ? h(@page_title) + ' - Opening Times' : 'Opening Times'
+    %link{ :rel=>"icon", :href=> "http://#{request.host_with_port}/favicon.png", :type=>"image/x-icon" }
+    %meta{ 'http-equiv'=>"content-type", :content=>"text/html;charset=UTF-8" }
+    - if @page_desc
+      = tag(:meta, { :name=>'description', :content => @page_desc })
+    = stylesheet_link_tag :all, :cache => true, :media => 'all'
+    = javascript_include_tag :defaults if @javascript
+    - if @calendarDateSelect
+      = calendar_date_select_includes :format=>'hyphen_ampm'
+      = javascript_include_tag "hyphen_storage"
+    = yield :head
+    - if RAILS_ENV == 'development'
+      %style{ :type=>'text/css' }
+        body { background: url(/images/development-mode.png) #f9f; }
+
+  %body{ :onload => "initialize()", :onunload => "GUnload()" }
+    #allContent
+      %a#skipToContent{:href=>'#content', :accesskey=>'s'}
+        %img{:src=>'/images/invis.png',:width=>1,:height=>1, :alt=>'Skip to content'}
+      = render :partial => 'partials/banner' unless @no_banner
+      =# render :partial => 'partials/search_bar' unless @no_search_bar
+
+      = yield :top_content
+
+      #mainContent
+        - if flash[:notice]
+          %p#flash= flash[:notice]
+
+        %a{:name=>'content'}
+        = yield
+
+      =# render :partial => 'partials/footer'
+    =# render :partial => 'partials/analytics' if RAILS_ENV == 'production'

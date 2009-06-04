@@ -1,0 +1,32 @@
+<% content_for :head do -%>
+<script src="http://maps.google.com/maps?file=api&amp;v=2&amp;sensor=false&amp;key=<%= GOOGLE_MAPS_API_KEY %>" type="text/javascript"></script>
+<script type="text/javascript">
+function initialize() {
+  if (GBrowserIsCompatible()) {
+    var map = new GMap2(document.getElementById("map_canvas"));
+    var center = new GLatLng(54.749991,-3.55957);
+
+    map.addControl(new GSmallZoomControl());
+    map.addControl(new GMenuMapTypeControl());
+  	map.setCenter(center, 4, G_HYBRID_MAP);
+
+    <% unless @facility.new_record? -%>
+    var center = new GLatLng(<%= @facility.lat %>, <%= @facility.lng %>);
+  	map.setCenter(center, 18, G_HYBRID_MAP);
+    var marker = new GMarker(center, {draggable: true});
+
+    GEvent.addListener(marker, "dragstart", function() {
+      map.closeInfoWindow();
+    });
+
+    GEvent.addListener(marker, "dragend", function() {
+  		document.getElementById('facility_lat').value = marker.getPoint().lat();
+  		document.getElementById('facility_lng').value = marker.getPoint().lng();
+    });
+
+    map.addOverlay(marker);
+    <% end -%>
+  }
+}
+</script>
+<% end -%>

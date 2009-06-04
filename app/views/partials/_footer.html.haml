@@ -1,0 +1,16 @@
+#footer
+  %ul
+    %li= link_to "&copy; Copyright #{Time.now.year}", :controller => 'extras', :action => 'copyright'
+    %li= link_to 'Groups', { :controller => 'groups' }
+    %li= link_to 'About', { :controller => 'extras', :action => 'about' }
+    %li= link_to(content_tag(:abbr,'FAQ',:title=>'Frequently Asked Questions'), { :controller => 'extras', :action => 'faq' })
+    %li= link_to 'Blog', 'http://blog.opening-times.co.uk'
+    %li= link_to 'Accessiblity', { :controller => 'extras', :action => 'accessibility' }, :accesskey => '9'
+    %li= link_to 'Feedback', :controller => 'extras', :action => 'feedback'
+
+  %p.bookmark= render :partial => 'partials/add_this'
+
+  - if current_page?(:controller=>:services, :action=>:show) || current_page?(:controller=>:search, :action=>:index)
+    %p
+      Opening Times server clock
+      = Time.current.strftime("%I:%M%p - %a %d %b %Y")

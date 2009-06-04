@@ -21,6 +21,11 @@ ActiveRecord::Schema.define(:version => 20090530230714) do
     t.string   "email"
     t.string   "url"
     t.text     "description"
+    t.string   "created_by"
+    t.string   "updated_by"
+    t.integer  "version"
+    t.decimal  "lat",                        :precision => 15, :scale => 10
+    t.decimal  "lng",                        :precision => 15, :scale => 10
     t.datetime "created_at"
     t.datetime "updated_at"
   end

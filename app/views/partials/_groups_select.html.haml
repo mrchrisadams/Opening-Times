@@ -1,0 +1,7 @@
+- selected_group = @group.respond_to?(:name) ? @group.name : ''
+- cache( { :action => "searchbar_groups", :action_suffix=>selected_group }) do
+  %select#group{:name=>'group'}
+    %option{:value=>''} View all
+    %option{:value=>''} -------------
+    = options_from_collection_for_select(Group.active.find(:all,:select=>'name',:order=>'name'), :name, :name, selected_group) 
+

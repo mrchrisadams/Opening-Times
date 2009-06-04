@@ -1,0 +1,7 @@
+%tr.normal_opening
+  %td= f.select :week_day, Opening::DAYNAMES
+  %td= f.text_field :opens_at, :size => 5
+  %td= f.text_field :closes_at, :size => 5
+  %td= f.text_field :comment
+  %td.action
+    = remove_link_unless_new_record(f)

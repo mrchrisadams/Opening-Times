@@ -37,6 +37,10 @@ class String
     self.squeeze_commas.strip_commas
   end
 
+  def is_integer?
+    self =~ /\A-?\d+\Z/
+  end
+
   def tidy_text
     tmp = self
     tmp = tmp.gsub('&#039;',"'") #turn html single quote in to proper single quote

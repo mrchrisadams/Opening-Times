@@ -1,9 +1,10 @@
-log/*.log
-tmp/**/*
 .DS_Store
 config/database.yml
 coverage/*
 db/backup/*
 db/*.sqlite3
 doc/*
+log/*.log
 public/stylesheets/*.css
+tmp/*
+tmp/**/*

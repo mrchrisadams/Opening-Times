@@ -1,0 +1,56 @@
+= render 'partials/map_edit'
+
+= error_messages_for :facility
+
+- form_for @facility do |f|
+  %small
+    * Optional field
+  %fieldset
+    %legend Facility information
+    %table.inputFormTable
+      %tr
+        %th= label  :facility, :name
+        %td= f.text_field :name, :style=>"width: 492px;"
+        %td.hint The name of the business or service
+      %tr
+        %th= label :facility, :location
+        %td= f.text_field :location, :style=>"width: 492px;"
+        %td.hint Most general first, i.e. London, Battersea
+      %tr
+        %th= label :facility, :address
+        %td= f.text_area :address, :rows => 4, :cols => 30
+      %tr
+        %th= label :facility, :postcode
+        %td
+          = f.text_field :postcode, :size => 8
+          = submit_tag 'Update map', :class=>"button", :style=>"font-size: small"
+      %tr
+        %th Map
+        %td
+          #map_canvas{ :style=>"border: 1px solid black; width: 500px; height: 256px;" }
+        %td.hint
+          Please drag the arrow to point to the main entrance, or enter the coordiantes below
+          %table.layout{ :style=>"margin-top: 8px" }
+            %tr
+              %td= label :facility, :lat, "Latitude"
+              %td= f.text_field :lat, :size => 15, :class=>'shy' # TODO add taborder here and below or whatever it is so that they these are skipped as you tab down
+            %tr
+              %td= label :facility, :lng, "Longitude"
+              %td= f.text_field :lng, :size => 15, :class=>'shy'
+      %tr
+        %th= label :facility, :phone, 'Phone&nbsp;*'
+        %td= f.text_field :phone, :size => 13
+      %tr
+        %th= label :facility, :email, 'Email&nbsp;*'
+        %td= f.text_field :email, :style=>"width: 492px;"
+      %tr
+        %th= label :facility, :url, 'Website&nbsp;*'
+        %td= f.text_field :url, :style=>"width: 492px;"
+        %td.hint Link to official website's page for this location
+  %br
+
+  - button_text = @facility.new_record? ? 'Create' : 'Update'
+  = submit_tag button_text, :class=>'button tick'
+  = submit_tag 'Cancel', :class=>'button cross'
+  %br
+  %br

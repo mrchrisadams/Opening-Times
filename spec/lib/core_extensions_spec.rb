@@ -4,33 +4,33 @@ describe "slugify" do
   it "should make it lowercase" do
     "HELLO".slugify.should == "hello"
     "aBcD".slugify.should == "abcd"
-  end  
-  
+  end
+
   it "should remove apostrophes" do
     "Sainsbury's".slugify.should == "sainsburys"
-    "O'Neil".slugify.should == "oneil"  
+    "O'Neil".slugify.should == "oneil"
   end
-  
+
   it "should remove spaces and non alpha numeric characters" do
     "foo().bar()".slugify.should == "foo-bar"
-    "[woo[lA!*^%bIn£do".slugify.should == "woo-la-bin-do"
+    'woo!lA?bIn*[do'.slugify.should == "woo-la-bin-do"
   end
 
   it "should turn & into 'and'" do
     "Fox & Sons".slugify.should == "fox-and-sons"
     "Lennon & McCartney".slugify.should == "lennon-and-mccartney"
   end
-  
+
   it "should remove anything which causes hyphens at begining or end" do
     " war & peace ".slugify.should == "war-and-peace"
     "-oh-no-".slugify.should == "oh-no"
   end
-  
+
   it "should return the same string if no changes made" do
     "Hello There!".slugify.slugify.should == "hello-there"
     "hello-there".slugify.should == "hello-there"
   end
-  
+
   it "should be ok to be applied multiple times" do
     "Hello There!".slugify.slugify.should == "hello-there"
     "Hello There!".slugify.slugify.slugify.slugify.should == "hello-there"
@@ -41,19 +41,19 @@ describe "slugify" do
   end
 end
 
-describe "to_titlecase" do 
+describe "to_titlecase" do
   it "should do nothing when nothing needs to be done" do
     "Hello There".to_titlecase == "Hello There"
   end
-  
+
   it "should make the first letter of each word uppercase" do
     "hello there".to_titlecase.should == "Hello There"
   end
 
   it "should make uppercase words titlecase" do
     "HELLO THERE".to_titlecase.should == "Hello There"
-  end  
-  
+  end
+
   it "should make o'neil in to O'Neil, but not put's in to put'S" do
     "Let's get Mike's drink from o'neils pub".to_titlecase.should == "Let's Get Mike's Drink From O'Neils Pub"
     "o'neils o'Shane's O'CLOCK let's".to_titlecase.should == "O'Neils O'Shane's O'Clock Let's"
@@ -64,11 +64,11 @@ describe "to_titlecase" do
     "lennon & mccartney".to_titlecase.should == "Lennon & McCartney"
     "LENNON & MCCARTNEY".to_titlecase.should == "Lennon & McCartney"
   end
-  
+
   it "should allow punctuation in words" do
     "oranges at half-time. I like (brackets)a,do you?a".to_titlecase.should == "Oranges At Half-Time. I Like (Brackets)A,Do You?A"
   end
-     
+
 end
 
 describe "lstrip_commas" do
@@ -77,7 +77,7 @@ describe "lstrip_commas" do
     ", ,,, ,  , test".lstrip_commas.should == "test"
     ", \n\r\n,test".lstrip_commas.should == "test"
   end
-  
+
   it "should return nil when nothing needs doing" do
     "test".lstrip_commas.should eql('test')
   end
@@ -89,7 +89,7 @@ describe "rstrip_commas" do
     "test,,, , ,    ,".rstrip_commas.should == "test"
     "test  , , \n , \r\n,".rstrip_commas.should == "test"
   end
-    
+
   it "should return nil when nothing needs doing" do
     "test".rstrip_commas.should eql('test')
   end
@@ -113,7 +113,7 @@ describe "squeeze_commas" do
     "test, ,,, ,, , test".squeeze_commas.should == "test, test"
     ", ,  , , ,test ,,, , , ,,,test, ,  , , , ,".squeeze_commas.should == ", test, test, "
   end
-  
+
   it "should return nil when nothing needs doing" do
     "test".squeeze_commas.should eql('test')
   end
@@ -126,9 +126,23 @@ describe "tidy_commas" do
     ", ,  , , ,test ,,, , , ,,,test, ,  , , , ,".tidy_commas.should == "test, test"
     ", ,  , , ,test ,,, , , ,,,test, ,  , ,Apple , ,".tidy_commas.should == "test, test, Apple"
   end
-  
+
   it "should return nil when nothing needs doing" do
     "test".squeeze_commas.should eql('test')
+  end
+end
+
+
+describe "is_integer" do
+  it "should be true for any string which is a integer without anything around it" do
+    "12".is_integer?.should be_true
+    "-12".is_integer?.should be_true
+  end
+
+  it "should be true for any string which is a integer without anything around it" do
+    " 12".is_integer?.should be_nil
+    "1\n2".is_integer?.should be_nil
+    "12 apples".is_integer?.should be_nil
   end
 end
 
@@ -146,7 +160,7 @@ describe "tidy_text" do
     "test ( test".tidy_text.should == "test ( test"
     "test ) test".tidy_text.should == "test ) test"
   end
-  
+
   it "should return nil when nothing needs doing" do
     "test".tidy_text.should eql('test')
   end

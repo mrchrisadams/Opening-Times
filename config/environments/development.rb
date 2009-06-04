@@ -15,3 +15,12 @@ config.action_controller.perform_caching             = false
 
 # Don't care if the mailer can't send
 config.action_mailer.raise_delivery_errors = false
+
+# 127.0.0.1:3000
+#GOOGLE_MAPS_API_KEY = "ABQIAAAAztgMQ8gk3qQo-szAq24XnRTX2XchcwgyHzp4Xo0DHRAzt2aLjhSJV4d-RJg9_TnCVJIbUnmufFmwKQ"
+
+# 127.0.0.1
+#GOOGLE_MAPS_API_KEY = "ABQIAAAAztgMQ8gk3qQo-szAq24XnRRi_j0U6kJrkFvY4-OX2XYmEAa76BTgtTteRs_j2eg-IPM4tRlshkDZlQ"
+
+# ot.local
+GOOGLE_MAPS_API_KEY = "ABQIAAAAztgMQ8gk3qQo-szAq24XnRSrJKDPdel3j2oXFSgBY3kABr1iGBQtwPV3MXruzRVQInwTqR6CKkHYDQ"
