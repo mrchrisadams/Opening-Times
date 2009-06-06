@@ -6,7 +6,10 @@ describe Facility do
     @facility.created_by = @facility.updated_by = "test"
   end
 
-  it "should be valid" do
+  it "should accept all valid params" do
+    @facility = Facility.new
+    @facility.should_not be_valid
+    @facility = Factory.build(:facility)
     @facility.should be_valid
   end
 

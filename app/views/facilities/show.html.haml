@@ -25,6 +25,7 @@
           %th
           %th{ :scope=>'col' } Closes
           %th
+        = normal_openings_rows(@facility.normal_openings, Time.now.wday)
 
       - if @map
         %br

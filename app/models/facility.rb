@@ -4,7 +4,11 @@ class Facility < ActiveRecord::Base
 
   include ParserUtils
 
-  attr_accessible :name,:location,:description,:lat,:lng,:address,:postcode,:phone,:email,:url
+  has_many :normal_openings,  :dependent => :delete_all
+
+    attr_accessible :name, :location, :description, :lat, :lng, :address, :postcode, :phone, :email, :url, :normal_openings_attributes
+
+  accepts_nested_attributes_for :normal_openings, :allow_destroy => true, :reject_if => proc { |attrs| attrs['opens_at'].blank? && attrs['closes_at'].blank? && attrs['comment'].blank? }
 
   def before_validation
     self.slug = full_name.slugify
@@ -13,7 +17,7 @@ class Facility < ActiveRecord::Base
     need_tidy.each do |x|
       self.attributes[x].strip! if attributes[x]
     end
-    self.postcode.upcase!
+    self.postcode.upcase! if postcode
   end
 
   validates_presence_of :name, :location, :address #, :created_by, :updated_by
@@ -28,7 +32,7 @@ class Facility < ActiveRecord::Base
 
   def validate
     dupe = Facility.find_by_slug(slug)
-    errors.add_to_base("A service with this name and location already exists, please contact us to remove duplicates") if dupe && dupe != self
+    errors.add_to_base("A facility with this name and location already exists, please contact us to remove duplicates") if dupe && dupe != self
   end
 
   def after_validation
@@ -51,6 +55,10 @@ class Facility < ActiveRecord::Base
 
   def to_param
     slug
+  end
+
+  def to_xml
+    super({ :include => [:normal_openings] })
   end
 
 end

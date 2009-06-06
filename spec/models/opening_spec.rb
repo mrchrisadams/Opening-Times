@@ -2,9 +2,10 @@ require File.dirname(__FILE__) + '/../spec_helper'
 
 describe Opening do
   before(:each) do
-    @facility = mock(Facility)
-    @facility.stub!(:id).and_return(1)
-    @opening = Opening.new(:facility_id=>1, :opens_at=>"9AM", :closes_at=>"5PM")
+#    @facility = mock(Facility)
+#    @facility.stub!(:id).and_return(1)
+#    @opening = Opening.new(:facility_id=>1, :opens_at=>"9AM", :closes_at=>"5PM")
+    @opening = Factory.build(:opening)
   end
 
   it "should accept a valid opening" do
@@ -172,12 +173,12 @@ describe Opening do
   it "should know whether a time is within the minutes of an opening" do
     @opening.opens_at = "9am"
     @opening.closes_at = "10am"
-    @opening.within_opening("9am").should be_true
-    @opening.within_opening("9:30am").should be_true
-    @opening.within_opening("9:59am").should be_true
-    @opening.within_opening("8:59am").should be_false
-    @opening.within_opening("10am").should be_false
-    @opening.within_opening("10:01am").should be_false
+    @opening.is_open_at?("9am").should be_true
+    @opening.is_open_at?("9:30am").should be_true
+    @opening.is_open_at?("9:59am").should be_true
+    @opening.is_open_at?("8:59am").should be_false
+    @opening.is_open_at?("10am").should be_false
+    @opening.is_open_at?("10:01am").should be_false
   end
 
 end

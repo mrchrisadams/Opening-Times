@@ -12,18 +12,28 @@ class FacilitiesController < ApplicationController
       redirect_to(Facility.find(params[:id]))
     else
       @facility = Facility.find_by_slug(params[:id])
-      render :file => "#{RAILS_ROOT}/public/404.html", :layout => false, :status => 404 unless @facility
+      unless @facility
+        render :file => "#{RAILS_ROOT}/public/404.html", :layout => false, :status => 404
+      end
+      respond_to do |format|
+        format.html # index.html.erb
+        format.xml  { render :xml => @facility }
+      end
     end
   end
 
   # GET /facilities/new
   def new
     @facility = Facility.new
+#    @facility.normal_openings.build(:week_day=>"Wed")
+#    @facility.normal_openings.build(:week_day=>"Fri")
+    build_spare_openings
   end
 
   # GET /facilities/1/edit
   def edit
     @facility = Facility.find_by_slug(params[:id])
+    build_spare_openings
   end
 
   # POST /facilities
@@ -34,6 +44,7 @@ class FacilitiesController < ApplicationController
       flash[:notice] = 'Facility was successfully created.'
       redirect_to(@facility)
     else
+#      build_spare_openings
       render :action => "new"
     end
   end
@@ -46,6 +57,7 @@ class FacilitiesController < ApplicationController
       flash[:notice] = 'Facility was successfully updated.'
       redirect_to(@facility)
     else
+      build_spare_openings
       render :action => "edit"
     end
   end
@@ -57,4 +69,27 @@ class FacilitiesController < ApplicationController
 
     redirect_to(facilities_url)
   end
+
+
+  private
+
+    def build_spare_openings
+      if @facility.normal_openings.empty?
+        for day in Opening::DAYNAMES
+          @facility.normal_openings.build(:week_day=>day)
+        end
+      end
+      if @facility.normal_openings.size < 7
+        next_day = (@facility.normal_openings.last.wday + 1) % 7
+        @facility.normal_openings.build(:wday=> next_day)
+      end
+
+#      facility.holiday_openings.build(:closed=>true) if facility.holiday_openings.size.zero?
+#      if facility.special_openings.size.zero?
+#        3.times { facility.special_openings.build }
+#      else
+#        facility.special_openings.build
+#      end
+    end
+
 end

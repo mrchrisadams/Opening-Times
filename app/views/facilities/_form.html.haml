@@ -38,17 +38,37 @@
               %td= label :facility, :lng, "Longitude"
               %td= f.text_field :lng, :size => 15, :class=>'shy'
       %tr
-        %th= label :facility, :phone, 'Phone&nbsp;*'
+        %th= label :facility, :phone, 'Phone', :class => "optional"
         %td= f.text_field :phone, :size => 13
       %tr
-        %th= label :facility, :email, 'Email&nbsp;*'
+        %th= label :facility, :email, 'Email', :class => "optional"
         %td= f.text_field :email, :style=>"width: 492px;"
       %tr
-        %th= label :facility, :url, 'Website&nbsp;*'
+        %th= label :facility, :url, 'Website', :class => "optional"
         %td= f.text_field :url, :style=>"width: 492px;"
         %td.hint Link to official website's page for this location
   %br
+  %fieldset
+    %legend Normal opening times
 
+    = error_messages_for 'normal opening', :object => @facility.normal_openings
+
+    %p Leave blank any days when the service is closed. If you are closed for lunch or open past midnight, enter the first opening, then add a new opening to enter the second opening.
+    %table#normalOpenings.openingsForm
+      %tr
+        %th{ :scope => 'col' } Day
+        %th{ :scope => 'col' } Opens
+        %th{ :scope => 'col' } Closes
+        %th{ :scope => 'col' }
+          %label.optional Comment
+      - f.fields_for :normal_openings do |opening_form|
+        = render :partial => 'form_normal_opening', :locals => { :f => opening_form }
+
+    %p=# add_normal_opening_link("normal_openings", f)
+
+    %p= link_to 'Add another normal opening', '#normalOpenings', :class => "add_nested_item", :rel => "normal_opening"
+
+  %br
   - button_text = @facility.new_record? ? 'Create' : 'Update'
   = submit_tag button_text, :class=>'button tick'
   = submit_tag 'Cancel', :class=>'button cross'

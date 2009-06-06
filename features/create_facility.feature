@@ -11,5 +11,10 @@ Feature: Create facility
     And I fill in "postcode" with "SE22 8HU"
     And I fill in "latitude" with "51.1"
     And I fill in "longitude" with "1.0"
+
+    And I select "Mon" from "week_day"
+    And I fill in "opens_at" with "9am"
+    And I fill in "closes_at" with "5pm"
+
     And I press "Create"
     Then I should see "Facility was successfully created"

@@ -1,13 +1,9 @@
 class Opening < ActiveRecord::Base
 
-  belongs_to :facility
-
   attr_accessible :facility_id, :opens_at, :closes_at, :comment
 
   MINUTES_IN_DAY = 1440 # 60 * 24
   DAYNAMES = %w(Mon Tue Wed Thu Fri Sat Sun)
-
-#  validates_presence_of :service_id # removed to allow automatic creation through form with new_opening_attributes=
 
   default_scope :order => 'starts_on,sequence,opens_mins'
 
@@ -56,7 +52,7 @@ class Opening < ActiveRecord::Base
     self.closes_mins = n_mins == 0 ? MINUTES_IN_DAY : n_mins
   end
 
-  def within_opening(time)
+  def is_open_at?(time)
     n_mins = time_to_mins(time)
     opens_mins <= n_mins and (closes_mins > n_mins or closes_mins == 0)
   end
