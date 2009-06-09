@@ -13,7 +13,7 @@
       %style{ :type=>'text/css' }
         body { background: url(/images/development-mode.png) #f9f; }
 
-  %body{ :onload => "initialize()", :onunload => "GUnload()" }
+  %body{ :onload => @onload, :unload => @onunload }
     #allContent
       %a#skipToContent{:href=>'#content', :accesskey=>'s'}
         %img{:src=>'/images/invis.png',:width=>1,:height=>1, :alt=>'Skip to content'}
