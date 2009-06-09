@@ -1,5 +1,7 @@
 class Opening < ActiveRecord::Base
 
+  belongs_to :facility
+
   attr_accessible :facility_id, :opens_at, :closes_at, :comment
 
   MINUTES_IN_DAY = 1440 # 60 * 24

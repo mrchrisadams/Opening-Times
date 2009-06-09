@@ -1,5 +1,4 @@
 class NormalOpening < Opening
-  belongs_to :facility
 
   attr_accessible :week_day, :wday
 

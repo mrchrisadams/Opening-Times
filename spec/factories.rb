@@ -8,13 +8,13 @@ Factory.define :facility do |f|
 end
 
 Factory.define :opening do |f|
-  f.association (:facility)
+  f.association(:facility)
   f.opens_at "9am"
   f.closes_at "5pm"
 end
 
 Factory.define :normal_opening do |f|
-  f.association (:facility)
+  f.association(:facility)
   f.week_day "Mon"
   f.opens_at "9am"
   f.closes_at "5pm"
