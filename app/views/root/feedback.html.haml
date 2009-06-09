@@ -1,0 +1,21 @@
+- @page_title = "Feedback"
+%h1= @page_title
+
+%p
+  For development questions and bugs please see the Opening Times project on GitHub.
+
+
+%p
+  Contact the shops listed on Opening Times with any comments about their services.
+
+%ul
+  %li= link_to 'ASDA', 'http://www.about-asda.com/contact-us.asp'
+  %li= link_to 'Netto', 'http://www.netto.co.uk/internet/nettog/menu/main.nsf'
+  %li= link_to 'Sainsbury\'s', 'http://www.sainsburys.co.uk/furniture/contactus/contactus.htm'
+  %li= link_to 'Tesco', 'http://www.tesco.com/help/jump.asp?choiceB=4'
+  %li= link_to 'Waitrose', 'http://www.waitrose.com/footer/contactus.aspx'
+
+%p
+  If you have any queries about this website please get in touch.
+
+%p= mail_to 'feedback@opening-times.co.uk'

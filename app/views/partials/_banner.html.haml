@@ -1,3 +1,7 @@
-#banner{ :style=>'background: url(images/gradient.png) no-repeat fixed top)' }
+#banner
   %h2#siteTitle
-    = link_to(image_tag('logo-small.png',:alt=>'Opening Times logo') + "Opening-Times.co.uk", root_path, :accesskey => '1')
+    %a{ :href=>"/", :accesskey => '1' }
+      :plain
+        <!--[if IE]> <img src="/images/logo-small.png" alt="Opening Times logo" width="96" height="96" /> <![endif]-->
+        <!--[if !IE]>--> <object data="/images/clock_anim.svg" type="image/svg+xml" width="96" height="96"></object> <!--<![endif]-->
+      Opening-Times.co.uk

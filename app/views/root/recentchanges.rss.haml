@@ -1,0 +1,11 @@
+!!! xml
+%facilitys
+  - for v in @versions
+    %facility
+      %version_id= v.id
+      %facility_id= v.facility_id
+      %name= h(v.facility.full_name)
+      %url= facility_url(v.facility)
+      %data_url= facility_version_url(v.facility, v)
+      %created_by= v.created_by
+      %created_at= v.created_at

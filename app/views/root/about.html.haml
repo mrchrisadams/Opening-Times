@@ -1,0 +1,44 @@
+%h1= @page_title = "About Opening Times"
+
+%p
+  Opening Times is a personal project created in my spare time.
+  My aim is to provide comprehensive, accurate opening times information for public facilities such as shops, restaurants, librarie and such like in the UK.
+
+%p
+  Currently the website is under testing so there may be errors, incorrect or missing information.
+  I am really keen to hear feedback from any users, so please
+  = link_to( "get in touch", feedback_path) + '.'
+
+%h2 Open source projects
+%p Thanks to the following free open source projects which I used to build Opening Times.
+
+%ul
+  %li
+    = link_to 'Ruby', 'http://www.ruby-lang.org'
+    = link_to 'Ruby on Rails', 'http://www.rubyonrails.org'
+  %li
+    = link_to 'Ubuntu', 'http://www.ubuntu.com'
+    = link_to 'GNU', 'http://www.gnu.org'
+    = link_to 'Linux', 'http://www.linux.org'
+    = link_to 'Git', 'http://git.or.cz'
+  %li
+    = link_to 'Thin', 'http://code.macournoyer.com/thin/'
+    = link_to 'Nginx', 'http://nginx.net'
+  %li
+    = link_to 'Firefox', 'http://www.mozilla.com/firefox'
+    = link_to 'Firefox HTML validator', 'http://users.skynet.be/mgueury/mozilla'
+    = link_to 'Inkscape', 'http://www.inkscape.org/'
+
+%h3 Creative Commons
+
+%ul
+  %li
+    Icons:
+    = link_to "FAMFAMFAM", 'http://www.famfamfam.com/lab/icons/silk/'
+
+%h2 Robots
+
+%p
+  Please don't use robots to scrape data off my site. If you want the data
+  = link_to 'get in touch', feedback_path
+  and we'll sort out something more efficient.

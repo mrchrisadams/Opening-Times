@@ -1,0 +1,20 @@
+!!! xml
+%urlset{ 'xmlns:xsi'=>"http://www.w3.org/2001/XMLSchema-instance",'xsi:schemaLocation'=>"http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd", 'xmlns'=>"http://www.sitemaps.org/schemas/sitemap/0.9" }
+  %url
+    %loc= "http://#{request.host_with_port}/"
+  %url
+    %loc= "http://#{request.host_with_port}/about"
+  %url
+    %loc= "http://#{request.host_with_port}/accessibility"
+  %url
+    %loc= "http://#{request.host_with_port}/copyright"
+  %url
+    %loc= "http://#{request.host_with_port}/faq"
+  %url
+    %loc= "http://#{request.host_with_port}/feedback"
+  %url
+    %loc= "http://#{request.host_with_port}/privacy"
+  - for facility in @facilities
+    %url
+      %loc= facility_url(facility)
+      %lastmod= facility.updated_at.strftime("%Y-%m-%d")

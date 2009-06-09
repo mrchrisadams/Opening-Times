@@ -1,11 +1,16 @@
 ActionController::Routing::Routes.draw do |map|
+  map.resources :users
+
   # The priority is based upon order of creation: first created -> highest priority.
 
   map.root :controller => 'root'
 
-  %w(about accessibility copyright faq feedback license privacy).each do |a|
+  %w(about accessibility bankholidays copyright faq feedback license privacy recentchanges sitemap).each do |a|
     map.send "#{a}", "#{a}", :controller => 'root', :action => a
+    map.send "#{a}", "#{a}.:format", :controller => 'root', :action => a
   end
+
+  map.fireeagle 'search/fireeagle', :controller => 'search', :action => 'fireeagle'
 
   map.resources :facilities, :as => 'f'
 
