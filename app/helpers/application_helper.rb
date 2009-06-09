@@ -9,5 +9,13 @@ module ApplicationHelper
     text.gsub(',',"\n")
   end
 
+  def anchor_for(text)
+    content_tag(:a,text,:name=>text.slugify)
+  end
+
+  def anchor_to(text)
+    link_to text, "##{text.slugify}"
+  end
+
 
 end

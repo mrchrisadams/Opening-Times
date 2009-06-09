@@ -1,29 +1,32 @@
-!foreground1 = #033649
-!foreground2 = #036564
+!foreground1= #033649
+!foreground2= #036564
 
-!highlight = #fcfccc
-!subtle1 = #deddcb
-!subtle2 = #cdb380
-!strong1 = #031634
+!highlight= #fcfccc
+!subtle1= #deddcb
+!subtle2= #cdb380
+!strong1= #031634
 
-!font_list = "sans-serif"
-!content_width = 950px
+!font_list= "sans-serif"
+!content_width= 950px
 
 body
   :margin 0px
-  :font-family = !font_list
+  :font-family= !font_list
   :background-color #e8ddcb
   :color #000
 
 input, textarea, select
   :font-size large
-  :font-family = !font_list
+  :font-family= !font_list
   :padding 4px
-  :background = !subtle1
+  :background= !subtle1
   :border 1px solid
-  :border-color = !foreground2
+  :border-color= !foreground2
   &:focus
     :background= !highlight
+
+input.fullWidth
+  :width 492px
 
 input.shy
   :border-color #999
@@ -62,13 +65,13 @@ fieldset
   :display inline
   input, textarea, select
     :border 2px solid #C00
-    :background = #fdd
+    :background= #fdd
     &:focus
       :background= !highlight
 
 
 h1, h2, h3
-  :color = !foreground2
+  :color= !foreground2
   :font-weight normal
   :margin .3em 0 .1em 0
 
@@ -77,14 +80,14 @@ h1
     :size 3em
 
 a
-  :color = !foreground2
+  :color= !foreground2
   :text-decoration underline
   &:visited
-    :color = !strong1
+    :color= !strong1
   &:hover
-    :background = !foreground2
+    :background= !foreground2
     :padding 2px 0
-    :color = #fff
+    :color= #fff
 
 a#skipToContent
   :float left
@@ -156,7 +159,7 @@ address
   :whitespace preserve
 
 #allContent
-  :width = !content_width
+  :width= !content_width
   :margin auto
   :margin-top 0
   :background #fff
@@ -181,7 +184,7 @@ address
 #plainPage
   :text-align center
 
-#homelogo
+#homeclock
   :margin-top 2em
 
 #userLinks
@@ -195,26 +198,26 @@ address
 
 #banner
   :padding 2px
-  :background = !foreground2
+  :background= !foreground2
   :border-bottom 1px solid #fff
   h2
     :margin 0
     a
-      :color = #fff
-      :background = !foreground2
+      :color= #fff
+      :background= !foreground2
       :font-size 1.8em
       :padding 0
       :margin 0
       :text-decoration none
-      img
+      img, object
         :margin 6px 12px
         :vertical-align middle
 
 #searchBar
-  :background = !foreground2
+  :background= !foreground2
   :padding 4px
   a, a:visited
-    :color = #fff
+    :color= #fff
   .rightBorder
     :padding-right 4px
     :border-right 1px solid #888
@@ -232,7 +235,7 @@ address
 
 #footer
   :clear both
-  :background-color = !foreground2
+  :background-color= !foreground2
   :padding 1em
   :padding-bottom 6em
   :margin-top 16px
@@ -242,7 +245,7 @@ address
     :color #ddd
   p.bookmark a
     &:hover, &:focus
-      :background = !foreground2
+      :background= !foreground2
       :text-decoration none
   ul
     :list-style none
@@ -256,12 +259,12 @@ address
       &:first-child
         :border none
       a
-        :text-decoration none
-        :color = #fff
         :padding .5em
+        :text-decoration none
+        :color= #fff
         &:hover
-          :color = !foreground1
-          :background-color = #ccc
+          :color= !foreground1
+          :background-color= #ccc
 
 ul.noBullet
   :padding 0
@@ -333,7 +336,7 @@ table.openingTimes
   tr#holidayOpenings
     :border-top 3px double #bbb
   tr.today
-    :background = !highlight
+    :background= !highlight
     td.day
       :color #000
   th

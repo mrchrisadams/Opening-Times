@@ -1,9 +1,10 @@
 %h1 Listing facilities
 
+%p Sorted by most recently updated
+
 %ul
   - @facilities.each do |f|
-    %li= link_to h(f.name), f
-
-%br
-
-= link_to 'New facility', new_facility_path
+    %li
+      = link_to h(f.name), f
+      %small
+        = "(#{time_ago_in_words(f.updated_at)} ago)"

@@ -31,7 +31,7 @@
         %br
         %h2 Map
         %span
-          %small You can drag the map around to see other nearby services
+          %small You can drag the map around to see other nearby facilties
         <script type="text/javascript">
         \/* <![CDATA[ */
         = @map.to_html( :no_script_tag=> true ).gsub("<\/","<\\\/")
@@ -54,7 +54,7 @@
           - unless @facility.url.blank?
             %li= link_to("More information on #{h(@facility.full_name)}", @facility.url)
 
-      %h2 Nearest services
+      %h2 Nearest facilities
 
       %h2 Groups
       %ul

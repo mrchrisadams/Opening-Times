@@ -1,8 +1,13 @@
+- @onload = "initialize(); sf();"
+- content_for :head do
+  %script{ :type=>'text/javascript' }
+    function sf(){ document.f.facility_name.focus(); }
+
 = render 'partials/map_edit'
 
 = error_messages_for :facility
 
-- form_for @facility do |f|
+- form_for @facility, :html => { :name => 'f' } do |facility_form|
   %small
     * Optional field
   %fieldset
@@ -10,20 +15,20 @@
     %table.inputFormTable
       %tr
         %th= label  :facility, :name
-        %td= f.text_field :name, :style=>"width: 492px;"
-        %td.hint The name of the business or service
+        %td= facility_form.text_field :name, :class => "fullWidth"
+        %td.hint The name of shop, business, etc.
       %tr
         %th= label :facility, :location
-        %td= f.text_field :location, :style=>"width: 492px;"
+        %td= facility_form.text_field :location, :class => "fullWidth"
         %td.hint Most general first, i.e. London, Battersea
       %tr
         %th= label :facility, :address
-        %td= f.text_area :address, :rows => 4, :cols => 30
+        %td= facility_form.text_area :address, :rows => 4, :cols => 30
       %tr
         %th= label :facility, :postcode
         %td
-          = f.text_field :postcode, :size => 8
-          = submit_tag 'Update map', :class=>"button", :style=>"font-size: small"
+          = facility_form.text_field :postcode, :size => 8
+          %button{ :onclick => "showAddress(document.getElementById('facility_address').value + ', ' + document.getElementById('facility_postcode').value); return false" } Update map location
       %tr
         %th Map
         %td
@@ -33,19 +38,19 @@
           %table.layout{ :style=>"margin-top: 8px" }
             %tr
               %td= label :facility, :lat, "Latitude"
-              %td= f.text_field :lat, :size => 15, :class=>'shy' # TODO add taborder here and below or whatever it is so that they these are skipped as you tab down
+              %td= facility_form.text_field :lat, :size => 15, :class=>'shy'
             %tr
               %td= label :facility, :lng, "Longitude"
-              %td= f.text_field :lng, :size => 15, :class=>'shy'
+              %td= facility_form.text_field :lng, :size => 15, :class=>'shy'
       %tr
         %th= label :facility, :phone, 'Phone', :class => "optional"
-        %td= f.text_field :phone, :size => 13
+        %td= facility_form.text_field :phone, :size => 13
       %tr
         %th= label :facility, :email, 'Email', :class => "optional"
-        %td= f.text_field :email, :style=>"width: 492px;"
+        %td= facility_form.text_field :email, :class => "fullWidth"
       %tr
         %th= label :facility, :url, 'Website', :class => "optional"
-        %td= f.text_field :url, :style=>"width: 492px;"
+        %td= facility_form.text_field :url, :class => "fullWidth"
         %td.hint Link to official website's page for this location
   %br
   %fieldset
@@ -53,7 +58,7 @@
 
     = error_messages_for 'normal opening', :object => @facility.normal_openings
 
-    %p Leave blank any days when the service is closed. If you are closed for lunch or open past midnight, enter the first opening, then add a new opening to enter the second opening.
+    %p Leave blank any days when the facility is closed. If it is  closed for lunch or open past midnight, enter the first part on one line , then add a new opening to enter the second part.
     %table#normalOpenings.openingsForm
       %tr
         %th{ :scope => 'col' } Day
@@ -61,16 +66,23 @@
         %th{ :scope => 'col' } Closes
         %th{ :scope => 'col' }
           %label.optional Comment
-      - f.fields_for :normal_openings do |opening_form|
-        = render :partial => 'form_normal_opening', :locals => { :f => opening_form }
+      - facility_form.fields_for :normal_openings do |opening_form|
+        %tr.normal_opening
+          %td= opening_form.select :week_day, Opening::DAYNAMES
+          %td= opening_form.text_field :opens_at, :size => 5
+          %td= opening_form.text_field :closes_at, :size => 5
+          %td= opening_form.text_field :comment
+          %td.action
+            = remove_link_unless_new_record(opening_form)
 
-    %p=# add_normal_opening_link("normal_openings", f)
+        =# render :partial => 'form_normal_opening', :locals => { :ff => opening_form, :normal_opening => opening_form.object }
 
-    %p= link_to 'Add another normal opening', '#normalOpenings', :class => "add_nested_item", :rel => "normal_opening"
+
+    %p= add_normal_opening_link("Add another opening", facility_form)
 
   %br
   - button_text = @facility.new_record? ? 'Create' : 'Update'
-  = submit_tag button_text, :class=>'button tick'
+  = submit_tag button_text, :disable_with => "Please wait...", :class=>'button tick'
   = submit_tag 'Cancel', :class=>'button cross'
   %br
   %br

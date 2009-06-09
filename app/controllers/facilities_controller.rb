@@ -2,7 +2,7 @@ class FacilitiesController < ApplicationController
   # GET /facilities
   # GET /facilities.xml
   def index
-    @facilities = Facility.all
+    @facilities = Facility.find(:all, :order => 'updated_at DESC', :limit => 100)
   end
 
   # GET /facilities/1
@@ -44,7 +44,7 @@ class FacilitiesController < ApplicationController
       flash[:notice] = 'Facility was successfully created.'
       redirect_to(@facility)
     else
-#      build_spare_openings
+      build_spare_openings
       render :action => "new"
     end
   end

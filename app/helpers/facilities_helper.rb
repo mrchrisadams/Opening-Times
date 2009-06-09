@@ -16,6 +16,8 @@ module FacilitiesHelper
     end
   end
 
+
+  # TODO this should be refactored
   def normal_openings_rows(normal_openings, highlight_day)
     return '<tr><td></td><td colspan="4"><p class="info">Sorry, this facility hasn\'t provided its normal opening times.</p></td></tr>' if normal_openings.empty?
 
@@ -60,5 +62,16 @@ module FacilitiesHelper
       out
     end
   end
+
+  def add_normal_opening_link(name, form)
+    link_to_function name do |page|
+      normal_opening = render(:partial => 'form_normal_opening', :locals => { :ff => form, :normal_opening => NormalOpening.new })
+      page << %{
+var new_normal_opening_id = "new_" + new Date().getTime();
+$('normalOpenings').insert({ bottom: "#{ escape_javascript normal_opening }".replace(/new_\\d+/g, new_normal_opening_id) });
+}
+    end
+  end
+
 
 end
