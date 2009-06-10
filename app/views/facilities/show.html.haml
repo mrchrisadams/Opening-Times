@@ -1,7 +1,5 @@
 - @page_title = @facility.full_name
 - @page_desc = "Opening times and map for #{@facility.full_name}, #{@facility.address}"
-- content_for :head do
-  =# GMap.header
 
 %h1= h @facility.full_name
 
@@ -9,7 +7,14 @@
   %tr
     %td{ :style=>"padding-right: 8px; border-right: 1px solid #ddd;" }
 
-      = simple_format(@facility.description)
+      %p{ :class => @status.downcase }
+        =h @facility.name
+        is currently
+        %strong
+          = @status.downcase
+
+      - if @facility.description
+        = simple_format(@facility.description)
 
       %h2 Normal opening times
       %table.openingTimes
@@ -27,17 +32,11 @@
           %th
         = normal_openings_rows(@facility.normal_openings, Time.now.wday)
 
-      - if @map
-        %br
-        %h2 Map
-        %span
-          %small You can drag the map around to see other nearby facilties
-        <script type="text/javascript">
-        \/* <![CDATA[ */
-        = @map.to_html( :no_script_tag=> true ).gsub("<\/","<\\\/")
-        \/* ]]> */
-        </script>
-        = @map.div(:width => 600, :height => 400)
+      %br
+      %h2 Map
+      %span
+        %small You can drag the map around to see other nearby facilties
+      = render 'map_show'
 
     %td{ :style=>'padding-left: 8px;' }
       .advertBox

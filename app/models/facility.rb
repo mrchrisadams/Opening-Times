@@ -18,6 +18,7 @@ class Facility < ActiveRecord::Base
       self.attributes[x].strip! if attributes[x]
     end
     self.postcode.upcase! if postcode
+    self.address.gsub!(/\s*,?\s*[\n\r]{2}/,", ") if address # turn line breaks in to comma separated
   end
 
   validates_presence_of :name, :location, :address #, :created_by, :updated_by

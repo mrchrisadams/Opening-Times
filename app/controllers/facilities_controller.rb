@@ -15,9 +15,12 @@ class FacilitiesController < ApplicationController
       unless @facility
         render :file => "#{RAILS_ROOT}/public/404.html", :layout => false, :status => 404
       end
+      @status_manager = StatusManager.new
+      @status = @status_manager.opening_status(@facility)
       respond_to do |format|
-        format.html # index.html.erb
+        format.html # show.html.html
         format.xml  { render :xml => @facility }
+        format.json  { render :json => @facility }
       end
     end
   end

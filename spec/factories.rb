@@ -19,3 +19,13 @@ Factory.define :normal_opening do |f|
   f.opens_at "9am"
   f.closes_at "5pm"
 end
+
+Factory.define :holiday_set do |f|
+  f.name "England & Wales"
+end
+
+Factory.define :holiday_event do |f|
+  f.association(:holiday_set)
+  f.date "2009-12-25"
+  f.comment "Christmas Day"
+end

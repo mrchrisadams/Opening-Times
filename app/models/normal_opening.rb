@@ -80,13 +80,13 @@ class NormalOpening < Opening
   end
 
   # Returns an array of all Service.ids which are open, minus any ignores
-#  def self.select_open_ids(datetime, ignore_ids=[])
-#    ignore_sql = "service_id NOT IN (#{ignore_ids.to_a.join(',')}) AND " unless ignore_ids.empty?
-#    sequence = wday_to_sequence(datetime.wday)
-#    n_mins = time_to_mins(datetime)
-#    set = Set.new
-#    connection.select_rows("SELECT service_id FROM openings WHERE #{ignore_sql} type='NormalOpening' AND sequence=#{sequence} AND opens_mins<=#{n_mins} AND closes_mins>#{n_mins}").map{|x| set << x[0].to_i}
-#    return set
-#  end
+  def self.select_open_ids(datetime, ignore_ids=[])
+    ignore_sql = "facility_id NOT IN (#{ignore_ids.to_a.join(',')}) AND " unless ignore_ids.empty?
+    sequence = wday_to_sequence(datetime.wday)
+    n_mins = time_to_mins(datetime)
+    set = Set.new
+    connection.select_rows("SELECT facility_id FROM openings WHERE #{ignore_sql} type='NormalOpening' AND sequence=#{sequence} AND opens_mins<=#{n_mins} AND closes_mins>#{n_mins}").map{|x| set << x[0].to_i}
+    return set
+  end
 
 end

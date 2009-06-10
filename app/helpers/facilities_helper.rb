@@ -54,6 +54,8 @@ module FacilitiesHelper
     return html
   end
 
+  # Form helpers
+
   def remove_link_unless_new_record(fields)
     unless fields.object.new_record?
       out = ''

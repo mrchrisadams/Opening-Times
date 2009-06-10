@@ -6,7 +6,7 @@ module ApplicationHelper
   end
 
   def comma_to_new_line(text)
-    text.gsub(',',"\n")
+    text.gsub(',',"\n") if text
   end
 
   def anchor_for(text)

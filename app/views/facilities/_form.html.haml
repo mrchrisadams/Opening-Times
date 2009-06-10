@@ -3,8 +3,6 @@
   %script{ :type=>'text/javascript' }
     function sf(){ document.f.facility_name.focus(); }
 
-= render 'partials/map_edit'
-
 = error_messages_for :facility
 
 - form_for @facility, :html => { :name => 'f' } do |facility_form|
@@ -23,6 +21,7 @@
         %td.hint Most general first, i.e. London, Battersea
       %tr
         %th= label :facility, :address
+        - @facility.address = comma_to_new_line(@facility.address)
         %td= facility_form.text_area :address, :rows => 4, :cols => 30
       %tr
         %th= label :facility, :postcode
@@ -31,8 +30,7 @@
           %button{ :onclick => "showAddress(document.getElementById('facility_address').value + ', ' + document.getElementById('facility_postcode').value); return false" } Update map location
       %tr
         %th Map
-        %td
-          #map_canvas{ :style=>"border: 1px solid black; width: 500px; height: 256px;" }
+        %td= render 'map_edit'
         %td.hint
           Please drag the arrow to point to the main entrance, or enter the coordiantes below
           %table.layout{ :style=>"margin-top: 8px" }

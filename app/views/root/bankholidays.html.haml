@@ -1,11 +1,15 @@
 %h1= @page_title = "Upcoming Bank Holidays"
 
-%p 
-  The list below is used to determine whether to use the Bank Holiday opening hours. 
-  You are welcome to reuse this list 
-  = '(' + link_to('also available in xml', :format=>'xml') + '),'
-  however I accept no liability for accuracy. The information is collected from   
-  = link_to('Directgov', 'http://www.direct.gov.uk/en/Governmentcitizensandrights/LivingintheUK/DG_073741') + '.'
+%p
+  The list below is used to determine whether to use the Bank Holiday opening hours.
+  You are welcome to reuse this list (also available in
+  = link_to('xml', :format=>'xml') + ' and '
+  = link_to('json', :format=>'json') + '),'
+  however I accept no liability for accuracy.
+
+%p
+  You can find out more information about
+  = link_to('Bank holidays and British Summer Time on DirectGov', 'http://www.direct.gov.uk/en/Governmentcitizensandrights/LivingintheUK/DG_073741') + '.'
 
 - for h_set in @holiday_sets
   %h2= h_set.name
@@ -15,8 +19,8 @@
       %th Month
       %th Day
       %th Weekday
-      %th 
-    - for h_event in h_set.holiday_events.find(:all, :conditions=>["date >= ?",Time.now.to_date], :order=>"date")
+      %th
+    - for h_event in h_set.holiday_events
       %tr{ :class => h_event.date == Date.today ? 'highlight' : '' }
         %td= h_event.date.strftime("%Y")
         %td= h_event.date.strftime("%b")

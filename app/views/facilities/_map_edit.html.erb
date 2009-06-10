@@ -1,7 +1,7 @@
 <% content_for :head do -%>
 <script src="http://maps.google.com/maps?file=api&amp;v=2&amp;sensor=false&amp;key=<%= GOOGLE_MAPS_API_KEY %>" type="text/javascript"></script>
 <script type="text/javascript">
-
+/* <![CDATA[ */
 var map = null;
 var geocoder = null;
 
@@ -13,14 +13,12 @@ function initialize() {
     map = new GMap2(document.getElementById("map_canvas"));
     geocoder = new GClientGeocoder();
 
-
     map.addControl(new GSmallZoomControl());
     map.addControl(new GMenuMapTypeControl());
   	map.setCenter(center, 4, G_HYBRID_MAP);
-
-    <% unless @facility.new_record? -%>
+    <% unless @facility.new_record? %>
     var center = new GLatLng(<%= @facility.lat %>, <%= @facility.lng %>);
-  	map.setCenter(center, 18, G_HYBRID_MAP);
+    map.setCenter(center, 18, G_HYBRID_MAP);
     marker.setLatLng(center)
     map.addOverlay(marker);
     <% end -%>
@@ -46,7 +44,7 @@ function showAddress(address) {
       address + ", UK",
       function(point) {
         if (!point) {
-          alert(address + " not found");
+          alert("Sorry, couldn't find a location for the address, \"" + address + "\", please try again or manually drag the point to the correct position");
         } else {
           map.setCenter(point, 18);
           //var marker = new GMarker(point);
@@ -59,7 +57,7 @@ function showAddress(address) {
     );
   }
 }
-
-
+/* ]]> */
 </script>
 <% end -%>
+<div id="map_canvas" style="border: 1px solid black; width: 500px; height: 256px;"></div>
