@@ -17,6 +17,21 @@
     #allContent
       %a#skipToContent{:href=>'#content', :accesskey=>'s'}
         %img{:src=>'/images/invis.png',:width=>1,:height=>1, :alt=>'Skip to content'}
+
+      #userBar
+        - if current_user
+          Logged in as
+          =h current_user.email
+          \|
+          = link_to 'Edit profile', edit_user_path(:current)
+          \|
+          = link_to 'Logout', logout_path
+        - else
+          = link_to 'Register', new_user_path
+          \|
+          = link_to 'Login', login_path
+
+
       = render :partial => 'partials/banner' unless @no_banner
       =# render :partial => 'partials/search_bar' unless @no_search_bar
 

@@ -1,18 +1,23 @@
 ActionController::Routing::Routes.draw do |map|
-  map.resources :users
 
   # The priority is based upon order of creation: first created -> highest priority.
 
   map.root :controller => 'root'
+  map.resources :facilities, :as => 'f'
 
-  %w(about accessibility bankholidays copyright faq feedback license privacy recentchanges sitemap).each do |a|
+  map.login "login", :controller => "user_sessions", :action => "new"
+  map.logout "logout", :controller => "user_sessions", :action => "destroy"
+
+  map.resources :user_sessions
+  map.resources :users
+
+  %w(about accessibility bankholidays copyright faq feedback license privacy recentchanges sitemap statistics).each do |a|
     map.send "#{a}", "#{a}", :controller => 'root', :action => a
     map.send "#{a}", "#{a}.:format", :controller => 'root', :action => a
   end
 
   map.fireeagle 'search/fireeagle', :controller => 'search', :action => 'fireeagle'
 
-  map.resources :facilities, :as => 'f'
 
   # Sample of regular route:
   #   map.connect 'products/:id', :controller => 'catalog', :action => 'view'

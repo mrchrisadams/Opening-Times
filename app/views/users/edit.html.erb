@@ -1,0 +1,25 @@
+<h1>Edit profile</h1>
+
+<% form_for(@user) do |f| %>
+  <%= f.error_messages %>
+
+  <p>
+    <%= f.label :id, 'ID' %><br />
+    <%= f.text_field :id, :size => 4, :disabled => "disabled" %>
+  </p>
+  <p>
+    <%= f.label :email %><br />
+    <%= f.text_field :email %>
+  </p>
+  <p>
+    <%= f.label :password %><br />
+    <%= f.password_field :password %>
+  </p>
+  <p>
+    <%= f.label :password_confirmation %><br />
+    <%= f.password_field :password_confirmation %>
+  </p>
+  <p>
+    <%= f.submit 'Update', :class => "button tick" %>
+  </p>
+<% end %>

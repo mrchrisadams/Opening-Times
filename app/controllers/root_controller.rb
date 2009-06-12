@@ -14,5 +14,12 @@ class RootController < ApplicationController
 
   end
 
+  def statistics
+    @total_facilities = Facility.count
+    @new_facilities_today = Facility.count(:id, :conditions => ["created_at > ?", Date.today])
+
+    @total_users = User.count
+    @new_users_today = User.count(:id, :conditions => ["created_at > ?", Date.today])
+  end
 
 end

@@ -1,12 +1,10 @@
 class FacilitiesController < ApplicationController
-  # GET /facilities
-  # GET /facilities.xml
+  before_filter :require_user, :except => [:index, :show]
+
   def index
     @facilities = Facility.find(:all, :order => 'updated_at DESC', :limit => 100)
   end
 
-  # GET /facilities/1
-  # GET /facilities/1.xml
   def show
     if params[:id].is_integer?
       redirect_to(Facility.find(params[:id]))

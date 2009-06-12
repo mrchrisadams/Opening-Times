@@ -4,25 +4,23 @@
   %script{ :type=>'text/javascript' }
     function sf(){document.f.location.focus();}
 
-- content_for :top_content  do
-  #plainPage{ :style=>"text-align: center;" }
-    :plain
-      <!--[if IE]> <img id="homeclock" src="/images/logo-small.png" alt="Opening Times logo" width="196" height="196" /> <![endif]-->
-      <!--[if !IE]>--> <object id="homeclock" data="/images/clock_anim.svg" type="image/svg+xml" width="196" height="196"></object> <!--<![endif]-->
-    %h1#siteTitle
-      Opening Times
-    %p
-      Enter a UK town or postcode to find out when nearby shops are open.
+#plainPage{ :style=>"text-align: center;" }
+  :plain
+    <img id="homeclock" src="/images/logo.png" alt="Opening Times logo" width="196" height="196" />
+  %h1#siteTitle
+    Opening Times
+  %p
+    Enter a UK town or postcode to find out when nearby shops are open.
 
-    #searchBar
-      = form_tag('/search', :name=>'f', :method => :get)
-      = label_tag 'location', 'Where'
-      = text_field_tag 'location', params[:location], :size => 14
-      = #label_tag 'group', 'What', :accesskey=>'4'
-      = #TODO fix this -> render :partial=>'partials/groups_select'
-      = submit_tag 'Search', :name => nil, :class=>'button'
-      </form>
+  #searchBar
+    = form_tag('/search', :name=>'f', :method => :get)
+    = label_tag 'location', 'Where'
+    = text_field_tag 'location', params[:location], :size => 14
+    = #label_tag 'group', 'What', :accesskey=>'4'
+    = #TODO fix this -> render :partial=>'partials/groups_select'
+    = submit_tag 'Search', :name => nil, :class=>'button'
+    </form>
 
-    %p
-      = link_to 'Locate me using Yahoo! FireEagle', fireeagle_path
-      = link_to image_tag("powered-by-fire-eagle.png", :style=>"vertical-align:middle"), :controller => :search, :action => :fireeagle
+  %p
+    = link_to 'Locate me using Yahoo! FireEagle', fireeagle_path
+    = link_to image_tag("powered-by-fire-eagle.png", :style=>"vertical-align:middle"), :controller => :search, :action => :fireeagle
