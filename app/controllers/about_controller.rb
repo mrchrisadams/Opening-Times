@@ -1,4 +1,4 @@
-class RootController < ApplicationController
+class AboutController < ApplicationController
 
   def sitemap
     @facilities = Facility.all
