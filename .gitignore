@@ -8,3 +8,4 @@ log/*.log
 public/stylesheets/*.css
 tmp/*
 tmp/**/*
+to_do.txt

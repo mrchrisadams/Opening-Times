@@ -79,6 +79,10 @@ class NormalOpening < Opening
     wday == time.wday && super(time)
   end
 
+  def ==(opening)
+    self.equal_times?(opening) && self.sequence == opening.sequence
+  end
+
   # Returns an array of all Service.ids which are open, minus any ignores
   def self.select_open_ids(datetime, ignore_ids=[])
     ignore_sql = "facility_id NOT IN (#{ignore_ids.to_a.join(',')}) AND " unless ignore_ids.empty?

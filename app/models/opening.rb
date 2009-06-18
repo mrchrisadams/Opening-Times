@@ -59,4 +59,8 @@ class Opening < ActiveRecord::Base
     opens_mins <= n_mins and (closes_mins > n_mins or closes_mins == 0)
   end
 
+  def equal_times?(opening)
+    self.opens_mins == opening.opens_mins && self.closes_mins == opening.closes_mins
+  end
+
 end

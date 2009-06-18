@@ -58,4 +58,15 @@ describe Facility do
     @facility.should_not be_valid
   end
 
+  it "should produce a summary of its openings" do
+    f = Factory.build(:facility)
+    f.save!
+    %w(Mon Tue Wed Thu Fri Sat).each do |day|
+      f.normal_openings.create!(:week_day => day, :opens_at => "9am", :closes_at => "5pm")
+    end
+    f.normal_openings.create!(:week_day => "Sun", :opens_at => "10am", :closes_at => "4pm")
+    f.update_summary_normal_openings
+    f.summary_normal_openings.should == "Mon-Sat: 9AM-5PM, Sun: 10AM-4PM"
+  end
+
 end

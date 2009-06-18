@@ -72,6 +72,22 @@ describe NormalOpening do
     # Date set to Tuesday
     @opening.is_open_at?(Time.parse("2008-08-12 9:12AM")).should be_false
   end
+
+  it "should know whether another NormalOpening is equal to itself" do
+    o2 = @opening.clone
+    (@opening == o2).should be_true
+    o2.opens_mins += 1
+    (@opening == o2).should be_false
+    o2.opens_mins -= 1
+    (@opening == o2).should be_true
+    o2.opens_mins -= 1
+    (@opening == o2).should be_false
+
+    o2 = @opening.clone
+    o2.wday += 1
+    (@opening == o2).should be_false
+  end
+
 end
 
 # Class method tests
@@ -104,5 +120,7 @@ end
 #    NormalOpening.select_open_ids(@t).should include(3,4)
 #    NormalOpening.select_open_ids(@t).should_not include(1,2,5) # 5 - Service with no holiday openings
 #  end
+
+
 
 #end

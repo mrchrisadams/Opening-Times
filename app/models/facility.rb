@@ -5,7 +5,7 @@ class Facility < ActiveRecord::Base
   include ParserUtils
 
   has_many :normal_openings,  :dependent => :delete_all
-
+  belongs_to :holiday_set
     attr_accessible :name, :location, :description, :lat, :lng, :address, :postcode, :phone, :email, :url, :normal_openings_attributes
 
   accepts_nested_attributes_for :normal_openings, :allow_destroy => true, :reject_if => proc { |attrs| attrs['opens_at'].blank? && attrs['closes_at'].blank? && attrs['comment'].blank? }
@@ -60,6 +60,36 @@ class Facility < ActiveRecord::Base
 
   def to_xml
     super({ :include => [:normal_openings] })
+  end
+
+  # Creates something like Mon-Sat: 9am-5pm, Sun: 10am-4pm
+  def update_summary_normal_openings
+    out = []
+    group_set = []
+    prev = nil
+    normal_openings.each do |opening|
+      if group_set.empty?
+        group_set << opening
+      else
+        if prev.opens_mins == opening.opens_mins && prev.closes_mins == opening.closes_mins #prev.equal_times?(opening)
+          group_set << opening
+        else
+          out << group_set_summary(group_set)
+          group_set = [opening]
+        end
+      end
+      prev = opening
+    end
+    out << group_set_summary(group_set) unless group_set.empty?
+    self.summary_normal_openings = out.join(', ')
+  end
+
+  private
+
+  def group_set_summary(group_set)
+    tmp = group_set.first.week_day
+    tmp += (group_set.size == 1 ? ': ' : "-#{group_set.last.week_day}: ")
+    tmp += group_set.first.summary.gsub(' ','')
   end
 
 end

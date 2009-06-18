@@ -181,4 +181,15 @@ describe Opening do
     @opening.is_open_at?("10:01am").should be_false
   end
 
+  it "should know whether another opening has the same opening times as itself" do
+    o2 = @opening.clone
+    @opening.equal_times?(o2).should be_true
+    o2.opens_mins += 1
+    @opening.equal_times?(o2).should be_false
+    o2.opens_mins -= 1
+    @opening.equal_times?(o2).should be_true
+    o2.opens_mins -= 1
+    @opening.equal_times?(o2).should be_false
+  end
+
 end

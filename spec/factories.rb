@@ -29,3 +29,9 @@ Factory.define :holiday_event do |f|
   f.date "2009-12-25"
   f.comment "Christmas Day"
 end
+
+Factory.define :user do |f|
+  f.sequence(:email) { |n| "julian#{n}@opening-times.co.uk" }
+  f.password("foobar")
+  f.password_confirmation { |user| user.password }
+end

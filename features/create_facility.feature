@@ -3,9 +3,19 @@ Feature: Create facility
   As a logged in user
   I want to create a new facilty
 
-  Scenario: Create a new facility
+  Scenario: Required login before edit
+    Given I haven't registered
     When I go to the create a new facility page
-    And I fill in "name" with "Guy's and Dolls Hairdressers"
+    Then I should see "Login"
+
+  Scenario: Create a new facility
+    Given I have created a valid user
+    And I have logged in successfully
+
+    When I go to the create a new facility page
+    Then I should see "Create facility"
+
+    When I fill in "name" with "Guy's and Dolls Hairdressers"
     And I fill in "location" with "East Dulwich"
     And I fill in "address" with "125 Lordship Lane, East Dulwich, London"
     And I fill in "postcode" with "SE22 8HU"
