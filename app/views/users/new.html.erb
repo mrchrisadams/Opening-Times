@@ -15,6 +15,9 @@
     <%= f.label :password_confirmation %><br />
     <%= f.password_field :password_confirmation %>
   </p>
+
+  <%= recaptcha_tags %>
+
   <p>
     <%= f.submit 'Create', :disable_with => "Please wait...", :class => 'button tick' %>
   </p>

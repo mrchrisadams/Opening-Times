@@ -1,11 +1,16 @@
-== Opening Times
+Author::    Julian Burgess (http://opening-times.co.uk)
+Copyright:: Copyright (c) 2009 Julian Burgess
+License::   AGPL
+Git::       http://github.com/aubergene/opening-times/tree/master
+Bugs::      http://github.com/aubergene/opening-times/issues
+
+= Opening Times
 
 Opening Times is web application which aims to store the opening times
 for services (such as shops, libraries etc) and be able to show which
 services are near a given location and whether they are currently open.
 
-
-= License
+== License
 
 Opening Times is free software: you can redistribute it and/or modify
 it under the terms of the GNU Affero General Public License as published by
@@ -21,3 +26,7 @@ You should have received a copy of the GNU Affero General Public License
 along with Opening Times in the public/agpl-3.0.txt directory.
 
 If not, see http://www.gnu.org/licenses/.
+
+== Install and set up
+
+* Add your Recaptcha public/private keys to config/initializers/recaptcha.rb

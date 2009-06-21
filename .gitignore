@@ -1,5 +1,6 @@
 .DS_Store
 config/database.yml
+config/initializers/recaptcha.rb
 coverage/*
 db/backup/*
 db/*.sqlite3
