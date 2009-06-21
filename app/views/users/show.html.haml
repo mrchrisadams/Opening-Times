@@ -1,0 +1,6 @@
+%h1= @page_title = "User #{@user.id}"
+
+%p
+  Registered on
+  = @user.created_at.strftime("%A %d %B %Y")
+  = "(#{time_ago_in_words(@user.created_at)} ago)."
