@@ -40,7 +40,7 @@ function initialize() {
     }
 
     <% @nearby.each_with_index do |n,index| -%>
-    <% info = escape_javascript(link_to(h(n.name),n) + "<br />" + comma_to_br(n.address)) -%>
+    <% info = escape_javascript(link_to(h(n.name),n) + "<br />" + comma_to_br(h(n.address))) -%>
     map.addOverlay(createMarker(<%= "#{n.lat}, #{n.lng}, #{index+1}" %>, "<%= @status_manager.status(n).downcase %>", "<%= info %>"));
     <% end -%>
 

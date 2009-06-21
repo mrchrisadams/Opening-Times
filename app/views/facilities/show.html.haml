@@ -61,4 +61,14 @@
       %h2 Groups
       %ul
         %li Woo
-      %br
+
+      #infoBox
+        %ul
+          %li
+            ID
+            = @facility.id
+          %li
+            Information last updated
+            %span{ :facility=> @facility.updated_at }= @facility.updated_at.strftime("%a %d %b %Y")
+          %li
+            = link_to 'Edit', edit_facility_path(@facility.id)
