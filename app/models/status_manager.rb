@@ -7,7 +7,7 @@ class StatusManager
   STATUS_UNSURE = :Unsure
 
   def initialize(datetime=nil)
-    if true || datetime.is_a?(Time) # TODO remove true, just for testing
+    if datetime.is_a?(Time)
       @holidays = HolidaySet.on_holiday_facility_ids(datetime)
       @statuses = StatusManager.select_status_all(datetime, @facilitys_holidays)
     else

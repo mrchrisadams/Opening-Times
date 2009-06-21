@@ -5,7 +5,7 @@
 /* <![CDATA[ */
 function initialize() {
   if (GBrowserIsCompatible()) {
-    var latlng = new GLatLng(<%= @facility.lat %>,<%= @facility.lng %>);
+    var latlng = new GLatLng(<%= @location.lat %>,<%= @location.lng %>);
     var map = new GMap2(document.getElementById("map_canvas"));
   	map.setCenter(latlng, 13);
 
@@ -16,19 +16,16 @@ function initialize() {
     var mapControl = new GMapTypeControl();
     map.addControl(mapControl);
 
-    // Create a base icon for all of our markers that specifies the
-    // shadow, icon dimensions, etc.
-    var baseIcon = new GIcon(G_DEFAULT_ICON);
-    baseIcon.shadow = "http://www.google.com/mapfiles/shadow50.png";
-    baseIcon.iconSize = new GSize(20, 34);
-    baseIcon.shadowSize = new GSize(37, 34);
-    baseIcon.iconAnchor = new GPoint(9, 34);
-    baseIcon.infoWindowAnchor = new GPoint(9, 2);
+    var locationIcon = new GIcon(G_DEFAULT_ICON);
+    locationIcon.image = "/images/markers/arrow.png";
+    var locationMarker = new GMarker(latlng, { icon:locationIcon } )
+
+    map.addOverlay(new GMarker(latlng));
 
     function createMarker(lat, lng, index, status, info) {
       point = new GLatLng(lat, lng);
 
-      var numberIcon = new GIcon(baseIcon);
+      var numberIcon = new GIcon(G_DEFAULT_ICON);
       numberIcon.image = "/images/markers/" + status + "/marker" + index + ".png";
 
       markerOptions = { icon:numberIcon };
@@ -39,18 +36,16 @@ function initialize() {
       return marker;
     }
 
-    <% @nearby.each_with_index do |n,index| -%>
+    <% @facilities.each_with_index do |n,index| -%>
     <% info = escape_javascript(link_to(h(n.name),n) + "<br />" + comma_to_br(n.address)) -%>
-    map.addOverlay(createMarker(<%= "#{n.lat}, #{n.lng}, #{index+1}" %>, "<%= @status_manager.status(n).downcase %>", "<%= info %>"));
-    <% end -%>
-
-    var marker = new GMarker(latlng);
+    var marker = createMarker(<%= "#{n.lat}, #{n.lng} , #{index+1}" %>, "<%= @status_manager.status(n).downcase %>", "<%= info %>");
     map.addOverlay(marker);
-    <% info = "<strong>#{h(@facility.name)}</strong><br />#{comma_to_br(@facility.address)}, #{@facility.postcode}" -%>
-    marker.openInfoWindowHtml("<%= escape_javascript(info) %>");
+    <% end -%>
   }
 }
 /* ]]> */
 </script>
 <% end -%>
 <div id="map_canvas" style="border: 1px solid black; height: 360px;"></div>
+<small>You may need to scroll/zoom to find the facilitys marked on the map.</small>
+<br clear="all" />

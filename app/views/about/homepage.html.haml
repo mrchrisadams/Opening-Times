@@ -1,4 +1,4 @@
-- @no_banner = true
+- @no_banner = @no_search_bar = true
 - @onload = "sf();"
 - content_for :head do
   %script{ :type=>'text/javascript' }
@@ -22,5 +22,5 @@
     </form>
 
   %p
-    = link_to 'Locate me using Yahoo! FireEagle', fireeagle_path
+    = link_to 'Locate me using Yahoo! FireEagle', :controller => 'search', :action => 'fireeagle'
     = link_to image_tag("powered-by-fire-eagle.png", :style=>"vertical-align:middle"), :controller => :search, :action => :fireeagle

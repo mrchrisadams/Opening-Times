@@ -1,0 +1,17 @@
+{"results":
+  [
+  <% @facilities.each do |f| -%>
+    {"result":
+      "id": <%= f.id %>
+      "url": <%= facility_url(f) %>
+      "status": <%= @status_manager.status(f) %>
+      "name": <%=h f.name %>
+      "location": <%=h f.location %>
+      "address": <%=h f.address %>
+      "postcode": <%=h f.postcode %>
+      "lat": <%= f.lat %>
+      "lng": <%= f.lng %>
+    }
+  <% end -%>
+  ]
+}

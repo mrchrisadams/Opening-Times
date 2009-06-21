@@ -16,7 +16,8 @@ ActionController::Routing::Routes.draw do |map|
     map.send "#{a}", "#{a}.:format", :controller => 'about', :action => a
   end
 
-  map.fireeagle 'search/fireeagle', :controller => 'search', :action => 'fireeagle'
+  map.search 'search/:action', :controller => 'search'
+#  map.fireeagle 'search/fireeagle', :controller => 'search', :action => 'fireeagle'
 
 
   # Sample of regular route:

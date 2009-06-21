@@ -14,6 +14,8 @@ module NavigationHelpers
       new_facility_path($1)
     when /^the facilities page for "([^\"]*)"$/i
       facility_path(:id=>$1)
+    when /^the advanced search page$/i
+      url_for(:controller => 'search', :action => 'advanced')
 
     # Add more mappings here.
     # Here is a more fancy example:

@@ -21,6 +21,5 @@ config.gem "webrat", :lib => false
 config.gem "cucumber", :lib => false
 config.gem "thoughtbot-factory_girl", :lib => "factory_girl", :source => "http://gems.github.com/"
 
-
 # 127.0.0.1
 GOOGLE_MAPS_API_KEY = "ABQIAAAAztgMQ8gk3qQo-szAq24XnRRi_j0U6kJrkFvY4-OX2XYmEAa76BTgtTteRs_j2eg-IPM4tRlshkDZlQ"

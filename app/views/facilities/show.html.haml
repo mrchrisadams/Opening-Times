@@ -54,6 +54,9 @@
             %li= link_to("More information on #{h(@facility.full_name)}", @facility.url)
 
       %h2 Nearest facilities
+      %ol
+        - @nearby[0...5].each_with_index do |nearby,index|
+          %li= link_to h(nearby.full_name), nearby
 
       %h2 Groups
       %ul
