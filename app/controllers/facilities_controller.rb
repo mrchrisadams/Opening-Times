@@ -10,15 +10,14 @@ class FacilitiesController < ApplicationController
   def show
     #TODO Find slug and find ID from that
     @facility = Facility.find_by_slug(params[:id])
-    unless @facility
-      render :file => "#{RAILS_ROOT}/public/404.html", :layout => false, :status => 404 and return
-    end
+    return redirect_slug_or_404(params[:id]) unless @facility
+
     @status_manager = StatusManager.new
     @status = @status_manager.status(@facility)
     respond_to do |format|
-      format.html {
+      format.html do
         @nearby = Facility.find(:all, :conditions => ["id <> ?",@facility.id], :origin => @facility, :within => 20, :order => 'distance', :limit => 20)
-      }# show.html.html
+      end
       format.xml  { render :xml => @facility }
       format.json  { render :json => @facility }
     end
@@ -84,10 +83,20 @@ class FacilitiesController < ApplicationController
 
     def redirect_slug_to_id
       id = params[:id]
-      if !id.is_integer? && f = Facility.find_by_slug(id)
+      if id && !id.is_integer? && f = Facility.find_by_slug(id)
         redirect_to(:action => params[:action], :id => f.id) and return
       end
     end
+
+    def redirect_slug_or_404(slug)
+      trap = SlugTrapFacility.find_by_slug(params[:id])
+      if trap
+        redirect_to(:id => trap.redirect_slug, :status=>301)
+      else
+        render :template => "services/not_found", :status => 404
+      end
+    end
+
 
     def build_spare_openings
       if @facility.normal_openings.empty?

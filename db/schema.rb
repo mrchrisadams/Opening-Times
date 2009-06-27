@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20090618093005) do
+ActiveRecord::Schema.define(:version => 20090623175551) do
 
   create_table "facilities", :force => true do |t|
     t.string   "slug",                    :limit => 200
@@ -62,6 +62,16 @@ ActiveRecord::Schema.define(:version => 20090618093005) do
   add_index "openings", ["facility_id"], :name => "index_openings_on_facility_id"
   add_index "openings", ["opens_mins", "closes_mins"], :name => "index_openings_on_opens_mins_and_closes_mins"
   add_index "openings", ["type"], :name => "index_openings_on_type"
+
+  create_table "slug_traps", :force => true do |t|
+    t.string   "slug",          :limit => 100
+    t.string   "redirect_slug", :limit => 100
+    t.string   "type",          :limit => 20
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "slug_traps", ["type", "slug"], :name => "index_slug_traps_on_type_and_slug", :unique => true
 
   create_table "users", :force => true do |t|
     t.string   "email",                             :null => false
