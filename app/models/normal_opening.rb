@@ -61,6 +61,14 @@ class NormalOpening < Opening
     self.wday = Time::RFC2822_DAY_NAME.index(day)
   end
 
+  def is_open_at?(time)
+    wday == time.wday && super(time)
+  end
+
+  def ==(opening)
+    self.equal_times?(opening) && self.sequence == opening.sequence
+  end
+
   def to_xml(options = {})
     return if marked_for_destruction?
     options[:indent] ||= 2
@@ -75,12 +83,15 @@ class NormalOpening < Opening
     return xml
   end
 
-  def is_open_at?(time)
-    wday == time.wday && super(time)
-  end
-
-  def ==(opening)
-    self.equal_times?(opening) && self.sequence == opening.sequence
+  def from_xml(xml)
+    unless xml.is_a?(Hpricot::Elem)
+      xml = Hpricot.XML(xml)
+      xml = (xml/"opening")
+    end
+    self.week_day  = xml["week-day"]
+    self.opens_at  = xml["opens"]
+    self.closes_at = xml["closes"]
+    self.comment   = xml["comment"]
   end
 
   # Returns an array of all Service.ids which are open, minus any ignores

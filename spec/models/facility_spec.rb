@@ -1,6 +1,9 @@
 require File.dirname(__FILE__) + '/../spec_helper'
 
 describe Facility do
+
+  SAMPLE_XML = File.dirname(__FILE__) + '/../sample_data/waitrose-hailsham.xml'
+
   before(:each) do
     @facility = Factory.build(:facility)
     @facility.created_by = @facility.updated_by = "test"
@@ -67,6 +70,14 @@ describe Facility do
     f.normal_openings.create!(:week_day => "Sun", :opens_at => "10am", :closes_at => "4pm")
     f.update_summary_normal_openings
     f.summary_normal_openings.should == "Mon-Sat: 9AM-5PM, Sun: 10AM-4PM"
+  end
+
+  it "should be possible to create a Facility using from_xml" do
+    f = Facility.new
+    f.from_xml(File.open(SAMPLE_XML).read)
+    f.should be_valid
+    f.save!
+    f.normal_openings.count.should == 7
   end
 
 end

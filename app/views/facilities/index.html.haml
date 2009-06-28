@@ -5,6 +5,6 @@
 %ul
   - @facilities.each do |f|
     %li
-      = link_to h(f.name), f
+      = link_to h(f.full_name), f
       %small
         = "(#{time_ago_in_words(f.updated_at)} ago)"

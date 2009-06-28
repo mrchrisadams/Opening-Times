@@ -64,6 +64,12 @@ class Facility < ActiveRecord::Base
     super({ :include => [:normal_openings] })
   end
 
+  def group_set_summary(group_set)
+    tmp = group_set.first.week_day
+    tmp += (group_set.size == 1 ? ': ' : "-#{group_set.last.week_day}: ")
+    tmp += group_set.first.summary.gsub(' ','')
+  end
+
   # Creates something like Mon-Sat: 9am-5pm, Sun: 10am-4pm
   def update_summary_normal_openings
     out = []
@@ -86,12 +92,37 @@ class Facility < ActiveRecord::Base
     self.summary_normal_openings = out.join(', ')
   end
 
+  def from_xml(xml)
+    unless new_record?
+      [normal_openings, holiday_openings].each do |o|
+        o.all.each { |x| x.mark_for_destruction }
+      end
+    end
+
+    doc = Hpricot.XML(xml)
+
+    s = (doc/"service")
+
+    self.name = (s/"name").first.inner_text
+    self.location = (s/"location").first.inner_text
+    self.description = (s/"description").text
+    self.address = (s/"address").text
+    self.postcode = (s/"postcode").text
+    self.phone = extract_phone((s/"phone").text)
+
+    self.url = (s/"url").text #TODO there needs to be a url extractor
+    self.lat = (s/"latitude").text
+    self.lng = (s/"longitude").text
+    self.updated_by = "import"
+
+    (s/"normal-openings/opening").each do |opn|
+      o = self.normal_openings.build
+      o.from_xml(opn)
+    end
+    self
+  end
+
   private
 
-  def group_set_summary(group_set)
-    tmp = group_set.first.week_day
-    tmp += (group_set.size == 1 ? ': ' : "-#{group_set.last.week_day}: ")
-    tmp += group_set.first.summary.gsub(' ','')
-  end
 
 end
