@@ -1,4 +1,4 @@
-Author::    Julian Burgess (http://opening-times.co.uk)
+Author::    Julian Burgess (julian@opening-times.co.uk http://opening-times.co.uk)
 Copyright:: Copyright (c) 2009 Julian Burgess
 License::   AGPL
 Git::       http://github.com/aubergene/opening-times/tree/master
