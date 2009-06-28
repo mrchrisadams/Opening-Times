@@ -19,9 +19,9 @@ class FacilityXmlSource
 
   def import
     puts "#{@files.size} file(s)"
-    progress = ProgressBar.new("Importing", xml_files.size)
+    progress = ProgressBar.new("Importing", @files.size)
 
-    xml_files.sort.each do |file|
+    @files.each do |file|
       progress.inc
       f = Facility.new
       f.from_xml(File.open(file).read)
