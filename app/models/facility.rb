@@ -7,6 +7,7 @@ class Facility < ActiveRecord::Base
   include ParserUtils
 
   has_many :normal_openings,  :dependent => :delete_all
+  has_many :facility_revisions
   belongs_to :holiday_set
     attr_accessible :name, :location, :description, :lat, :lng, :address, :postcode, :phone, :email, :url, :normal_openings_attributes
 
@@ -21,11 +22,13 @@ class Facility < ActiveRecord::Base
     end
     self.postcode.upcase! if postcode
     self.address.gsub!(/\s*,?\s*[\n\r]{2}/,", ") if address # turn line breaks in to comma separated
+    self.revision += 1
   end
 
-  validates_presence_of :name, :location, :address #, :created_by, :updated_by
+  validates_presence_of :name, :location, :slug, :address, :revision, :created_by, :updated_by
   validates_format_of :postcode, :with => POSTCODE_REGX
   validates_format_of :email, :with => EMAIL_REGX, :allow_blank => true
+  validates_uniqueness_of :slug
 
   #TODO this should be more clever clogs
   unless RAILS_ENV == 'development'

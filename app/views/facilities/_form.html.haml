@@ -5,7 +5,7 @@
 
 = error_messages_for :facility
 
-- form_for @facility, :html => { :name => 'f' } do |facility_form|
+- form_for @facility, :url => facility_path(@facility.id), :html => { :name => 'f' } do |facility_form|
   %small
     * Optional field
   %fieldset

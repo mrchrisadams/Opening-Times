@@ -75,6 +75,7 @@ describe Facility do
   it "should be possible to create a Facility using from_xml" do
     f = Facility.new
     f.from_xml(File.open(SAMPLE_XML).read)
+    f.created_by = f.updated_by = "test"
     f.should be_valid
     f.save!
     f.normal_openings.count.should == 7

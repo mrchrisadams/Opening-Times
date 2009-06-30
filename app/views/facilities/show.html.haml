@@ -72,3 +72,5 @@
             %span{ :facility=> @facility.updated_at }= @facility.updated_at.strftime("%a %d %b %Y")
           %li
             = link_to 'Edit', edit_facility_path(@facility.id)
+          %li
+            = link_to "Revision #{@facility.revision}", facility_revisions_path(@facility.id)

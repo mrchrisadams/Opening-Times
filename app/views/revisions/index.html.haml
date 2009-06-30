@@ -1,0 +1,10 @@
+%h1 Revisions
+
+%p Sorted by most recent
+
+%ul
+  - @revisions.each do |f|
+    %li
+      = link_to h(f.inspect), facility_revision_path(f.facility_id,f)
+      %small
+        = "(#{time_ago_in_words(f.created_at)} ago)"

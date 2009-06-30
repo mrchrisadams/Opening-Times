@@ -25,6 +25,7 @@ class FacilityXmlSource
       progress.inc
       f = Facility.new
       f.from_xml(File.open(file).read)
+      f.created_by = f.updated_by = "XML import"
       f.save!
     end
     progress.finish

@@ -5,6 +5,8 @@ Factory.define :facility do |f|
   f.postcode "SE22 8HU"
   f.lat "51.45692340789993"
   f.lng "-0.0755685567855835"
+  f.created_by "factory"
+  f.updated_by "factory"
 end
 
 Factory.define :opening do |f|
