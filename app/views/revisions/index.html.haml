@@ -1,10 +1,21 @@
-%h1 Revisions
+%h1 Revision History
 
-%p Sorted by most recent
+%p
+  Revision history for
+  = link_to(h(@facility.full_name), @facility) + '.'
+  = @revision_limit
+  most recent revisions.
 
-%ul
-  - @revisions.each do |f|
-    %li
-      = link_to h(f.inspect), facility_revision_path(f.facility_id,f)
-      %small
-        = "(#{time_ago_in_words(f.created_at)} ago)"
+%table.reports
+  %tr
+    %th Revision
+    %th Slug
+    %th Created
+    %th Author
+  - @revisions.each do |r|
+    %tr
+      %td= link_to r.revision, facility_revision_path(@facility.id, r)
+      %td= r.slug
+      %td
+        %span{ :title => r.created_at }= time_ago_in_words(r.created_at) + " ago"
+      %td=h r.created_by
