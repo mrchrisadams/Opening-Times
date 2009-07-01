@@ -10,6 +10,9 @@ class FacilityRevision < ActiveRecord::Base
     self.created_by = facility.updated_by
   end
 
+  def to_xml
+    xml
+  end
 
   # I would like to have this in create, but AR can't access facility until is has been fully saved and we are still within the transaction
 #  def update_from_facility(f)

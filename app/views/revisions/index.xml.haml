@@ -1,0 +1,11 @@
+!!!XML
+%revisions
+  %facility_id= @facility.id
+  - @revisions.each do |r|
+    %revision
+      %id= r.id
+      %revision= r.revision
+      %slug= r.slug
+      %created_at= r.created_at
+      %created_by= r.created_by
+      %comment=h r.comment

@@ -2,6 +2,8 @@
 
 %p
   Revision history for
+  = link_to "ID #{@facility.id}", facility_path(@facility.id)
+  \-
   = link_to(h(@facility.full_name), @facility) + '.'
   = @revision_limit
   most recent revisions.
