@@ -1,12 +1,22 @@
 - content_for :head do
-  %link{ :href=>url_for(:format=>:xml), :rel=>:alternate, :type=>'application/rss+xml' }
+  %link{ :href => url_for(:format => :xml), :rel => :alternate, :type => 'application/rss+xml' }
 
 %h1= @page_title = "Recent changes"
 
-%ul
-  - for version in @versions
-    %li
-      = link_to h(version.facility.full_name), version.facility
-      = link_to 'history', facility_versions_path(version.facility)
-      = '<strong>NEW</strong>' if version.version == 1
-      = time_ago_in_words(version.created_at) + " ago"
+%table.reports
+  %tr
+    %th ID
+    %th Name
+    %th Revision
+    %th Length
+    %th User
+    %th Updated
+
+  - for revision in @revisions
+    %tr
+      %td.num= link_to revision.facility_id, facility_revisions_path(revision.facility_id)
+      %td= link_to h(revision.facility.full_name), facility_revision_path(revision.facility_id, revision.id)
+      %td.num= revision.revision
+      %td.num= number_with_delimiter(revision.length)
+      %td= revision.created_by
+      %td= time_ago_in_words(revision.created_at) + " ago"

@@ -40,6 +40,7 @@ class FacilitiesController < ApplicationController
   # POST /facilities
   def create
     @facility = Facility.new(params[:facility])
+    @facility.created_by = @facility.updated_by = current_user.id
 
     if @facility.save
       flash[:notice] = 'Facility was successfully created.'
@@ -53,6 +54,7 @@ class FacilitiesController < ApplicationController
   # PUT /facilities/1
   def update
     @facility = Facility.find(params[:id])
+    @facility.updated_by = current_user.id
 
     if @facility.update_attributes(params[:facility])
       flash[:notice] = 'Facility was successfully updated.'

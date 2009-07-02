@@ -1,0 +1,76 @@
+- content_for :head do
+  = stylesheet_link_tag 'diff'
+
+%h1= @page_title = "Compare revisions"
+
+%p
+  These revision were created
+  %strong= distance_of_time_in_words(@v1.created_at,@v2.created_at)
+  apart.
+
+- if @v1.facility != @v2.facility
+  %p.alert
+    These revision are from two different facilities.
+
+- if @v1 === @v2
+  %p.alert
+    You are comparing this revision with itself, it's identical
+
+%table.reports
+  %tr
+    %td Revision
+    %td= link_to @v1.revision, facility_revision_path(@v1.facility,@v1)
+    %td Revision
+    %td= link_to @v2.revision, facility_revision_path(@v2.facility,@v2)
+  %tr
+    %td Slug
+    %td
+      = link_to @v1.slug, @v1.facility
+    %td Slug
+    %td
+      = link_to @v2.slug, @v2.facility
+  %tr
+    %td Created
+    %td
+      = @v1.created_at
+      %br
+      = time_ago_in_words(@v1.created_at)
+      ago
+    %td Created
+    %td
+      = @v2.created_at
+      %br
+      = time_ago_in_words(@v2.created_at)
+      ago
+  %tr
+    %td User
+    %td
+      %p= @v1.created_by
+    %td User
+    %td
+      %p= @v2.created_by
+  %tr
+    %td Comment
+    %td
+      %p= @v1.comment
+    %td Comment
+    %td
+      %p= @v2.comment
+  %tr
+    %td Action
+    %td= link_to 'Revert', edit_facility_path(@v1.facility, :v=>@v1.id), :title=>"Create a new facility based on this one"
+    %td Comment
+    %td= link_to 'Revert', edit_facility_path(@v1.facility, :v=>@v2.id), :title=>"Create a new facility based on this one"
+  %tr
+    %td{ :colspan=>4 }
+      - diff_display = Diff::Display::Unified.new(@diff)
+      = render_diff(@diff)
+
+  /
+    %tr
+      %td{:width=>"50%", :colspan=>2}
+        %pre
+          = h @v1.xml
+      %td{:width=>"50%", :colspan=>2}
+        %pre
+          = h @v2.xml

@@ -10,12 +10,13 @@ ActionController::Routing::Routes.draw do |map|
     services.resources :facility_slug_traps, :as => :slugs
   end
 
-
   map.login "login", :controller => "user_sessions", :action => "new"
   map.logout "logout", :controller => "user_sessions", :action => "destroy"
 
   map.resources :user_sessions
   map.resources :users
+
+  map.connect 'compare/:a/:b', :controller => 'compare'
 
   %w(about accessibility bankholidays copyright faq feedback license privacy recentchanges sitemap statistics).each do |a|
     map.send "#{a}", "#{a}", :controller => 'about', :action => a

@@ -68,8 +68,11 @@
             ID
             = @facility.id
           %li
-            Information last updated
+            Updated at
             %span{ :facility=> @facility.updated_at }= @facility.updated_at.strftime("%a %d %b %Y")
+          %li
+            Updated by
+            = link_to @facility.updated_by, user_path(@facility.updated_by)
           %li
             = link_to 'Edit', edit_facility_path(@facility.id)
           %li

@@ -1,9 +1,5 @@
 class AboutController < ApplicationController
 
-  def sitemap
-    @facilities = Facility.all
-  end
-
   def bankholidays
     @holiday_sets = HolidaySet.find(:all, :include=>:holiday_events)
     respond_to do |format|
@@ -12,6 +8,19 @@ class AboutController < ApplicationController
       format.html
     end
 
+  end
+
+  def recentchanges
+    @revisions = FacilityRevision.find(:all, :order => 'id DESC', :limit => 100)
+    respond_to do |format|
+      format.html
+      format.xml #TODO format this as ATOM
+      format.rss { redirect_to :format => :xml }
+    end
+  end
+
+  def sitemap
+    @facilities = Facility.all
   end
 
   def statistics
