@@ -26,6 +26,7 @@ ActionController::Routing::Routes.draw do |map|
   map.search 'search/:action', :controller => 'search'
 #  map.fireeagle 'search/fireeagle', :controller => 'search', :action => 'fireeagle'
 
+  map.facility_slug ':slug', :controller => 'slug_trap', :action => 'show'
 
   # Sample of regular route:
   #   map.connect 'products/:id', :controller => 'catalog', :action => 'view'

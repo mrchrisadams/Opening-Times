@@ -7,6 +7,19 @@ Given /^I have logged in with a valid email and password$/ do
   assert_contain ("Successfully logged in")
 end
 
-Given /^I have created a Facility/ do
+Given /^I have created a(?: new)? Facility/ do
   Factory.create(:facility)
+end
+
+Given /^I have Facility which is on revision (\d+)$/ do |revision|
+  f = Factory.create(:facility)
+  revision.to_i.times do |r|
+    f.name += " revision #{r}"
+    f.save
+  end
+end
+
+When /^I update that Facility$/ do
+  f.name += " updated"
+  f.save
 end

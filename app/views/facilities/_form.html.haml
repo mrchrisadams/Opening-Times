@@ -5,7 +5,7 @@
 
 = error_messages_for :facility
 
-- form_for @facility, :url => facility_path(@facility.id), :html => { :name => 'f' } do |facility_form|
+- form_for @facility, :html => { :name => 'f' } do |facility_form|
   %small
     * Optional field
   %fieldset
@@ -65,6 +65,7 @@
         %th{ :scope => 'col' }
           %label.optional Comment
       - facility_form.fields_for :normal_openings do |opening_form|
+        - next if opening_form.object.marked_for_destruction?
         %tr.normal_opening
           %td= opening_form.select :week_day, Opening::DAYNAMES
           %td= opening_form.text_field :opens_at, :size => 5

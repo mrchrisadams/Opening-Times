@@ -59,9 +59,9 @@ class Facility < ActiveRecord::Base
     "#{address}, #{postcode}"
   end
 
-  def to_param
-    slug
-  end
+#  def to_param
+#    slug
+#  end
 
   def to_xml
     super({ :include => [:normal_openings] })
@@ -97,14 +97,14 @@ class Facility < ActiveRecord::Base
 
   def from_xml(xml)
     unless new_record?
-      [normal_openings, holiday_openings].each do |o|
+      [normal_openings].each do |o|
         o.all.each { |x| x.mark_for_destruction }
       end
     end
 
     doc = Hpricot.XML(xml)
 
-    s = (doc/"service")
+    s = (doc/"facility")
 
     self.name = (s/"name").first.inner_text
     self.location = (s/"location").first.inner_text

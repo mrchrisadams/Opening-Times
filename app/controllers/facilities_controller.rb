@@ -1,7 +1,7 @@
 class FacilitiesController < ApplicationController
   before_filter :require_user, :except => [:index, :show]
   before_filter :redirect_id_to_slug, :only => [:show]
-  before_filter :redirect_slug_to_id, :except => [:index, :show]
+#  before_filter :redirect_slug_to_id, :except => [:index, :show]
 
   def index
     @facilities = Facility.find(:all, :order => 'updated_at DESC', :limit => 100)
@@ -10,6 +10,8 @@ class FacilitiesController < ApplicationController
   def show
     #TODO Find slug and find ID from that
     @facility = Facility.find_by_slug(params[:id])
+    @facility = Facility.find(params[:id])
+
     return redirect_slug_or_404(params[:id]) unless @facility
 
     @status_manager = StatusManager.new
@@ -26,14 +28,27 @@ class FacilitiesController < ApplicationController
   # GET /facilities/new
   def new
     @facility = Facility.new
-#    @facility.normal_openings.build(:week_day=>"Wed")
-#    @facility.normal_openings.build(:week_day=>"Fri")
+
+    if params[:r]
+      revision = FacilityRevision.find(params[:r])
+      @facility.from_xml(revision.xml)
+      @facility.address.gsub!(', ',"\n")
+    end
     build_spare_openings
   end
 
   # GET /facilities/1/edit
   def edit
     @facility = Facility.find(params[:id])
+
+    if params[:r]
+      revision = FacilityRevision.find(params[:r])
+      @facility.normal_openings = []
+      @facility.from_xml(revision.xml)
+    end
+
+    @facility.address.gsub!(', ',"\n")
+
     build_spare_openings
   end
 
@@ -79,26 +94,16 @@ class FacilitiesController < ApplicationController
     def redirect_id_to_slug
       id = params[:id]
       if id.is_integer? && f = Facility.find(id)
-        redirect_to(f) and return
+        redirect_to(facility_slug_path(f.slug)) and return
       end
     end
 
-    def redirect_slug_to_id
-      id = params[:id]
-      if id && !id.is_integer? && f = Facility.find_by_slug(id)
-        redirect_to(:action => params[:action], :id => f.id) and return
-      end
-    end
-
-    def redirect_slug_or_404(slug)
-      trap = SlugTrapFacility.find_by_slug(params[:id])
-      if trap
-        redirect_to(:id => trap.redirect_slug, :status=>301)
-      else
-        render :template => "services/not_found", :status => 404
-      end
-    end
-
+#    def redirect_slug_to_id
+#      id = params[:id]
+#      if id && !id.is_integer? && f = Facility.find_by_slug(id)
+#        redirect_to(:action => params[:action], :id => f.id) and return
+#      end
+#    end
 
     def build_spare_openings
       if @facility.normal_openings.empty?

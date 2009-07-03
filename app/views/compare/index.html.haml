@@ -58,9 +58,9 @@
       %p= @v2.comment
   %tr
     %td Action
-    %td= link_to 'Revert', edit_facility_path(@v1.facility, :v=>@v1.id), :title=>"Create a new facility based on this one"
+    %td= link_to 'Revert', edit_facility_path(@v1.facility_id, :r=>@v1.id), :title=>"Create a new facility based on this one"
     %td Comment
-    %td= link_to 'Revert', edit_facility_path(@v1.facility, :v=>@v2.id), :title=>"Create a new facility based on this one"
+    %td= link_to 'Revert', edit_facility_path(@v1.facility_id, :r=>@v2.id), :title=>"Create a new facility based on this one"
   %tr
     %td{ :colspan=>4 }
       - diff_display = Diff::Display::Unified.new(@diff)

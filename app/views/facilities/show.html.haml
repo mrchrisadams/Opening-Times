@@ -36,7 +36,7 @@
       %h2 Map
       %span
         %small You can drag the map around to see other nearby facilties
-      = render 'map_show'
+      = render 'facilities/map_show'
 
     %td{ :style=>'padding-left: 8px;' }
       .advertBox
@@ -56,7 +56,7 @@
       %h2 Nearest facilities
       %ol
         - @nearby[0...5].each_with_index do |nearby,index|
-          %li= link_to h(nearby.full_name), nearby
+          %li= link_to h(nearby.full_name), facility_slug_path(nearby.slug)
 
       %h2 Groups
       %ul

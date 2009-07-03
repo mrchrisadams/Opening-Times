@@ -10,13 +10,22 @@
 
 %table.reports
   %tr
-    %th Revision
+    %th
+    %th{ :colspan=>4 } Compare
     %th Slug
     %th Created
     %th Author
   - @revisions.each do |r|
+    - prev = @revisions[@revisions.index(r)+1]
     %tr
       %td= link_to r.revision, facility_revision_path(@facility.id, r)
+      %td= radio_button_tag :a, r.id
+      %td= radio_button_tag :b, r.id
+      %td
+        = link_to('curr', { :controller=>:compare, :a=>r,:b=>@revisions.first }, :title=>"Compare this version with the current version") unless r == @revisions.first
+      %td
+        = link_to('prev', { :controller=>:compare, :a=>r,:b=>prev }, :title=>"Compare this version with the previous version") unless r == @revisions.last
+
       %td= r.slug
       %td
         %span{ :title => r.created_at }= time_ago_in_words(r.created_at) + " ago"

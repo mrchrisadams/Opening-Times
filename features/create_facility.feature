@@ -5,10 +5,11 @@ Feature: FacilityRevision
 
   Scenario: Create a new Facility
     Given I have created a new Facility
-    When I go to the facility revision page
-    Then I should see "Current revision 1"
+    When I go to the facilities page for
+    Then I should see "Revision 1"
 
   Scenario: Update a Facility
     Given I have Facility which is on revision 4
     When I update that Facility
-    Then I should see "Current revision 5"
+    And I go to the facilities page for
+    Then I should see "Revision 5"
