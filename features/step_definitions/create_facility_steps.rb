@@ -8,18 +8,18 @@ Given /^I have logged in with a valid email and password$/ do
 end
 
 Given /^I have created a(?: new)? Facility/ do
-  Factory.create(:facility)
+  @facility = Factory.create(:facility)
 end
 
 Given /^I have Facility which is on revision (\d+)$/ do |revision|
-  f = Factory.create(:facility)
+  @facility = Factory.create(:facility)
   revision.to_i.times do |r|
-    f.name += " revision #{r}"
-    f.save
+    @facility.name += " revision #{r}"
+    @facility.save
   end
 end
 
 When /^I update that Facility$/ do
-  f.name += " updated"
-  f.save
+  @facility.name += " updated"
+  @facility.save
 end
