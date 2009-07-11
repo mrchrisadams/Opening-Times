@@ -14,6 +14,7 @@ namespace :db do
       f.postcode = "SE15 5TL" #Faker::Address.uk_postcode
       f.lat = 51.0 + rand
       f.lng = 0.0 + rand
+      f.created_by = f.updated_by = "populate"
       f.save!
 
       7.times do |day|
