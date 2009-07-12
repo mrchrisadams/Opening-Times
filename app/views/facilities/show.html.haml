@@ -1,3 +1,7 @@
+- content_for :head do
+  %meta{ :name => "geo.position", :content => "#{@facility.lat};#{@facility.lng}" }
+
+
 - @page_title = @facility.full_name
 - @page_desc = "Opening times and map for #{@facility.full_name}, #{@facility.address}"
 
