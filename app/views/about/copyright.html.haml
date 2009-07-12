@@ -1,21 +1,53 @@
 - @page_title = "Copyright"
 %h1= @page_title
 
+%p
+  I built Opening Times in my spare time, I hope you find it useful. I've made the source and data open so that other people can benefit and build on from my work, I welcome contributions and would love to see the code being used in other languages and cultures.
 
-%h2 License
+%ul
+  %li= anchor_to "Source Code License"
+  %li= anchor_to "Data License"
+  %li= anchor_to "API"
+  %li= anchor_to "Terms and conditions"
 
-%p Opening Times is free software: you can redistribute it and/or modify it under the terms of the GNU Affero General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+
+%p Please note the <a href="http://www.gnu.org/licenses/agpl.html" rel="license">GNU Affero General Public License</a> requires "if you make modifications to the Opening Times source code on your server, you <b>MUST MAKE AVAILABLE</b> the modified version of the source code to your users under the same license". If you make any changes to the source code of your Opening Times installation, you have to share the source with your users, I would recommend using <a href="https://github.com/">GitHub</a>.
+
+%h2= anchor_for "Source Code License"
+
+%p
+  = link_to image_tag('agplv3-155x51.png', :alt => "AGPL", :align => "right", :rel => "license"), "http://www.gnu.org/licenses/agpl.html"
+  Opening Times is free software: you can redistribute it and/or modify it under the terms of the <a href="http://www.gnu.org/licenses/agpl.html" rel="license">GNU Affero General Public License</a>as published by the <a href="http://www.fsf.org/">Free Software Foundation</a>, either version 3 of the License, or (at your option) any later version.
 
 %p Opening Times is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Affero General Public License for more details.
 
-%p You should have received a copy of the GNU Affero General Public License along with Opening Times in the public/agpl-3.0.txt directory.
+%p You will find a copy of the GNU Affero General Public License along with Opening Times application.
 
-%p If not, see <a href="http://www.gnu.org/licenses/">http://www.gnu.org/licenses/</a>.
+%ul
+  %li= link_to 'Opening Times source code', 'http://github.com/aubergene/Opening-Times/tree/master'
+
+%h2= anchor_for "Data License"
+
+%p
+  <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/2.0/uk/"><img alt="Creative Commons License" style="border-width:0" src="http://i.creativecommons.org/l/by-nc-sa/2.0/uk/88x31.png" align="right" /></a>
+
+  <span xmlns:dc="http://purl.org/dc/elements/1.1/" property="dc:title">Opening Times data</span> by is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/2.0/uk/">Creative Commons Attribution-Non-Commercial-Share Alike 2.0 UK: England &amp; Wales License</a>.
+
+%p
+  If you wish to use the data for Commerical purposes, or anything which isn't covered by the above license then please <a href="/feedback">get in touch</a>.
+
+%ul
+  %li= link_to 'Opening Times data', '/opening-times-data.csv.gz'
+
+%h2= anchor_for "API"
+
+%p
+  I am planning to make an Opening Times API available at some point in the future, if you are interested in using this, or helping to build it, then please <a href="/feedback">get in touch</a>.
 
 
-%h2 Terms and conditions
+%h2= anchor_for "Terms and conditions"
 
-%p Welcome to our website. If you continue to browse and use this website you are agreeing to comply with and be bound by the following terms and conditions of use, which together with our privacy policy govern Opening Time's relationship with you in relation to this website.
+%p If you continue to browse and use this website you are agreeing to comply with and be bound by the following terms and conditions of use, which together with our privacy policy govern Opening Time's relationship with you in relation to this website.
 
 %p The term Opening Times or or "I" or "us" or "we" refers to the owner of the website. The term "you" refers to the user or viewer of our website.
 
