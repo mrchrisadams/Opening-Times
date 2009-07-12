@@ -4,9 +4,13 @@
   %script{ :type=>'text/javascript' }
     function sf(){document.f.location.focus();}
 
-#plainPage{ :style=>"text-align: center;" }
+#plainPage{ :style=>"text-align: center; margin-top: 22px;" }
   :plain
-    <img id="homeclock" src="/images/logo.png" alt="Opening Times logo" width="196" height="196" />
+    <object type="application/x-shockwave-flash" data="/images/logo.swf" width="196" height="196">
+      <param name="movie" value="/images/logo.swf" />
+      <param name="wmode" value="transparent" />
+      <img id="homeclock" src="/images/logo.png" alt="Opening Times logo" width="196" height="196" />
+    </object>
   %h1#siteTitle
     Opening Times
   %p
