@@ -5,7 +5,6 @@ class FacilityXmlSource
 
   DATA_ROOT = File.dirname(__FILE__) + "/../../opening-times-data/"
 
-
   def initialize(facility_name)
     @facility_name = facility_name || "**"
     @files = Dir[xml_path + "*.xml"]
@@ -30,6 +29,5 @@ class FacilityXmlSource
     end
     progress.finish
   end
-
 
 end

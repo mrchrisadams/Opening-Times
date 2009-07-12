@@ -1,4 +1,4 @@
-require 'facility_xml_source'
+# require 'facility_xml_source'
 
 namespace :import do
 
