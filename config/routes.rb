@@ -16,7 +16,7 @@ ActionController::Routing::Routes.draw do |map|
   map.resources :user_sessions
   map.resources :users
 
-  map.connect 'compare/:a/:b', :controller => 'compare'
+  map.connect 'compare/:a/:b', :controller => 'compare', :defaults => { :a => nil, :b => nil }
 
   %w(about accessibility bankholidays copyright faq feedback license privacy recentchanges sitemap statistics).each do |a|
     map.send "#{a}", "#{a}", :controller => 'about', :action => a

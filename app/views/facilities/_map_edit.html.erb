@@ -5,7 +5,7 @@
 var map = null;
 var geocoder = null;
 
-var center = new GLatLng(54.749991,-3.55957);
+var center = new GLatLng(53.5925048,-1.1425781);
 var marker = new GMarker(center, {draggable: true});
 
 function initialize() {
@@ -16,12 +16,12 @@ function initialize() {
     map.addControl(new GSmallZoomControl());
     map.addControl(new GMenuMapTypeControl());
   	map.setCenter(center, 4, G_HYBRID_MAP);
-    <% unless @facility.new_record? %>
-    var center = new GLatLng(<%= @facility.lat %>, <%= @facility.lng %>);
+    <% unless @facility.new_record? -%>
+    center = new GLatLng(<%= @facility.lat %>, <%= @facility.lng %>);
     map.setCenter(center, 18, G_HYBRID_MAP);
+    <% end -%>
     marker.setLatLng(center)
     map.addOverlay(marker);
-    <% end -%>
 
     GEvent.addListener(marker, "dragstart", function() {
       map.closeInfoWindow();
@@ -31,15 +31,11 @@ function initialize() {
   		document.getElementById('facility_lat').value = marker.getPoint().lat().toFixed(7);
   		document.getElementById('facility_lng').value = marker.getPoint().lng().toFixed(7);
     });
-
   }
 }
 
 function showAddress(address) {
   if (geocoder) {
-    if (address.strip() == ',') {
-      return false;
-    }
     geocoder.getLatLng(
       address + ", UK",
       function(point) {
@@ -52,6 +48,7 @@ function showAddress(address) {
           map.addOverlay(marker);
       		document.getElementById('facility_lat').value = marker.getPoint().lat().toFixed(7);
       		document.getElementById('facility_lng').value = marker.getPoint().lng().toFixed(7);
+
         }
       }
     );

@@ -70,4 +70,8 @@ module ParserUtils
     p_nums.size == 1 ? p_nums.first : p_nums
   end
 
+  def extract_lat_lng(text)
+    text.strip.scan(/\A(-?\d+\.\d+)\s*(?:\s|,)\s*(-?\d+\.\d+)\Z/).first
+  end
+
 end

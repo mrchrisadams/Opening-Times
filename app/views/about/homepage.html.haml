@@ -16,11 +16,5 @@
     = form_tag('/search', :name=>'f', :method => :get)
     = label_tag 'location', 'Where'
     = text_field_tag 'location', params[:location], :size => 14
-    = #label_tag 'group', 'What', :accesskey=>'4'
-    = #TODO fix this -> render :partial=>'partials/groups_select'
     = submit_tag 'Search', :name => nil, :class=>'button'
     </form>
-
-  %p
-    = link_to 'Locate me using Yahoo! FireEagle', :controller => 'search', :action => 'fireeagle'
-    = link_to image_tag("powered-by-fire-eagle.png", :style=>"vertical-align:middle"), :controller => :search, :action => :fireeagle

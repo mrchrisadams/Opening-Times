@@ -93,7 +93,7 @@ class FacilitiesController < ApplicationController
 
     def redirect_id_to_slug
       id = params[:id]
-      if id.is_integer? && f = Facility.find(id)
+      if params[:format].blank? && id.is_integer? && f = Facility.find(id)
         redirect_to(facility_slug_path(f.slug)) and return
       end
     end

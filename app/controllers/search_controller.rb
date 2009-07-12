@@ -19,7 +19,15 @@ class SearchController < ApplicationController
     @distance = params[:distance].to_i
     @distance = DISTANCE_DEFAULT unless DISTANCES.index(@distance)
 
-    @location = MultiGeocoder.geocode(params[:location])
+    @location = params[:location]
+    l_lat, l_lng = extract_lat_lng(@location)
+    logger.info "lat=#{l_lat}, lng=#{l_lng}"
+    if l_lat && l_lng
+      @location = Geokit::LatLng.new(l_lat, l_lng)
+    else
+      logger.info "geocoding"
+      @location = MultiGeocoder.geocode(@location + ", UK")
+    end
 
     @facilities = Facility.find(:all, :origin => @location, :within => @distance, :order => 'distance', :limit => NUM_SEARCH_RESULTS)
 

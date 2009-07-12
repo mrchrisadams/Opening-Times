@@ -18,17 +18,19 @@ function initialize() {
 
     // Create a base icon for all of our markers that specifies the
     // shadow, icon dimensions, etc.
+/*
     var baseIcon = new GIcon(G_DEFAULT_ICON);
     baseIcon.shadow = "http://www.google.com/mapfiles/shadow50.png";
     baseIcon.iconSize = new GSize(20, 34);
     baseIcon.shadowSize = new GSize(37, 34);
     baseIcon.iconAnchor = new GPoint(9, 34);
     baseIcon.infoWindowAnchor = new GPoint(9, 2);
+*/
 
     function createMarker(lat, lng, index, status, info) {
       point = new GLatLng(lat, lng);
 
-      var numberIcon = new GIcon(baseIcon);
+      var numberIcon = new GIcon(G_DEFAULT_ICON);
       numberIcon.image = "/images/markers/" + status + "/marker" + index + ".png";
 
       markerOptions = { icon:numberIcon };
@@ -44,10 +46,18 @@ function initialize() {
     map.addOverlay(createMarker(<%= "#{n.lat}, #{n.lng}, #{index+1}" %>, "<%= @status_manager.status(n).downcase %>", "<%= info %>"));
     <% end -%>
 
-    var marker = new GMarker(latlng);
-    map.addOverlay(marker);
+    var locationIcon = new GIcon(G_DEFAULT_ICON);
+    locationIcon.image = "http://maps.google.com/mapfiles/arrow.png";
+    locationIcon.shadow = "http://www.google.com/mapfiles/arrowshadow.png";
+    locationIcon.iconSize = new GSize(39, 34);
+    locationIcon.shadowSize = new GSize(39, 34);
+    locationIcon.iconAnchor = new GPoint(9, 34);
+
+    var locationMarker = new GMarker(latlng, { icon:locationIcon } )
+    map.addOverlay(locationMarker);
+
     <% info = "<strong>#{h(@facility.name)}</strong><br />#{comma_to_br(@facility.address)}, #{@facility.postcode}" -%>
-    marker.openInfoWindowHtml("<%= escape_javascript(info) %>");
+    locationMarker.openInfoWindowHtml("<%= escape_javascript(info) %>");
   }
 }
 /* ]]> */

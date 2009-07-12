@@ -4,6 +4,8 @@ require 'diff-display'
 
 class CompareController < ApplicationController
 
+  COMPARE_TMP_DIR = "/tmp/opening-times/facility-revisions"
+
   def index
 
     v1_id = params[:a].to_i
@@ -16,14 +18,14 @@ class CompareController < ApplicationController
     @v2 = FacilityRevision.find(v2_id)
 
 #    @html_diff = HTMLDiff.diff(@v1.value,@v2.value)
-    #TODO create tmp/revisions
+    `mkdir -p #{COMPARE_TMP_DIR}`
 
-    f1 = "/tmp/opening-times/facility-revisions/#{@v1.id}.xml"
+    f1 = "#{COMPARE_TMP_DIR}/#{@v1.id}.xml"
     File.open(f1,"w") do |f|
       f << @v1.xml
     end
 
-    f2 = "/tmp/opening-times/facility-revisions/#{@v2.id}.xml"
+    f2 = "#{COMPARE_TMP_DIR}/#{@v2.id}.xml"
     File.open(f2,"w") do |f|
       f << @v2.xml
     end

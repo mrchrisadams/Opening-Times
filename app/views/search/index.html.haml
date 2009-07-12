@@ -1,4 +1,4 @@
-%h1= @page_title = "Facilities near #{h(params[:location])}"
+%h1= @page_title = "Facilities near \"#{h(params[:location])}\""
 
 %div{:style=>"width:50%; float:left"}
   - if @time
@@ -21,12 +21,10 @@
         %td
           = link_to h(facility.full_name), facility
           .info
-            = fmt_time(facility.summary_normal_openings)
             - if @status_manager.on_holiday?(facility.id)
               %strong
-                %br
                 Bank holiday opening times, please check details
-            %br
+                %br
             = number_with_precision(facility.distance,:precision=>1) + '&nbsp;miles&nbsp;' + compass(@location.heading_to(facility))
 
   = # render :partial=>'increase_distance' if @facilities.size < 10 and @distance != SearchController::DISTANCES.last

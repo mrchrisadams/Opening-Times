@@ -1,4 +1,4 @@
-- @onload = "initialize(); sf();"
+- @onload = "initialize();" # sf();"
 - content_for :head do
   %script{ :type=>'text/javascript' }
     function sf(){ document.f.facility_name.focus(); }
@@ -27,7 +27,7 @@
         %th= label :facility, :postcode
         %td
           = facility_form.text_field :postcode, :size => 8
-          %button{ :onclick => "showAddress(document.getElementById('facility_address').value + ', ' + document.getElementById('facility_postcode').value); return false" } Update map location
+          %button{ :onclick => "showAddress(document.getElementById('facility_address').value + ', ' + document.getElementById('facility_postcode').value); return false;" } Update map location
       %tr
         %th Map
         %td= render 'map_edit'
@@ -84,4 +84,12 @@
   = submit_tag button_text, :disable_with => "Please wait...", :class=>'button tick'
   = submit_tag 'Cancel', :class=>'button cross'
   %br
+  %p
+    = label :facility, :comment, 'Revision comment', :class => "optional"
+    %small (optional - leave a comment to summarise your changes)
+    %br
+    = facility_form.text_field :comment, :class => "fullWidth"
+
+
+
   %br

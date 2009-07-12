@@ -14,11 +14,13 @@ Feature: Search facilities
     When I go to the homepage
     And I fill in "location" with "East Dulwich"
     And I press "Search"
-    Then I should see "Facilities near East Dulwich"
+    Then I should see "Facilities near"
+    And I should see "East Dulwich"
 
   Scenario: Search for facility by name
     Given I have created a Facility
     When I go to the homepage
     And I fill in "location" with "51.4, 0.0"
     And I press "Search"
-    Then I should see "Facilities near 51.4, 0.0"
+    Then I should see "Facilities near"
+    And I should see "51.4, 0.0"

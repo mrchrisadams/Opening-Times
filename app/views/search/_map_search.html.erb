@@ -3,6 +3,15 @@
 <script src="http://maps.google.com/maps?file=api&amp;v=2&amp;sensor=false&amp;key=<%= GOOGLE_MAPS_API_KEY %>" type="text/javascript"></script>
 <script type="text/javascript">
 /* <![CDATA[ */
+function fitMap( map, points ) {
+   var bounds = new GLatLngBounds();
+   for (var i=0; i< points.length; i++) {
+      bounds.extend(points[i]);
+   }
+   map.setZoom(map.getBoundsZoomLevel(bounds));
+   map.setCenter(bounds.getCenter());
+}
+
 function initialize() {
   if (GBrowserIsCompatible()) {
     var latlng = new GLatLng(<%= @location.lat %>,<%= @location.lng %>);
@@ -17,10 +26,17 @@ function initialize() {
     map.addControl(mapControl);
 
     var locationIcon = new GIcon(G_DEFAULT_ICON);
-    locationIcon.image = "/images/markers/arrow.png";
-    var locationMarker = new GMarker(latlng, { icon:locationIcon } )
+    locationIcon.image = "http://maps.google.com/mapfiles/arrow.png";
+    locationIcon.shadow = "http://www.google.com/mapfiles/arrowshadow.png";
+    locationIcon.iconSize = new GSize(39, 34);
+    locationIcon.shadowSize = new GSize(39, 34);
+    locationIcon.iconAnchor = new GPoint(9, 34);
 
-    map.addOverlay(new GMarker(latlng));
+    var zoomMarkers = new Array();
+    zoomMarkers[0] = latlng;
+
+    var locationMarker = new GMarker(latlng, { icon:locationIcon } )
+    map.addOverlay(locationMarker);
 
     function createMarker(lat, lng, index, status, info) {
       point = new GLatLng(lat, lng);
@@ -40,7 +56,13 @@ function initialize() {
     <% info = escape_javascript(link_to(h(n.name),n) + "<br />" + comma_to_br(n.address)) -%>
     var marker = createMarker(<%= "#{n.lat}, #{n.lng} , #{index+1}" %>, "<%= @status_manager.status(n).downcase %>", "<%= info %>");
     map.addOverlay(marker);
-    <% end -%>
+    <% if index < 5 %>
+    var point = new GLatLng(<%= "#{n.lat}, #{n.lng}" %>);
+    zoomMarkers[<%= index + 1 %>] = point;
+    <% end
+    end -%>
+
+    fitMap(map, zoomMarkers);
   }
 }
 /* ]]> */

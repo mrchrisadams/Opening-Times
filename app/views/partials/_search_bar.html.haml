@@ -5,6 +5,3 @@
     = #label_tag 'group', 'What'
     = #render :partial=>'partials/groups_select'
     = submit_tag 'Search', :name => nil, :class=>'button'
-    %small
-      /%span.rightBorder= link_to 'Advanced search', :controller => :search, :action => :advanced
-      = link_to 'Locate me with Fire Eagle', { :controller => :search, :action => :fireeagle }, :title=>"Use Yahoo! Fire Eagle"

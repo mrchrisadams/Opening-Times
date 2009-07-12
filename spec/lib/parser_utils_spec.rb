@@ -135,12 +135,27 @@ end
 
 describe "add_colon" do
   it "should add a colon within a time string" do
-    add_colon("900") == "9:00"
-    add_colon("0900") == "09:00"
-    add_colon("1900") == "19:00"
-    add_colon("9.00") == "9:00"
-    add_colon("19.00") == "19:00"
-    add_colon("9:00") == "9:00"
-    add_colon("19:00") == "19:00"
+    add_colon("900").should == "9:00"
+    add_colon("0900").should == "09:00"
+    add_colon("1900").should == "19:00"
+    add_colon("9.00").should == "9:00"
+    add_colon("19.00").should == "19:00"
+    add_colon("9:00").should == "9:00"
+    add_colon("19:00").should == "19:00"
+  end
+end
+
+describe "extract_lat_lng" do
+  it "should extract a latitude and longitude from a string" do
+    extract_lat_lng("51.1 0.4").should == ["51.1", "0.4"]
+    extract_lat_lng("51.1,0.4").should == ["51.1", "0.4"]
+    extract_lat_lng(" 51.1, 0.4 ").should == ["51.1", "0.4"]
+    extract_lat_lng(" 51.1 ,0.4 ").should == ["51.1", "0.4"]
+    extract_lat_lng(" 51.1 , 0.4 ").should == ["51.1", "0.4"]
+    extract_lat_lng("-51.1,0.4").should == ["-51.1", "0.4"]
+    extract_lat_lng("51.1,-0.4").should == ["51.1", "-0.4"]
+    extract_lat_lng("51").should == nil
+    extract_lat_lng("woo").should == nil
+    extract_lat_lng("East Dulwich").should == nil
   end
 end
