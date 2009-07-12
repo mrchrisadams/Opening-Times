@@ -1,6 +1,6 @@
 class CreateFacilityRevision < ActiveRecord::Migration
   def self.up
-    create_table(:facility_revisions, :options => 'ENGINE=InnoDB') do |t|
+    create_table(:facility_revisions) do |t|
       t.integer :facility_id
       t.text    :xml
       t.integer :length

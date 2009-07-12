@@ -1,6 +1,6 @@
 class CreateSlugTraps < ActiveRecord::Migration
   def self.up
-    create_table(:slug_traps, :options => 'ENGINE=InnoDB') do |t|
+    create_table(:slug_traps) do |t|
       t.string :slug,         :limit=>100
       t.string :redirect_slug,:limit=>100
       t.string :type,         :limit=>20
