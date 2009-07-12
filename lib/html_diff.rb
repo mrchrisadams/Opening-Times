@@ -1,7 +1,7 @@
 # heavily based off difflib.py - see that file for documentation
 # ported from Python by Bill Atkins
 
-# This does not support all features offered by difflib; it 
+# This does not support all features offered by difflib; it
 # implements only the subset of features necessary
 # to support a Ruby version of HTML Differ.  You're welcome to finish this off.
 
@@ -16,11 +16,11 @@
 # * main change:
 # ** get the tag soup away
 #    the tag soup problem was first reported with <p> tags, but it appeared also with
-#    <li>, <ul> etc... tags 
+#    <li>, <ul> etc... tags
 #   this version should mostly fix these problems
 # ** added a Builder class to manage the creation of the final htmldiff
 # * minor changes:
-# ** use symbols instead of string to represent opcodes 
+# ** use symbols instead of string to represent opcodes
 # ** small fix to html2list
 #
 
@@ -76,7 +76,7 @@ module Diff
       mode = :char
       cur  = ''
       out  = []
-      
+
       explode(x).each do |char|
         case mode
         when :tag
@@ -100,9 +100,9 @@ module Diff
           end
         end
       end
-      
+
       out.push(cur)
-      out.delete '' 
+      out.delete ''
       out.map {|elt| newline?(elt) ? elt : elt.chomp}
     end
   end
@@ -111,7 +111,7 @@ module Diff
     include Utilities
 
     def initialize(a = [''], b = [''], isjunk = nil, byline = false)
-      a, b = explode(a), explode(b) unless byline 
+      a, b = explode(a), explode(b) unless byline
       @isjunk = isjunk || Proc.new {}
       set_sequences a, b
     end
@@ -137,7 +137,7 @@ module Diff
       @b2j     = {}
       pophash  = {}
       junkdict = {}
-      
+
       @b.each_with_index do |elt, idx|
         if @b2j.has_key? elt
           indices = @b2j[elt]
@@ -151,9 +151,9 @@ module Diff
           @b2j[elt] = [idx]
         end
       end
-        
+
       pophash.each_key { |elt| @b2j.delete elt }
-      
+
       unless @isjunk.nil?
         [pophash, @b2j].each do |d|
           d.each_key do |elt|
@@ -164,22 +164,22 @@ module Diff
           end
         end
       end
-      
+
       @isbjunk    = junkdict.method(:has_key?)
       @isbpopular = junkdict.method(:has_key?)
     end
-    
+
     def find_longest_match(a_low, a_high, b_low, b_high)
       besti, bestj, bestsize = a_low, b_low, 0
-      
+
       j2len = {}
-      
+
       (a_low..a_high).step do |i|
         newj2len = {}
         (@b2j[@a[i]] || []).each do |j|
           next  if j < b_low
           break if j >= b_high
-          
+
           k = newj2len[j] = (j2len[j - 1] || 0) + 1
           if k > bestsize
             besti, bestj, bestsize = i - k + 1, j - k + 1, k
@@ -187,38 +187,38 @@ module Diff
         end
         j2len = newj2len
       end
-      
+
       while besti > a_low and bestj > b_low and not @isbjunk.call(@b[bestj - 1]) and @a[besti - 1] == @b[bestj - 1]
         besti, bestj, bestsize = besti - 1, bestj - 1, bestsize + 1
       end
-      
+
       while besti + bestsize < a_high and bestj + bestsize < b_high and
           not @isbjunk.call(@b[bestj + bestsize]) and
           @a[besti + bestsize] == @b[bestj + bestsize]
         bestsize += 1
       end
-      
+
       while besti > a_low and bestj > b_low and @isbjunk.call(@b[bestj - 1]) and @a[besti - 1] == @b[bestj - 1]
         besti, bestj, bestsize = besti - 1, bestj - 1, bestsize + 1
       end
-      
+
       while besti + bestsize < a_high and bestj + bestsize < b_high and @isbjunk.call(@b[bestj+bestsize]) and
           @a[besti+bestsize] == @b[bestj+bestsize]
         bestsize += 1
       end
-      
+
       [besti, bestj, bestsize]
     end
-    
+
     def get_matching_blocks
       return @matching_blocks unless @matching_blocks.nil_or_empty?
-      
+
       @matching_blocks = []
       size_of_a, size_of_b = @a.size, @b.size
       match_block_helper(0, size_of_a, 0, size_of_b, @matching_blocks)
       @matching_blocks.push [size_of_a, size_of_b, 0]
     end
-    
+
     def match_block_helper(a_low, a_high, b_low, b_high, answer)
       i, j, k = x = find_longest_match(a_low, a_high, b_low, b_high)
       unless k.zero?
@@ -229,7 +229,7 @@ module Diff
         end
       end
     end
-    
+
     def get_opcodes
       return @opcodes unless @opcodes.nil_or_empty?
 
@@ -240,7 +240,7 @@ module Diff
                 :replace
               elsif i < ai
                 :delete
-              elsif j < bj 
+              elsif j < bj
                 :insert
               end
 
@@ -258,7 +258,7 @@ module Diff
         tag, i1, i2, j1, j2 = codes.first
         codes[0] = tag, [i1, i2 - n].max, i2, [j1, j2-n].max, j2
       end
-      
+
       if codes.last.first == :equal
         tag, i1, i2, j1, j2 = codes.last
         codes[-1] = tag, i1, min(i2, i1+n), j1, min(j2, j1+n)
@@ -292,7 +292,7 @@ module Diff
           @fullbcount[elt] = (@fullbcount[elt] || 0) + 1
         end
       end
-      
+
       avail   = {}
       matches = 0
       @a.each do |elt|
@@ -333,7 +333,7 @@ module Diff
           result.push [sequence_matcher.ratio, possibility]
         end
       end
-      
+
       unless result.nil_or_empty?
         result.sort
         result.reverse!
@@ -377,30 +377,30 @@ module HTMLDiff
         delete('diffmod')
         insert('diffmod')
       end
-      
+
       def insert(tagclass = 'diffins')
         op_helper('ins', tagclass, @b[@opcode[3]...@opcode[4]])
       end
-      
+
       def delete(tagclass = 'diffdel')
          op_helper('del', tagclass, @a[@opcode[1]...@opcode[2]])
       end
-      
+
       def equal
         @content += @b[@opcode[3]...@opcode[4]]
       end
-    
+
       # Using this as op_helper would be equivalent to the first version of diff.rb by Bill Atkins
       def op_helper_simple(tagname, tagclass, to_add)
         @content << %(<#{tagname} class="#{tagclass}">) << to_add << %(</#{tagname}>)
       end
-      
+
       # Tries to put <p> tags or newline chars before the opening diff tags (<ins> or <del>)
       # or after the ending diff tags.
       # As a result the diff tags should be the "most inside" possible.
       def op_helper(tagname, tagclass, to_add)
         predicate_methods = [:tab?, :newline?, :close_tag?, :open_tag?]
-        content_to_skip   = Proc.new do |item| 
+        content_to_skip   = Proc.new do |item|
           predicate_methods.any? {|predicate| HTMLDiff.send(predicate, item)}
         end
 
@@ -410,8 +410,8 @@ module HTMLDiff
           loop do
             @content << to_add and break if to_add.all? {|element| content_to_skip.call element}
             # We are outside of a diff tag
-            @content << to_add.shift while content_to_skip.call to_add.first 
-            @content << %(<#{tagname} class="#{tagclass}">) 
+            @content << to_add.shift while content_to_skip.call to_add.first
+            @content << %(<#{tagname} class="#{tagclass}">)
             # We are inside a diff tag
             @content << to_add.shift until content_to_skip.call to_add.first
             @content << %(</#{tagname}>)
@@ -432,7 +432,7 @@ module HTMLDiff
         content[-2] == %(<#{tagname} class="#{tagclass}">) and content.last == %(</#{tagname}>)
       end
   end
-  
+
   class << self
     include Diff::Utilities
 
@@ -444,15 +444,15 @@ module HTMLDiff
 
       sequence_matcher.get_opcodes.each {|opcode| out.do_op(opcode)}
 
-      out.result 
+      out.result
     end
-  end 
+  end
 end
 
-if __FILE__ == $0                                                               
-  if ARGV.size == 2                                                             
-    puts HTMLDiff.diff(IO.read(ARGV.pop), IO.read(ARGV.pop))                    
-  else                                                                          
-    puts "Usage: html_diff file1 file2"                                         
-  end                                                                           
-end 
+if __FILE__ == $0
+  if ARGV.size == 2
+    puts HTMLDiff.diff(IO.read(ARGV.pop), IO.read(ARGV.pop))
+  else
+    puts "Usage: html_diff file1 file2"
+  end
+end
