@@ -1,11 +1,19 @@
 !!!XML
-%revisions
-  %facility_id= @facility.id
+%feed{ :xmlns => "http://www.w3.org/2005/Atom" }
+  %id= facility_url(@facility, :format => "xml")
+  %link{ :href => facility_url(@facility, :format => "xml"), :rel => "self" }
+  %title{ :type => "text" }= "Facility ID #{@facility.id} - #{h(@facility.full_name)} revision feed"
+  %updated= @facility.updated_at.iso8601
+  %link= facility_url(@facility)
+
+
   - @revisions.each do |r|
-    %revision
-      %id= r.id
-      %revision= r.revision
-      %slug= r.slug
-      %created_at= r.created_at
-      %created_by= r.created_by
-      %comment=h r.comment
+    %entry
+      %id= facility_url(@facility)
+      %title{ :type => "text" }= "User: #{r.created_by}, length: #{r.length}"
+      %link{ :rel => "alternate", :href => facility_revision_url(@facility, r) }
+      %author
+        %name= "User ID: #{h(r.created_by)}"
+        %uri= user_url(r.created_by)
+      %updated= r.created_at.iso8601
+      %summary=h r.comment

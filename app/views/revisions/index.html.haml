@@ -1,4 +1,7 @@
 - @no_index = true
+- content_for :head do
+  %link{ :rel => "alternate", :type => "application/atom+xml", :href => facility_revisions_path(@facility, :format => "xml") }
+
 %h1= @page_title = "Revision History  - Facility " + @facility.id.to_s
 
 %p

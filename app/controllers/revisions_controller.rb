@@ -8,6 +8,7 @@ class RevisionsController < ApplicationController
     respond_to do |format|
       format.html
       format.xml
+      format.rss { redirect_to :format => 'xml' }
     end
   end
 

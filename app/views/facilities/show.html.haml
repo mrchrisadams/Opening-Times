@@ -1,6 +1,6 @@
 - content_for :head do
+  %link{ :rel => "alternate", :type => "application/atom+xml", :href => facility_revisions_path(@facility, :format => "xml") }
   %meta{ :name => "geo.position", :content => "#{@facility.lat};#{@facility.lng}" }
-
 
 - @page_title = @facility.full_name
 - @page_desc = "Opening times and map for #{@facility.full_name}, #{@facility.address}"
@@ -78,6 +78,8 @@
               Geo:
               %span.latitude= @facility.lat
               %span.longitude= @facility.lng
+          %li
+            = link_to 'RSS', facility_revisions_path(@facility, :format => "xml"), :rel => "alternate", :type => "application/atom+xml"
 
           %li
             = link_to 'Edit', edit_facility_path(@facility.id)
