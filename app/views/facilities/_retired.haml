@@ -1,0 +1,24 @@
+- content_for :head do
+  %link{ :rel => "alternate", :type => "application/atom+xml", :href => facility_revisions_path(@facility, :format => "xml") }
+  %meta{ :name => "geo.position", :content => "#{@facility.lat};#{@facility.lng}" }
+
+- @page_title = @facility.full_name
+- @page_desc = "Opening times and map for #{@facility.full_name}, #{@facility.address}"
+- @no_index = true
+
+%h1= h @facility.full_name
+
+%p
+  Sorry this facility was removed from Opening Times on
+  = @facility.retired_at.strftime("%A %d %B %Y at %I:%M %p.")
+
+%p
+  The reason given for removal was
+  = "\"#{h(@facility.comment)}\"."
+
+%p
+  If this is incorrect you can still
+  = link_to('edit this facility', edit_facility_path(@facility))
+  which will make it live again.
+
+= render 'facilities/infobox'

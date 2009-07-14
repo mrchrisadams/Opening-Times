@@ -6,5 +6,8 @@ class UpdateFacilitiesForRevisions < ActiveRecord::Migration
   end
 
   def self.down
+    remove_column :facilities, :comment
+    rename_column :facilities, :revision, :version
+    change_column_default(:facilities, :revision, nil)
   end
 end

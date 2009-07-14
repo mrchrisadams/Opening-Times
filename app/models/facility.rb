@@ -11,6 +11,8 @@ class Facility < ActiveRecord::Base
   belongs_to :holiday_set
     attr_accessible :name, :location, :description, :lat, :lng, :address, :postcode, :phone, :email, :url, :normal_openings_attributes, :comment
 
+  named_scope :retired, :conditions => { :retired_at => nil }
+
   accepts_nested_attributes_for :normal_openings, :allow_destroy => true, :reject_if => proc { |attrs| attrs['opens_at'].blank? && attrs['closes_at'].blank? && attrs['comment'].blank? }
 
   def before_validation
@@ -25,10 +27,13 @@ class Facility < ActiveRecord::Base
     self.revision += 1
   end
 
-  validates_presence_of :name, :location, :slug, :address, :revision, :created_by, :updated_by
+  validates_presence_of :name, :location, :slug, :address, :revision
+  validates_presence_of :created_by, :updated_by
+  validates_presence_of :comment, :if => :retired?
   validates_format_of :postcode, :with => POSTCODE_REGX
   validates_format_of :email, :with => EMAIL_REGX, :allow_blank => true
   validates_uniqueness_of :slug
+
 
   #TODO this should be more clever clogs
   unless RAILS_ENV == 'development'
@@ -46,7 +51,27 @@ class Facility < ActiveRecord::Base
   end
 
   def self.find_by_slug(slug)
-    Facility.find(:first,:conditions=>["slug=?",slug.slugify])
+    find(:first, :conditions => ["slug=?",slug.slugify])
+  end
+
+  def retired?
+    !retired_at.nil?
+  end
+
+  def retire(reason)
+    unless retired?
+      self.comment = reason
+      self.retired_at = Time.now
+      save
+    end
+  end
+
+  def back_for_another_mission(reason)
+    if retired?
+      self.comment = reason
+      self.retired_at = nil
+      save
+    end
   end
 
   # Virtual attributes

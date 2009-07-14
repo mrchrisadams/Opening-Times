@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20090630194919) do
+ActiveRecord::Schema.define(:version => 20090713212833) do
 
   create_table "facilities", :force => true do |t|
     t.string   "slug",                    :limit => 200
@@ -31,6 +31,7 @@ ActiveRecord::Schema.define(:version => 20090630194919) do
     t.integer  "holiday_set_id"
     t.string   "summary_normal_openings"
     t.string   "comment"
+    t.datetime "retired_at"
   end
 
   add_index "facilities", ["slug"], :name => "index_facilities_on_slug", :unique => true

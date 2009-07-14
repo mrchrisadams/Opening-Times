@@ -6,7 +6,7 @@ ActionController::Routing::Routes.draw do |map|
 #  map.resources :facilities, :as => 'f'
 
   map.resources :facilities, :as => 'f' do |services|
-    services.resources :revisions
+    services.resources :revisions, :path_names => { :delete => 'retire' }
     services.resources :facility_slug_traps, :as => :slugs
   end
 

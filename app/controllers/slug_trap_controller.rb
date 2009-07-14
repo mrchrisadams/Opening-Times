@@ -4,7 +4,9 @@ class SlugTrapController < ApplicationController
     #TODO Find slug and find ID from that
     @facility = Facility.find_by_slug(params[:slug])
 
-    return redirect_slug_or_404(params[:id]) unless @facility
+    return redirect_slug_or_404(params[:slug]) unless @facility
+
+    render 'facilities/retired' if @facility.retired?
 
     @status_manager = StatusManager.new
     @status = @status_manager.status(@facility)

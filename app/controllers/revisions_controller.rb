@@ -18,4 +18,9 @@ class RevisionsController < ApplicationController
     render :xml => @revision
   end
 
+  def delete
+    render "hello"
+  end
+
+
 end

@@ -1,0 +1,24 @@
+.infoBox
+  %ul
+    %li
+      Facility ID:
+      = @facility.id
+    %li
+      Last updated:
+      = @facility.updated_at
+    %li
+      Updated by:
+      = link_to @facility.updated_by, user_path(@facility.updated_by)
+    %li
+      .geo
+        Geo:
+        %span.latitude= @facility.lat
+        %span.longitude= @facility.lng
+  %hr
+  %ul
+    %li
+      = link_to 'Edit', edit_facility_path(@facility)
+      = #link_to 'Delete', destroy_facility_path(@facility)
+    %li
+      = link_to "Current revision #{@facility.revision}", facility_revisions_path(@facility)
+      = link_to 'RSS', facility_revisions_path(@facility, :format => "xml"), :rel => "alternate", :type => "application/atom+xml"
