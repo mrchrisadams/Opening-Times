@@ -1,5 +1,3 @@
-Given /^I have added several facilities to the database$/ do
-  3.times do
-    Factory.create(:facility)
-  end
+Given /^I have added a SlugTrapFacility for slug "([^\"]*)" to redirect to "([^\"]*)"$/ do |slug, redirect|
+  SlugTrapFacility.claim(slug,redirect)
 end
