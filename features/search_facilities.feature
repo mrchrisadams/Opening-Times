@@ -10,12 +10,13 @@ Feature: Search facilities
     Then I should see "Sorry, no results found"
 
   Scenario: Search for facility by name
-    Given I have created a Facility in East Dulwich
+    Given I have a facility with the name "Guys and Dolls Hairdressers" and the location "London, East Dulwich"
     When I go to the homepage
     And I fill in "location" with "East Dulwich"
     And I press "Search"
     Then I should see "Facilities near"
     And I should see "East Dulwich"
+    And I should see "Guys and Dolls Hairdressers"
 
   Scenario: Search for facility by name
     Given I have created a Facility

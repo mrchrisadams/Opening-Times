@@ -15,7 +15,7 @@ module NavigationHelpers
     when /^the facility page for ID (\d+)$/i
       facility_path(:id => $1)
     when /^the facility page for slug "([^\"]*)"$/i
-      facility_slug_path($1)
+      facility_slug_path(:slug => $1)
     when /^the create a new facility page$/i
       new_facility_path
     when /^its edit_facility page$/i

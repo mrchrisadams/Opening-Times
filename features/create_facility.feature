@@ -3,7 +3,7 @@
     Then I should see "Login"
 
   Scenario: Create a new facility
-    Given I have logged in as a valid user
+    Given I have logged in with a valid email and password
 
     When I go to the create a new facility page
     Then I should see "Add a facility"

@@ -1,28 +1,9 @@
 class FacilitiesController < ApplicationController
   before_filter :require_user, :except => [:index, :show]
   before_filter :redirect_id_to_slug, :only => [:show]
-#  before_filter :redirect_slug_to_id, :except => [:index, :show]
 
   def index
     @facilities = Facility.find(:all, :order => 'updated_at DESC', :limit => 100)
-  end
-
-  def show
-    #TODO Find slug and find ID from that
-    @facility = Facility.find_by_slug(params[:id])
-    @facility = Facility.find(params[:id])
-
-    return redirect_slug_or_404(params[:id]) unless @facility
-
-    @status_manager = StatusManager.new
-    @status = @status_manager.status(@facility)
-    respond_to do |format|
-      format.html do
-        @nearby = Facility.find(:all, :conditions => ["id <> ?",@facility.id], :origin => @facility, :within => 20, :order => 'distance', :limit => 20)
-      end
-      format.xml  { render :xml => @facility }
-      format.json  { render :json => @facility }
-    end
   end
 
   # GET /facilities/new
@@ -98,13 +79,6 @@ class FacilitiesController < ApplicationController
       end
     end
 
-#    def redirect_slug_to_id
-#      id = params[:id]
-#      if id && !id.is_integer? && f = Facility.find_by_slug(id)
-#        redirect_to(:action => params[:action], :id => f.id) and return
-#      end
-#    end
-
     def build_spare_openings
       if @facility.normal_openings.empty?
         for day in Opening::DAYNAMES
@@ -115,7 +89,6 @@ class FacilitiesController < ApplicationController
         next_day = (@facility.normal_openings.last.wday + 1) % 7
         @facility.normal_openings.build(:wday=> next_day)
       end
-
 #      facility.holiday_openings.build(:closed=>true) if facility.holiday_openings.size.zero?
 #      if facility.special_openings.size.zero?
 #        3.times { facility.special_openings.build }
