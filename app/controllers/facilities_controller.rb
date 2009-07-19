@@ -1,5 +1,6 @@
 class FacilitiesController < ApplicationController
   before_filter :require_user, :except => [:index, :show]
+  before_filter :check_user, :except => [:index, :show]
   before_filter :redirect_id_to_slug, :only => [:show]
 
   def index
@@ -14,6 +15,7 @@ class FacilitiesController < ApplicationController
       revision = FacilityRevision.find(params[:r])
       @facility.from_xml(revision.xml)
       @facility.address.gsub!(', ',"\n")
+      @facility.comment = ""
     end
     build_spare_openings
   end
@@ -29,6 +31,7 @@ class FacilitiesController < ApplicationController
     end
 
     @facility.address.gsub!(', ',"\n")
+    @facility.comment = ""
 
     build_spare_openings
   end

@@ -8,7 +8,6 @@ class ApplicationController < ActionController::Base
 
   protect_from_forgery # See ActionController::RequestForgeryProtection for details
 
-
   private
     def current_user_session
       return @current_user_session if defined?(@current_user_session)
@@ -40,6 +39,14 @@ class ApplicationController < ActionController::Base
 
     def store_location
       session[:return_to] = request.request_uri
+    end
+
+    def check_user
+      require_user
+      unless current_user.within_action_limit?
+        render 'users/_reached_limit'
+        return
+      end
     end
 
     def redirect_back_or_default(default)
