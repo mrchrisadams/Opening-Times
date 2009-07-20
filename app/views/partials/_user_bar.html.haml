@@ -1,0 +1,16 @@
+#userBar
+  - if current_user
+    Logged in as
+    =h current_user.email
+    \|
+    /
+      Actions today
+      = current_user.action_count
+      \|
+    = link_to 'Edit profile', edit_user_path(:current)
+    \|
+    = link_to 'Logout', logout_path
+  - else
+    = link_to 'Register', new_user_path
+    \|
+    = link_to 'Login', login_path

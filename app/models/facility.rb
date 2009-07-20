@@ -8,8 +8,10 @@ class Facility < ActiveRecord::Base
 
   has_many :normal_openings,  :dependent => :delete_all
   has_many :facility_revisions
+  belongs_to :user
   belongs_to :holiday_set
-    attr_accessible :name, :location, :description, :lat, :lng, :address, :postcode, :phone, :email, :url, :normal_openings_attributes, :comment
+
+  attr_accessible :name, :location, :description, :lat, :lng, :address, :postcode, :phone, :email, :url, :normal_openings_attributes, :comment
 
   named_scope :retired, :conditions => { :retired_at => nil }
 
@@ -23,23 +25,17 @@ class Facility < ActiveRecord::Base
       self.attributes[x].strip! if attributes[x]
     end
     self.postcode.upcase! if postcode
-    self.address.gsub!(/\s*,?\s*[\n\r]{2}/,", ") if address # turn line breaks in to comma separated
+    self.address.gsub!(/\s*,?\s*[\n\r]{1,2}/,", ") if address # turn line breaks in to comma separated address
     self.revision += 1
   end
 
-  validates_presence_of :name, :location, :slug, :address, :revision
-  validates_presence_of :created_by, :updated_by
-  validates_presence_of :comment, :if => :retired?
+  validates_presence_of :name, :location, :slug, :address, :revision, :user_id, :updated_from_ip
   validates_format_of :postcode, :with => POSTCODE_REGX
   validates_format_of :email, :with => EMAIL_REGX, :allow_blank => true
   validates_uniqueness_of :slug
 
-
-  #TODO this should be more clever clogs
-  unless RAILS_ENV == 'development'
-    validates_numericality_of :lat, :greater_than_or_equal_to => -90, :less_than_or_equal_to => 90
-    validates_numericality_of :lng, :greater_than_or_equal_to => -180, :less_than_or_equal_to => 180
-  end
+  validates_numericality_of :lat, :greater_than_or_equal_to => -90, :less_than_or_equal_to => 90
+  validates_numericality_of :lng, :greater_than_or_equal_to => -180, :less_than_or_equal_to => 180
 
   def validate
     dupe = Facility.find_by_slug(slug)

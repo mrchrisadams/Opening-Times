@@ -27,7 +27,7 @@ class SlugTrapController < ApplicationController
     if trap
       redirect_to(facility_slug_path(:slug => trap.redirect_slug), :status=>301)
     else
-      render :template => "facilities/not_found", :status => 404
+      render :file => "#{RAILS_ROOT}/public/404.html", :status => 404
     end
   end
 

@@ -3,10 +3,6 @@ require File.dirname(__FILE__) + '/../spec_helper'
 describe NormalOpening do
   before(:each) do
     NormalOpening.delete_all
-#    @service = mock(Service)
-#    @service.stub!(:id).and_return(:id)
-#    @service.stub!(:normal_openings).and_return("woo")
-#    @opening = NormalOpening.new(:service=>@service, :opens_at=>"9AM", :closes_at=>"5PM", :week_day=>"Mon")
     @opening = Factory.build(:normal_opening)
   end
 

@@ -23,11 +23,7 @@ function initialize() {
     marker.setLatLng(center)
     map.addOverlay(marker);
 
-    GEvent.addListener(marker, "dragstart", function() {
-      map.closeInfoWindow();
-    });
-
-    GEvent.addListener(marker, "dragend", function() {
+    GEvent.addListener(marker, "drag", function() {
   		document.getElementById('facility_lat').value = marker.getPoint().lat().toFixed(7);
   		document.getElementById('facility_lng').value = marker.getPoint().lng().toFixed(7);
     });

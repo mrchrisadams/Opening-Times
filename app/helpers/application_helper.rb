@@ -5,7 +5,7 @@ module ApplicationHelper
     text.gsub(',','<br />')
   end
 
-  def comma_to_new_line(text)
+  def commas_to_line_breaks(text)
     text.gsub(',',"\n") if text
   end
 

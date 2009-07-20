@@ -1,5 +1,6 @@
 class FacilitiesController < ApplicationController
   before_filter :require_user, :except => [:index, :show]
+  before_filter :check_user, :except => [:index, :show]
   before_filter :redirect_id_to_slug, :only => [:show]
 
   def index
@@ -13,7 +14,7 @@ class FacilitiesController < ApplicationController
     if params[:r]
       revision = FacilityRevision.find(params[:r])
       @facility.from_xml(revision.xml)
-      @facility.address.gsub!(', ',"\n")
+      @facility.comment = ""
     end
     build_spare_openings
   end
@@ -27,8 +28,7 @@ class FacilitiesController < ApplicationController
       @facility.normal_openings = []
       @facility.from_xml(revision.xml)
     end
-
-    @facility.address.gsub!(', ',"\n")
+    @facility.comment = ""
 
     build_spare_openings
   end
@@ -36,7 +36,7 @@ class FacilitiesController < ApplicationController
   # POST /facilities
   def create
     @facility = Facility.new(params[:facility])
-    @facility.created_by = @facility.updated_by = current_user.id
+    update_user_info
 
     if @facility.save
       flash[:notice] = 'Facility was successfully created.'
@@ -50,7 +50,7 @@ class FacilitiesController < ApplicationController
   # PUT /facilities/1
   def update
     @facility = Facility.find(params[:id])
-    @facility.updated_by = current_user.id
+    update_user_info
 
     if @facility.update_attributes(params[:facility])
       flash[:notice] = 'Facility was successfully updated.'
@@ -89,13 +89,17 @@ class FacilitiesController < ApplicationController
         next_day = (@facility.normal_openings.last.wday + 1) % 7
         @facility.normal_openings.build(:wday=> next_day)
       end
-
 #      facility.holiday_openings.build(:closed=>true) if facility.holiday_openings.size.zero?
 #      if facility.special_openings.size.zero?
 #        3.times { facility.special_openings.build }
 #      else
 #        facility.special_openings.build
 #      end
+    end
+
+    def update_user_info
+      @facility.user = current_user
+      @facility.updated_from_ip = current_user.current_login_ip
     end
 
 end

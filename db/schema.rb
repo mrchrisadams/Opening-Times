@@ -12,7 +12,9 @@
 ActiveRecord::Schema.define(:version => 20090713212833) do
 
   create_table "facilities", :force => true do |t|
-    t.string   "slug",                    :limit => 200
+    t.integer  "holiday_set_id"
+    t.integer  "user_id"
+    t.string   "slug",                    :limit => 100
     t.string   "name",                    :limit => 100
     t.string   "location",                :limit => 100
     t.string   "address"
@@ -21,19 +23,18 @@ ActiveRecord::Schema.define(:version => 20090713212833) do
     t.string   "email"
     t.string   "url"
     t.text     "description"
-    t.string   "created_by"
-    t.string   "updated_by"
-    t.integer  "revision",                                                               :default => 0
+    t.string   "summary_normal_openings"
     t.decimal  "lat",                                    :precision => 15, :scale => 10
     t.decimal  "lng",                                    :precision => 15, :scale => 10
+    t.integer  "revision",                                                               :default => 0
+    t.string   "comment",                 :limit => 100
+    t.string   "updated_from_ip"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.integer  "holiday_set_id"
-    t.string   "summary_normal_openings"
-    t.string   "comment"
     t.datetime "retired_at"
   end
 
+  add_index "facilities", ["lat", "lng"], :name => "index_facilities_on_lat_and_lng"
   add_index "facilities", ["slug"], :name => "index_facilities_on_slug", :unique => true
 
   create_table "facility_revisions", :force => true do |t|
@@ -42,12 +43,15 @@ ActiveRecord::Schema.define(:version => 20090713212833) do
     t.integer  "length"
     t.string   "slug",        :limit => 100
     t.string   "comment",     :limit => 100
-    t.integer  "revision"
-    t.string   "created_by"
+    t.integer  "revision",                   :default => 0
+    t.integer  "user_id"
+    t.string   "ip"
     t.datetime "created_at"
   end
 
   add_index "facility_revisions", ["facility_id"], :name => "index_facility_revisions_on_facility_id"
+  add_index "facility_revisions", ["ip"], :name => "index_facility_revisions_on_ip"
+  add_index "facility_revisions", ["user_id"], :name => "index_facility_revisions_on_user_id"
 
   create_table "holiday_events", :force => true do |t|
     t.integer  "holiday_set_id"
@@ -58,7 +62,7 @@ ActiveRecord::Schema.define(:version => 20090713212833) do
   end
 
   create_table "holiday_sets", :force => true do |t|
-    t.string   "name",       :limit => 100
+    t.string   "name",       :limit => 50
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -104,5 +108,7 @@ ActiveRecord::Schema.define(:version => 20090713212833) do
     t.datetime "created_at"
     t.datetime "updated_at"
   end
+
+  add_index "users", ["email"], :name => "index_users_on_email", :unique => true
 
 end

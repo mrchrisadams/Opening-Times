@@ -10,10 +10,18 @@ module NavigationHelpers
 
     when /the homepage/
       '/'
+    when /^its facility page$/i
+      facility_path(@facility)
+    when /^the facility page for ID (\d+)$/i
+      facility_path(:id => $1)
+    when /^the facility page for slug "([^\"]*)"$/i
+      facility_slug_path(:slug => $1)
     when /^the create a new facility page$/i
-      new_facility_path($1)
-    when /^the facilities page for "([^\"]*)"$/i
-      facility_path(:id=>$1)
+      new_facility_path
+    when /^its edit_facility page$/i
+      edit_facility_path(@facility)
+    when /^the edit_facility page for ID (\d+)$/i
+      edit_facility_path(:id => $1)
     when /^the advanced search page$/i
       url_for(:controller => 'search', :action => 'advanced')
 
