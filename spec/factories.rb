@@ -3,10 +3,10 @@ Factory.define :facility do |f|
   f.location "London, East Dulwich"
   f.address "125 Lordship Lane, East Dulwich, London"
   f.postcode "SE22 8HU"
-  f.lat "51.45692340789993"
-  f.lng "-0.0755685567855835"
-  f.created_by "factory"
-  f.updated_by "factory"
+  f.lat 51.4569234
+  f.lng -0.0755685
+  f.user_id 0
+  f.updated_from_ip "0.0.0.0"
 end
 
 Factory.define :opening do |f|

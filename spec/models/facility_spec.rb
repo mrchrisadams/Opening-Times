@@ -6,7 +6,7 @@ describe Facility do
 
   before(:each) do
     @facility = Factory.build(:facility)
-    @facility.created_by = @facility.updated_by = "test"
+    @facility.user_id = 0
   end
 
   it "should accept all valid params" do
@@ -75,7 +75,8 @@ describe Facility do
   it "should be possible to create a Facility using from_xml" do
     f = Facility.new
     f.from_xml(File.open(SAMPLE_XML).read)
-    f.created_by = f.updated_by = "test"
+    f.user_id = 0
+    f.updated_from_ip = "0.0.0.0"
     f.should be_valid
     f.save!
     f.normal_openings.count.should == 7

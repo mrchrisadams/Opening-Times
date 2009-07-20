@@ -14,7 +14,6 @@ class FacilitiesController < ApplicationController
     if params[:r]
       revision = FacilityRevision.find(params[:r])
       @facility.from_xml(revision.xml)
-      @facility.address.gsub!(', ',"\n")
       @facility.comment = ""
     end
     build_spare_openings
@@ -29,8 +28,6 @@ class FacilitiesController < ApplicationController
       @facility.normal_openings = []
       @facility.from_xml(revision.xml)
     end
-
-    @facility.address.gsub!(', ',"\n")
     @facility.comment = ""
 
     build_spare_openings
@@ -39,7 +36,7 @@ class FacilitiesController < ApplicationController
   # POST /facilities
   def create
     @facility = Facility.new(params[:facility])
-    @facility.created_by = @facility.updated_by = current_user.id
+    update_user_info
 
     if @facility.save
       flash[:notice] = 'Facility was successfully created.'
@@ -53,7 +50,7 @@ class FacilitiesController < ApplicationController
   # PUT /facilities/1
   def update
     @facility = Facility.find(params[:id])
-    @facility.updated_by = current_user.id
+    update_user_info
 
     if @facility.update_attributes(params[:facility])
       flash[:notice] = 'Facility was successfully updated.'
@@ -98,6 +95,11 @@ class FacilitiesController < ApplicationController
 #      else
 #        facility.special_openings.build
 #      end
+    end
+
+    def update_user_info
+      @facility.user = current_user
+      @facility.updated_from_ip = current_user.current_login_ip
     end
 
 end

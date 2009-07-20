@@ -18,5 +18,5 @@
       %td= link_to h(revision.facility.full_name), facility_revision_path(revision.facility_id, revision.id)
       %td.num= revision.revision
       %td.num= number_with_delimiter(revision.length)
-      %td= revision.created_by
+      %td= revision.user_id
       %td= time_ago_in_words(revision.created_at) + " ago"

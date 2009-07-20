@@ -22,8 +22,9 @@
         = radio_button_tag :a, r.id
         = radio_button_tag :b, r.id
         = link_to r.created_at.strftime("%I:%M, %d %B %Y"), facility_revision_path(@facility.id, r), :title => time_ago_in_words(r.created_at) + " ago"
-        = link_to h(r.created_by), user_path(r.created_by), :title => "see other contributions from this user"
+        = link_to r.user_id, r.user, :title => "see other contributions from this user"
         = "(" + number_with_delimiter(r.length) + " chars)"
+        = r.ip
         - unless r.comment.blank?
           = "(" + h(r.comment) + ")"
         = link_to_unless @revisions.size == 1, "revert", edit_facility_path(@facility, :r=>r), :title=>"Create a new revision based on this one"

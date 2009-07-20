@@ -72,7 +72,7 @@
             = @facility.updated_at
           %li
             Updated by:
-            = link_to @facility.updated_by, user_path(@facility.updated_by)
+            = link_to @facility.user_id, @facility.user
           %li
             .geo
               Geo:

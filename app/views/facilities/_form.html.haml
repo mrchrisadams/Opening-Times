@@ -21,7 +21,7 @@
         %td.hint Most general first, i.e. London, Battersea
       %tr
         %th= label :facility, :address
-        - @facility.address = comma_to_new_line(@facility.address)
+        - @facility.address = commas_to_line_breaks(@facility.address)
         %td= facility_form.text_area :address, :rows => 4, :cols => 30
       %tr
         %th= label :facility, :postcode

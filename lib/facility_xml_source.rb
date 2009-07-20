@@ -24,7 +24,8 @@ class FacilityXmlSource
       progress.inc
       f = Facility.new
       f.from_xml(File.open(file).read)
-      f.created_by = f.updated_by = "XML import"
+      f.user_id = 0
+      f.updated_from_ip = "0.0.0.0"
       f.save!
     end
     progress.finish

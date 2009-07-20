@@ -7,7 +7,7 @@ class CreateSlugTraps < ActiveRecord::Migration
 
       t.timestamps
     end
-    add_index :slug_traps, [:type, :slug], :unique=>true
+    add_index :slug_traps, [:type, :slug], :unique => true
   end
 
   def self.down
