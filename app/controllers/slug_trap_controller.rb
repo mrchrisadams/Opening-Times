@@ -6,7 +6,7 @@ class SlugTrapController < ApplicationController
 
     return redirect_slug_or_404(params[:slug]) unless @facility
 
-    render 'facilities/retired' if @facility.retired?
+    render 'facilities/_retired' and return if @facility.retired?
 
     @status_manager = StatusManager.new
     @status = @status_manager.status(@facility)

@@ -28,7 +28,7 @@ class FacilitiesController < ApplicationController
       @facility.normal_openings = []
       @facility.from_xml(revision.xml)
     end
-    @facility.comment = ""
+    @facility.comment = "" unless @facility.retired?
 
     build_spare_openings
   end
@@ -62,12 +62,11 @@ class FacilitiesController < ApplicationController
   end
 
   # DELETE /facilities/1
-  def destroy
-    @facility = Facility.find(params[:id])
-    @facility.retire
+#  def destroy
+#    @facility = Facility.find(params[:id])
 
-    redirect_to(facilities_url)
-  end
+#    redirect_to(facilities_url)
+#  end
 
 
   private

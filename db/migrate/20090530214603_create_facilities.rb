@@ -18,7 +18,7 @@ class CreateFacilities < ActiveRecord::Migration
       t.decimal :lat, :precision => 15, :scale => 10
       t.decimal :lng, :precision => 15, :scale => 10
 
-      t.integer :revision, :default => 0
+      t.integer :revision, :default => 1
       t.string  :comment, :limit=>100
       t.string  :updated_from_ip
 

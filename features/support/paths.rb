@@ -18,9 +18,9 @@ module NavigationHelpers
       facility_slug_path(:slug => $1)
     when /^the create a new facility page$/i
       new_facility_path
-    when /^its edit_facility page$/i
+    when /^its edit facility page$/i
       edit_facility_path(@facility)
-    when /^the edit_facility page for ID (\d+)$/i
+    when /^the edit facility page for ID (\d+)$/i
       edit_facility_path(:id => $1)
     when /^the advanced search page$/i
       url_for(:controller => 'search', :action => 'advanced')

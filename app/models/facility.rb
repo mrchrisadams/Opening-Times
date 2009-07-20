@@ -11,7 +11,7 @@ class Facility < ActiveRecord::Base
   belongs_to :user
   belongs_to :holiday_set
 
-  attr_accessible :name, :location, :description, :lat, :lng, :address, :postcode, :phone, :email, :url, :normal_openings_attributes, :comment
+  attr_accessible :name, :location, :description, :lat, :lng, :address, :postcode, :phone, :email, :url, :normal_openings_attributes, :comment, :retired
 
   named_scope :retired, :conditions => { :retired_at => nil }
 
@@ -34,6 +34,8 @@ class Facility < ActiveRecord::Base
   validates_format_of :email, :with => EMAIL_REGX, :allow_blank => true
   validates_uniqueness_of :slug
 
+  validates_presence_of :comment, :if => :retired?, :message => "must be provided if facility is marked for removal"
+
   validates_numericality_of :lat, :greater_than_or_equal_to => -90, :less_than_or_equal_to => 90
   validates_numericality_of :lng, :greater_than_or_equal_to => -180, :less_than_or_equal_to => 180
 
@@ -54,19 +56,14 @@ class Facility < ActiveRecord::Base
     !retired_at.nil?
   end
 
-  def retire(reason)
-    unless retired?
-      self.comment = reason
-      self.retired_at = Time.now
-      save
-    end
+  def retired=(value)
+    self.retired_at = (value.to_i == 1) ? Time.now : nil
   end
 
   def back_for_another_mission(reason)
     if retired?
       self.comment = reason
       self.retired_at = nil
-      save
     end
   end
 

@@ -4,7 +4,7 @@ class User < ActiveRecord::Base
   has_many :facilities
   has_many :facility_revisions
 
-  USER_ACTION_LIMIT = 5
+  USER_ACTION_LIMIT = 30
 
   def action_count
     @action_count ||= FacilityRevision.count(:conditions => ["user_id = ? AND created_at > ?", self.id, Time.now-1.day])

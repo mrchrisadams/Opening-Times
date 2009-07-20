@@ -14,11 +14,13 @@
 
 %p
   The reason given for removal was
-  = "\"#{h(@facility.comment)}\"."
+
+%p.highlight
+  =h @facility.comment
 
 %p
   If this is incorrect you can still
   = link_to('edit this facility', edit_facility_path(@facility))
-  which will make it live again.
+  which can make it live again.
 
 = render 'facilities/infobox'
