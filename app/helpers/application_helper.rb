@@ -10,7 +10,7 @@ module ApplicationHelper
   end
 
   def anchor_for(text)
-    content_tag(:a,text,:name=>text.slugify)
+    content_tag(:a,'',:name=>text.slugify) + text
   end
 
   def anchor_to(text)

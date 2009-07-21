@@ -3,13 +3,19 @@
 
 .highlight
   %ul
-    %li Opening Times is <b>not</b> affiliated with any of the facilties listed on this site, please contact them directly with feedback regarding their service
-    %li I appolgise if the opening times information is incorrect. Please help improve Opening Times by <a href="/register">creating an account</a> and correcting it directly.
+    %li Opening Times is <b>not</b> associated with any of the businesses listed on this site. If you have feedback relating to their service, please contact them directly
+    %li
+      Incorrect information?
+      = link_to 'Please see this help section', help_path, :anchor => 'the-information-is-wrong'
+    %li
+      See also
+      = link_to 'community guidelines', guidelines_path
+    %li Found a bug? Please add it to the <a href="http://github.com/aubergene/Opening-Times/issues">Opening Times project on GitHub</a>.
+
+%p Please bear in mind, Opening Times is something I do in my spare time, so answering email takes time away from fixing bugs and adding new features.
+
+%p Please consider joing the <a href="http://groups.google.com/group/openingtimes">Opening Times mailing list</a>.
 
 %p
-  Found a bug? Please add it to the <a href="http://github.com/aubergene/Opening-Times/issues">Opening Times project on GitHub</a>.
-
-%p
-  If you have any queries about this website please get in touch.
-
-%p= mail_to 'feedback@opening-times.co.uk'
+  Otherwise, I'd love to hear your feedback
+  = mail_to 'julian@opening-times.co.uk'

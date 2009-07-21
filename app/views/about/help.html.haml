@@ -1,0 +1,45 @@
+%h1= @page_title = "Help"
+
+%ul
+  %li= anchor_to "Can I add my own business? can I add a business which isn't mine?"
+  %li= anchor_to "Why is this business missing?"
+  %li= anchor_to "The information is wrong!"
+  %li= anchor_to "What types of business can I add?"
+
+%h2
+  See also
+
+%ul
+  %li= link_to 'Opening Times Community Guidelines', guidelines_path
+  %li= link_to 'About Opening Times', about_path
+  %li Development questions and bug reports, see <a href="http://wiki.github.com/aubergene/Opening-Times">Opening Times wiki on GitHub</a>.
+  %li Question not answered? Ask it on the <a href="http://groups.google.com/group/openingtimes">Opening Times mailing list</a>.
+
+%hr
+
+%dl
+  %dt= anchor_for "Can I add my own business? can I add a business which isn't mine?"
+  %dd
+    Yes and yes, you can
+    = link_to 'add any business facility', new_facility_path
+    (as long as it's legal :)
+
+  %dt= anchor_for "Why is this business missing?"
+  %dd
+    The information is added by volunteers, much like <a href="http://wikipedia.org/">Wikipedia</a>, if a business hasn't been added yet, then please research the opening times and
+    = link_to('add it yourself', new_facility_path) + '.'
+
+  %dt= anchor_for "The information is wrong!"
+  %dd Sorry the information was wrong. Opening Times is build by its community so we can't accept any libility for the correctness of information. If possible please edit the listing so it's correct for the next person, thanks.
+
+  %dt= anchor_for "What types of business can I add?"
+  %dd
+    Pretty much anything which is legal and has periodic openings, such as shops, restaurants, cafes, libaries, swimming pools, etc. Some businesses don't have fixed times or operate as a series of events (such as cinemas or religious services), for these making a publicly available <a href="http://en.wikipedia.org/wiki/ICalendar">ICalendar</a> might be more suitable instead or in addition.
+
+%br
+%br
+%p Question not answered? Ask it on the <a href="http://groups.google.com/group/openingtimes">Opening Times mailing list</a>.
+
+
+- 15.times do #to allow anchor links to work
+  %br

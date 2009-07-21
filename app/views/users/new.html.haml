@@ -1,0 +1,28 @@
+%h1= @page_title = "Register"
+
+%p
+  Register with Opening Times to add and edit business information.
+  You email address will only be used for password reminders and for essential information regarding Opening Times, it won't be passed to third parties.
+
+- form_for(@user) do |f|
+  = f.error_messages
+
+  %p
+    = f.label :email
+    %br
+    = f.text_field :email
+
+  %p
+    = f.label :password
+    %br
+    = f.password_field :password
+
+  %p
+    = f.label :password_confirmation
+    %br
+    = f.password_field :password_confirmation
+
+  = recaptcha_tags
+
+  %p
+    = f.submit 'Create', :disable_with => "Please wait...", :class => 'button tick'
