@@ -64,8 +64,32 @@ describe "parse_time" do
   end
 
   it "should accept strange times used by the Coop" do
-    parse_time("08:00:00", false).should == DateTime.parse("08:00")
-    parse_time("22:00:00", false).should == DateTime.parse("22:00")
+    parse_time("08:00:00").should == DateTime.parse("08:00")
+    parse_time("22:00:00").should == DateTime.parse("22:00")
+  end
+
+  it "should understand noon as 12pm" do
+    parse_time("noon").should == DateTime.parse("12:00")
+  end
+
+  it "should understand midday as 12pm" do
+    parse_time("midday").should == DateTime.parse("12:00")
+  end
+
+  it "should understand miday as 12pm" do
+    parse_time("miday").should == DateTime.parse("12:00") #mispelling
+  end
+
+  it "should understand mid day as 12pm" do
+    parse_time("mid day").should == DateTime.parse("12:00")
+  end
+
+  it "should understand mid-day as 12pm" do
+    parse_time("mid-day").should == DateTime.parse("12:00")
+  end
+
+  it "should understand midnight as 12pm" do
+    parse_time("midnight").should == DateTime.parse("0:00")
   end
 
 end

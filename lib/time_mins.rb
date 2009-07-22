@@ -7,6 +7,9 @@ def parse_time(s, autocorrect=false)
     s.sub!('.',':')
     s.upcase!
 
+    s = "12:00" if s =~ /NOON|MID[\-\s]?D?AY/
+    s = "0:00" if s == "MIDNIGHT"
+
     s.insert(-3,':') if s =~ /^[012]?\d\d\d$/
     s.insert(-3,':00') if s =~ /^\d\d?(AM|PM)$/
     s = "0:00" if s == "24:00"
