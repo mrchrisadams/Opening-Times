@@ -4,3 +4,7 @@
   Registered on
   = @user.created_at.strftime("%A %d %B %Y")
   = "(#{time_ago_in_words(@user.created_at)} ago)."
+
+%p
+  Number of updates
+  = @user.facility_revisions.count
