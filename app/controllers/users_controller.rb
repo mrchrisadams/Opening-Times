@@ -19,7 +19,7 @@ class UsersController < ApplicationController
 
     if verify_recaptcha(:model => @user) && @user.save
       flash[:notice] = 'Registration successful'
-      redirect_back_or_default(root_url)
+      redirect_to guidelines_path
     else
       render :action => "new"
     end
@@ -29,17 +29,19 @@ class UsersController < ApplicationController
     @user = current_user
 
     if @user.update_attributes(params[:user])
-      flash[:notice] = 'User was successfully updated.'
+      flash[:notice] = 'User information successfully updated'
       redirect_back_or_default(root_url)
     else
       render :action => "edit"
     end
   end
 
-  def destroy
-    @user = current_user
-    #@user.destroy #TODO something less destructive perhaps?
+#TODO something less destructive perhaps?
+#  def destroy
+#    @user = current_user
+#    #@user.destroy
 
-    redirect_to root_url
-  end
+#    redirect_to root_url
+#  end
+
 end
