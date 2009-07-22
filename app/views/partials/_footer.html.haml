@@ -7,14 +7,14 @@
 
   %br
 
-  %small
-    %ul
-      %li= link_to "&copy; Copyright #{Time.now.year}", copyright_path
-      %li= link_to 'About', about_path, :accesskey => '8'
-      %li= link_to 'Guidelines', guidelines_path
-      %li= link_to 'Accessibility', accessibility_path, :accesskey => '9'
-      %li= link_to 'Privacy', privacy_path
-      %li= link_to 'Feedback', feedback_path
+
+  %ul.small
+    %li= link_to "&copy; Copyright #{Time.now.year}", copyright_path
+    %li= link_to 'About', about_path, :accesskey => '8'
+    %li= link_to 'Guidelines', guidelines_path
+    %li= link_to 'Accessibility', accessibility_path, :accesskey => '9'
+    %li= link_to 'Privacy', privacy_path
+    %li= link_to 'Feedback', feedback_path
 
   %p.bookmark= render :partial => 'partials/add_this' if RAILS_ENV == 'production'
 

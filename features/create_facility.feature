@@ -6,7 +6,7 @@
     Given I have logged in with a valid email and password
 
     When I go to the create a new facility page
-    Then I should see "Add a facility"
+    Then I should see "Add a business"
 
     When I fill in "name" with "Guy's and Dolls Hairdressers"
     And I fill in "facility_location" with "East Dulwich"
@@ -28,4 +28,4 @@
     And I fill in "facility_normal_openings_attributes_6_closes_at" with "16:00"
 
     And I press "Create"
-    Then I should see "Facility was successfully created"
+    Then I should see "Business was successfully created"

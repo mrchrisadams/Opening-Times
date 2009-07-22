@@ -1,0 +1,16 @@
+%h1= @page_title = "Remove a business"
+
+= error_messages_for :facility
+
+- form_for @facility do |facility_form|
+  %p
+    = facility_form.check_box :retired?
+    = facility_form.label :retired, 'I confirm this business is not currently trading and should be removed from Opening Times'
+  %p
+    = label :facility, :comment, 'Reason for removal'
+    %small (please provide information helpful for people still looking for this facility)
+    %br
+    = facility_form.text_area :comment, :rows => 2, :class => "fullWidth"
+  = submit_tag "Remove", :disable_with => "Please wait...", :class=>'button cross'
+
+  %br

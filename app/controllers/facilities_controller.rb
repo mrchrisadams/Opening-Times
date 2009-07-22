@@ -28,7 +28,8 @@ class FacilitiesController < ApplicationController
       @facility.normal_openings = []
       @facility.from_xml(revision.xml)
     end
-    @facility.comment = "" unless @facility.retired?
+    @facility.retired = 0
+    @facility.comment = ""
 
     build_spare_openings
   end
@@ -39,7 +40,7 @@ class FacilitiesController < ApplicationController
     update_user_info
 
     if @facility.save
-      flash[:notice] = 'Facility was successfully created.'
+      flash[:notice] = 'Business was successfully created.'
       redirect_to(@facility)
     else
       build_spare_openings
@@ -53,13 +54,21 @@ class FacilitiesController < ApplicationController
     update_user_info
 
     if @facility.update_attributes(params[:facility])
-      flash[:notice] = 'Facility was successfully updated.'
+      flash[:notice] = 'Business was successfully updated.'
       redirect_to(@facility)
     else
       build_spare_openings
       render :action => "edit"
     end
   end
+
+
+  def remove
+    @facility = Facility.find(params[:id])
+    @facility.comment = "" unless @facility.retired?
+  end
+
+
 
   # DELETE /facilities/1
 #  def destroy

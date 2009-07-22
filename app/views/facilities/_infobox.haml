@@ -18,6 +18,8 @@
   %ul
     %li
       = link_to 'Edit', edit_facility_path(@facility)
+      \/
+      = link_to 'Remove', remove_facility_path(@facility)
     %li
       = link_to "Current revision #{@facility.revision}", facility_revisions_path(@facility)
       = link_to 'RSS', facility_revisions_path(@facility, :format => "xml"), :rel => "alternate", :type => "application/atom+xml"

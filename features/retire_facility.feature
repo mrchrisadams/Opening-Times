@@ -10,16 +10,16 @@ Feature: Retire facility
 
   Scenario: Retire facility
     Given I have a facility with the name "Guys and Dolls Hairdressers" and the location "London, East Dulwich"
-    When I go to its edit facility page
-    And I check "facility_retired"
-    And I fill in "facility_comment" with "This shop has closed down due to lack of owls"
+    When I go to its remove facility page
+    And I check "facility[retired]"
+    And I fill in "facility[comment]" with "This shop has closed down due to lack of owls"
     And I press "Remove"
     Then I should see "Sorry this facility was removed from Opening Times"
     And I should see "This shop has closed down due to lack of owls"
 
   Scenario: Update retired information
     Given I have a facility which is retired
-    When I go to its edit facility page
+    When I go to its remove facility page
     And I fill in "facility_comment" with "Still retired"
     And I press "Remove"
     Then I should see "Sorry this facility was removed from Opening Times"
@@ -29,9 +29,9 @@ Feature: Retire facility
     Given I have a facility which is retired
     When I go to its facility page
     And I should see "Sorry this facility was removed from Opening Times"
-    And I follow "edit"
-    And I uncheck "facility_retired"
-    And I fill in "facility_comment" with "New supply of owls located - hoorah!"
+    And I follow "remove"
+    And I uncheck "facility[retired]"
+    And I fill in "facility[comment]" with "New supply of owls located - hoorah!"
     And I press "Update"
     Then I should not see "Sorry this facility was removed from Opening Times"
     And I should see "Normal opening times"

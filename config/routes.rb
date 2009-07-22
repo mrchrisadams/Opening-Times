@@ -5,7 +5,7 @@ ActionController::Routing::Routes.draw do |map|
   map.root :controller => 'about', :action => 'homepage'
 #  map.resources :facilities, :as => 'f'
 
-  map.resources :facilities, :as => 'f' do |services|
+  map.resources :facilities, :as => 'f', :member => { :remove => :get } do |services|
     services.resources :revisions, :path_names => { :delete => 'retire' }
     services.resources :facility_slug_traps, :as => :slugs
   end

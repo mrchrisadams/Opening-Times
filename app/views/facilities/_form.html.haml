@@ -10,7 +10,7 @@
     * Optional field
 
   %fieldset
-    %legend Facility information
+    %legend Business information
     %table.inputFormTable
       %tr
         %th= label  :facility, :name
@@ -86,21 +86,9 @@
     %br
     = facility_form.text_field :comment, :class => "fullWidth"
 
+  = facility_form.hidden_field :retired?
+
   - button_text = @facility.new_record? ? 'Create' : 'Update'
   = submit_tag button_text, :disable_with => "Please wait...", :class=>'button tick'
-
-  %br
-  %br
-  %fieldset
-    %legend Remove this facility
-    %p
-      = facility_form.check_box :retired?
-      = facility_form.label :retired, 'This facility should be removed from Opening Times'
-    %p
-      = label :facility, :comment, 'Reason for removal'
-      %small (please provide information helpful for people still looking for this facility)
-      %br
-      = facility_form.text_area :comment, :rows => 2, :class => "fullWidth"
-    = submit_tag "Remove", :disable_with => "Please wait...", :class=>'button cross'
 
   %br
