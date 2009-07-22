@@ -16,7 +16,7 @@ function initialize() {
     map.addControl(new GSmallZoomControl());
     map.addControl(new GMenuMapTypeControl());
   	map.setCenter(center, 4, G_HYBRID_MAP);
-    <% unless @facility.new_record? -%>
+    <% if @facility.lat && @facility.lng -%>
     center = new GLatLng(<%= @facility.lat %>, <%= @facility.lng %>);
     map.setCenter(center, 18, G_HYBRID_MAP);
     <% end -%>
