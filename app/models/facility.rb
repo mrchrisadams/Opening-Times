@@ -1,21 +1,22 @@
 require 'parser_utils'
 
 class Facility < ActiveRecord::Base
-  acts_as_mappable :default_units => :miles,
-                  :default_formula => :flat
+  acts_as_mappable :default_units => :miles, :default_formula => :flat
 
   include ParserUtils
 
   has_many :normal_openings,  :dependent => :delete_all
+  has_many :holiday_openings,  :dependent => :delete_all
   has_many :facility_revisions
   belongs_to :user
   belongs_to :holiday_set
 
-  attr_accessible :name, :location, :description, :lat, :lng, :address, :postcode, :phone, :email, :url, :normal_openings_attributes, :comment, :retired
+  attr_accessible :name, :location, :description, :lat, :lng, :address, :postcode, :phone, :email, :url, :holiday_set_id, :normal_openings_attributes, :holiday_openings_attributes, :comment, :retired
 
-  named_scope :retired, :conditions => { :retired_at => nil }
+  named_scope :active, :conditions => { :retired_at => nil }
 
   accepts_nested_attributes_for :normal_openings, :allow_destroy => true, :reject_if => proc { |attrs| attrs['opens_at'].blank? && attrs['closes_at'].blank? && attrs['comment'].blank? }
+  accepts_nested_attributes_for :holiday_openings, :allow_destroy => true, :reject_if => proc { |attrs| attrs['closed'].blank? && attrs['opens_at'].blank? && attrs['closes_at'].blank? && attrs['comment'].blank? }
 
   def before_validation
     self.slug = full_name.slugify
@@ -29,7 +30,7 @@ class Facility < ActiveRecord::Base
     self.revision += 1
   end
 
-  validates_presence_of :name, :location, :slug, :address, :revision, :user_id, :updated_from_ip
+  validates_presence_of :name, :location, :slug, :address, :revision, :user_id, :updated_from_ip, :holiday_set_id
   validates_format_of :postcode, :with => POSTCODE_REGX
   validates_format_of :email, :with => EMAIL_REGX, :allow_blank => true
   validates_uniqueness_of :slug
@@ -46,7 +47,51 @@ class Facility < ActiveRecord::Base
 
   def after_validation
     self.postcode = extract_postcode(postcode) # Uppercase, tidy spaces etc
+    update_summary_normal_openings
   end
+
+  def after_create
+    # because child objects can be accessed until the parent has been created
+    # raise an exception here which causes a rollback
+    # and catch the exception in the create action of the controller.
+    # For update, it is just a normal validate
+    raise "One or more normal opening times overlap" if overlapping_normal_opening_for_same_facility?
+    raise "One or more bank holiday opening times overlap or you have a closed and non closed bank holiday opening" if overlapping_or_closed_holiday_opening_for_same_facility?
+  end
+
+  def validate_on_update
+    # see note for after_create
+    errors.add_to_base("One or more normal opening times overlap") if overlapping_normal_opening_for_same_facility?
+    errors.add_to_base("One or more bank holiday opening times overlap or you have a closed and non closed bank holiday opening") if overlapping_or_closed_holiday_opening_for_same_facility?
+  end
+
+  def overlapping_normal_opening_for_same_facility?
+    normal_openings.each do |normal_opening|
+      normal_openings.each do |c|
+        next if normal_opening.object_id == c.object_id || normal_opening.marked_for_destruction? || c.marked_for_destruction?
+        if normal_opening.same_wday?(c.wday) &&
+          (normal_opening.within_mins?(c.opens_mins) || normal_opening.within_mins?(c.opens_mins))
+          return true
+        end
+      end
+    end
+    false
+  end
+
+  def overlapping_or_closed_holiday_opening_for_same_facility?
+    holiday_openings.each do |holiday_opening|
+      holiday_openings.each do |c|
+        next if holiday_opening.object_id == c.object_id || holiday_opening.marked_for_destruction? || c.marked_for_destruction?
+        if holiday_opening.closed? ||
+           holiday_opening.within_mins?(c.opens_mins) || holiday_opening.within_mins?(c.opens_mins)
+          return true
+        end
+      end
+    end
+    false
+  end
+
+
 
   def self.find_by_slug(slug)
     find(:first, :conditions => ["slug=?",slug.slugify])
@@ -76,10 +121,6 @@ class Facility < ActiveRecord::Base
   def full_address
     "#{address}, #{postcode}"
   end
-
-#  def to_param
-#    slug
-#  end
 
   def to_xml
     super({ :include => [:normal_openings] })
@@ -161,8 +202,11 @@ class Facility < ActiveRecord::Base
     self.phone = extract_phone((s/"/phone").text)
 
     self.url = (s/"/url").text #TODO there needs to be a url extractor
-    self.lat = (s/"/latitude").text
-    self.lng = (s/"/longitude").text
+    self.lat = (s/"/latitude").text.to_f #TODO this should do a geocode if they aren't specified
+    self.lng = (s/"/longitude").text.to_f
+
+    holiday_set = HolidaySet.find_by_name((s/"holiday_set").text)
+    self.holiday_set = holiday_set || HolidaySet.first
 
     (s/"normal-openings/opening").each do |opn|
       o = self.normal_openings.build
@@ -175,3 +219,4 @@ class Facility < ActiveRecord::Base
 
 
 end
+

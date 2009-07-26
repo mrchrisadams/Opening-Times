@@ -9,5 +9,11 @@
   %li keep information neutral, this isn't the place for rants or reviews
   %li if a business facility has very complex opening times, perhaps <a href="http://en.wikipedia.org/wiki/ICalendar">ICalendar</a> would be a more suitable format?
 
+- if session[:return_to]
+  %p
+    %strong
+      = link_to 'Return to the page that required login', session[:return_to]
+
 %p
   Want to change these guidelines? Let's chat about it at <a href="http://groups.google.com/group/openingtimes">http://groups.google.com/group/openingtimes</a>.
+

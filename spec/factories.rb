@@ -7,6 +7,7 @@ Factory.define :facility do |f|
   f.lng -0.0755685
   f.user_id 0
   f.updated_from_ip "0.0.0.0"
+  f.association(:holiday_set)
 end
 
 Factory.define :opening do |f|
@@ -37,3 +38,4 @@ Factory.define :user do |f|
   f.password("foobar")
   f.password_confirmation { |user| user.password }
 end
+

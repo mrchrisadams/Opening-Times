@@ -39,12 +39,19 @@ class FacilitiesController < ApplicationController
     @facility = Facility.new(params[:facility])
     update_user_info
 
-    if @facility.save
-      flash[:notice] = 'Business was successfully created.'
-      redirect_to(@facility)
-    else
+    begin
+      if @facility.save
+        flash[:notice] = 'Business was successfully created.'
+        redirect_to(@facility)
+      else
+        build_spare_openings
+        render "new"
+      end
+    rescue
+      # See note in Facility after_save
+      @facility.errors_to_base.add("#{$!} - #{$@} - Overlapping normal openings #{@facility.normal_openings.inspect}")
       build_spare_openings
-      render :action => "new"
+      render "new"
     end
   end
 
@@ -92,17 +99,11 @@ class FacilitiesController < ApplicationController
         for day in Opening::DAYNAMES
           @facility.normal_openings.build(:week_day=>day)
         end
-      end
-      if @facility.normal_openings.size < 7
+      else
         next_day = (@facility.normal_openings.last.wday + 1) % 7
         @facility.normal_openings.build(:wday=> next_day)
       end
-#      facility.holiday_openings.build(:closed=>true) if facility.holiday_openings.size.zero?
-#      if facility.special_openings.size.zero?
-#        3.times { facility.special_openings.build }
-#      else
-#        facility.special_openings.build
-#      end
+      @facility.holiday_openings.build if @facility.new_record? && @facility.holiday_openings.empty?
     end
 
     def update_user_info
@@ -111,3 +112,4 @@ class FacilitiesController < ApplicationController
     end
 
 end
+

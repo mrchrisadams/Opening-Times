@@ -18,7 +18,7 @@ ActionController::Routing::Routes.draw do |map|
 
   map.connect 'compare/:a/:b', :controller => 'compare', :defaults => { :a => nil, :b => nil }
 
-  %w(about accessibility bankholidays copyright feedback guidelines help license privacy recentchanges sitemap statistics).each do |a|
+  %w(about accessibility bankholidays copyright feedback guidelines help license multipleopenings privacy recentchanges sitemap statistics).each do |a|
     map.send "#{a}", "#{a}", :controller => 'about', :action => a
     map.send "#{a}", "#{a}.:format", :controller => 'about', :action => a
   end
@@ -65,3 +65,4 @@ ActionController::Routing::Routes.draw do |map|
 #  map.connect ':controller/:action/:id'
 #  map.connect ':controller/:action/:id.:format'
 end
+

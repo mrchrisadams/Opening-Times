@@ -8,9 +8,10 @@
     = facility_form.label :retired, 'I confirm this business is not currently trading and should be removed from Opening Times'
   %p
     = label :facility, :comment, 'Reason for removal'
-    %small (please provide information helpful for people still looking for this facility)
+    %small (please provide information to help people still looking for this business)
     %br
     = facility_form.text_area :comment, :rows => 2, :class => "fullWidth"
   = submit_tag "Remove", :disable_with => "Please wait...", :class=>'button cross'
 
   %br
+

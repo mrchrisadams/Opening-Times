@@ -75,5 +75,16 @@ $('normalOpenings').insert({ bottom: "#{ escape_javascript normal_opening }".rep
     end
   end
 
+  def add_holiday_opening_link(name, form)
+    link_to_function name do |page|
+      holiday_opening = render(:partial => 'form_holiday_opening', :locals => { :ff => form, :holiday_opening => HolidayOpening.new })
+      page << %{
+var new_holiday_opening_id = "new_" + new Date().getTime();
+$('holidayOpenings').insert({ bottom: "#{ escape_javascript holiday_opening }".replace(/new_\\d+/g, new_holiday_opening_id) });
+}
+    end
+  end
+
 
 end
+

@@ -1,5 +1,6 @@
 - content_for :head do
   %link{ :rel => "alternate", :type => "application/atom+xml", :href => facility_revisions_path(@facility, :format => "xml") }
+  %link{ :href => url_for(@facility), :rel => "bookmark", :rev => "canonical" }
   %meta{ :name => "geo.position", :content => "#{@facility.lat};#{@facility.lng}" }
 
 - @page_title = @facility.full_name
@@ -17,7 +18,7 @@
         %strong
           = @status.downcase
 
-      - if @facility.description
+      - unless @facility.description.blank?
         = simple_format(@facility.description)
 
       %h2 Normal opening times
@@ -35,11 +36,12 @@
           %th{ :scope=>'col' } Closes
           %th
         = normal_openings_rows(@facility.normal_openings, Time.now.wday)
+        = render 'facilities/opn_hol_tbl'
 
       %br
       %h2 Map
       %span
-        %small You can drag the map around to see other nearby facilties
+        %small You can drag and zoom the map to see other nearby businesses
       = render 'facilities/map_show'
 
     %td{ :style=>'padding-left: 8px;' }
@@ -57,9 +59,10 @@
           - unless @facility.url.blank?
             %li= link_to("More information on #{h(@facility.full_name)}", @facility.url)
 
-      %h2 Nearest facilities
+      %h2 Nearby businesses
       %ol
         - @nearby[0...5].each_with_index do |nearby,index|
           %li= link_to h(nearby.full_name), facility_slug_path(nearby.slug)
 
       = render 'facilities/infobox'
+

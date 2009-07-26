@@ -9,5 +9,6 @@ require 'rake/rdoctask'
 
 require 'tasks/rails'
 
-Rake::Task[:default].clear
-task :default => ["spec", "features"]
+#Rake::Task[:default].clear
+#task :default => ["spec", "features"]
+

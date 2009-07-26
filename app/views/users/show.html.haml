@@ -6,5 +6,28 @@
   = "(#{time_ago_in_words(@user.created_at)} ago)."
 
 %p
-  Number of updates
+  Total number of updates:
   = @user.facility_revisions.count
+
+
+%h2 Recent Updates
+
+%table.reports
+  %tr
+    %th ID
+    %th Slug
+    %th Revision
+    %th Updated
+    %th Size
+    %th IP
+    %th Comment
+  - @user.facility_revisions.find(:all, :order => 'id DESC', :limit => 10).each do |r|
+    %tr
+      %td= link_to r.facility_id, r.facility
+      %td=h r.slug
+      %td= r.revision
+      %td= link_to r.created_at.strftime("%I:%M, %d %B %Y"), facility_revision_path(r.facility_id, r), :title => time_ago_in_words(r.created_at) + " ago"
+      %td= number_with_delimiter(r.length) + " chars"
+      %td= r.ip
+      %td=h r.comment
+

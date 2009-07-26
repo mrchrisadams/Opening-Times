@@ -1,31 +1,12 @@
 require File.dirname(__FILE__) + '/../spec_helper'
+require File.dirname(__FILE__) + '/opening_spec'
 
 describe NormalOpening do
   before(:each) do
-    NormalOpening.delete_all
-    @opening = Factory.build(:normal_opening)
+    @opening = NormalOpening.new(:facility_id => 1, :opens_at => "9am", :closes_at => "5pm", :week_day => "Mon")
   end
 
-  it "should accept a valid opening" do
-    @opening = NormalOpening.new
-    @opening.valid?
-    @opening.should_not be_valid
-    @opening = Factory.build(:normal_opening)
-    @opening.valid?
-    @opening.should be_valid
-  end
-
-  it "should not accept negative opening times" do
-    @opening.opens_at = "16:00"
-    @opening.closes_at = "9:00AM" # AM needed to prevent auto correct
-    @opening.should_not be_valid
-  end
-
-  it "should not accept zero length opening times" do
-    @opening.opens_at = "16:00"
-    @opening.closes_at = "16:00"
-    @opening.should_not be_valid
-  end
+  it_should_behave_like "an opening"
 
   it "should only accept valid week days" do
     for day in %w(Mon Tue Wed Thu Fri Sat Sun) do
@@ -38,35 +19,18 @@ describe NormalOpening do
     @opening.should_not be_valid
   end
 
-  it "should know the length of the opening in words" do
-    @opening.opens_at = "9am"
-    @opening.closes_at = "5pm"
-    @opening.length.should eql("8 hours")
+  it "should not allow overlapping times on the same day" do
 
-    @opening.opens_at = "9am"
-    @opening.closes_at = "5:30pm"
-    @opening.length.should eql("8 hours 30 mins")
-
-    @opening.opens_at = "9am"
-    @opening.closes_at = "10am"
-    @opening.length.should eql("1 hour")
-
-    @opening.opens_at = "9am"
-    @opening.closes_at = Time.parse("10:01am")
-    @opening.length.should eql("1 hour 1 min")
-
-    @opening.opens_at = "0:00"
-    @opening.closes_at = "0:00"
-    @opening.length.should eql("24 hours")
   end
 
-  it "should know when it is open" do
-    @opening.save
-    # Date set to Monday
-    @opening.is_open_at?(Time.parse("2008-08-11 9:12AM")).should be_true
-    @opening.is_open_at?(Time.parse("2008-08-11 8:12AM")).should be_false
-    # Date set to Tuesday
-    @opening.is_open_at?(Time.parse("2008-08-12 9:12AM")).should be_false
+  it "should know whether a minute is within the opening" do
+    @opening.within_mins?(time_to_mins(Time.parse("9:12AM"))).should be_true
+    @opening.within_mins?(time_to_mins(Time.parse("8:12AM"))).should be_false
+  end
+
+  it "should know whether another opening is on the same day" do
+    @opening.same_wday?(0).should be_false
+    @opening.same_wday?(1).should be_true
   end
 
   it "should know whether another NormalOpening is equal to itself" do
@@ -120,3 +84,4 @@ end
 
 
 #end
+

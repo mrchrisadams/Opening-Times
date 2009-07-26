@@ -74,4 +74,41 @@ class StatusManager
     return facility_statuses
   end
 
+
+  # Returns the Set of Facility ids which has at least one holiday opening and is in HolidayOpening mode, minus any ignores
+  def self.select_ignore_ids(datetime, check_ids)
+    set = Set.new
+    return set if check_ids.empty?
+    holiday_sql = "facility_id IN (#{check_ids.to_a.join(',')}) AND "
+    connection.select_rows("SELECT facility_id FROM openings WHERE #{holiday_sql} type='HolidayOpening'").map{|x| set << x[0].to_i}
+    return set
+  end
+
+  # Returns an Set of all open facility.ids which are in HolidayOpening mode, minus any ignores
+  def self.select_open_ids(datetime, check_ids)
+    set = Set.new
+    return set if check_ids.empty?
+    n_mins = time_to_mins(datetime)
+    holiday_sql = "facility_id IN (#{check_ids.to_a.join(',')}) AND "
+    connection.select_rows("SELECT facility_id FROM openings WHERE #{holiday_sql} type='HolidayOpening' AND sequence=#{HolidayOpening::SEQUENCE_OPEN} AND opens_mins<=#{n_mins} AND closes_mins>#{n_mins}").map{|x| set << x[0].to_i}
+    return set
+  end
+
+  # Returns an Set of all facility.ids which are in HolidayOpening mode, but have no HolidayOpenings, minus any ignores
+#  def self.select_unsure_ids(datetime, ignore_ids=Set.new)
+#    facility.select_holiday_ids(datetime) - select_ignore_ids(datetime,ignore_ids)
+#  end
+
+
+  # Returns IDs of all Services that have a bank holiday at datetime
+  def self.on_holiday_facility_ids(datetime)
+    set = Set.new
+
+    connection.select_rows(sanitize_sql_array(["SELECT facilities.id FROM facilities INNER JOIN holiday_sets on facilities.holiday_set_id = holiday_sets.id INNER JOIN holiday_events ON holiday_sets.id = holiday_events.holiday_set_id WHERE holiday_events.date=?",datetime.to_date])).map{|x| set << x[0].to_i}
+
+    return set
+  end
+
+
 end
+

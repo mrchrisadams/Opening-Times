@@ -1,25 +1,30 @@
 .infoBox
   %ul
     %li
-      Facility ID:
+      ID:
       = @facility.id
-    %li
-      Last updated:
-      = @facility.updated_at
-    %li
-      Updated by:
-      = link_to @facility.user_id, @facility.user
     %li
       .geo
         Geo:
         %span.latitude= @facility.lat
         %span.longitude= @facility.lng
-  %hr
-  %ul
+    %li
+      Updated:
+      = @facility.updated_at.strftime("%I:%M %d %b %Y")
+    %li
+      Updated by user:
+      = link_to @facility.user_id, @facility.user
+    %li
+      Revision:
+      = link_to @facility.revision, facility_revisions_path(@facility)
+      |
+      = link_to 'feed', facility_revisions_path(@facility, :format => "xml"), :rel => "alternate", :type => "application/atom+xml"
     %li
       = link_to 'Edit', edit_facility_path(@facility)
-      \/
+      |
       = link_to 'Remove', remove_facility_path(@facility)
-    %li
-      = link_to "Current revision #{@facility.revision}", facility_revisions_path(@facility)
-      = link_to 'RSS', facility_revisions_path(@facility, :format => "xml"), :rel => "alternate", :type => "application/atom+xml"
+
+
+  Summary:
+  = @facility.summary_normal_openings
+

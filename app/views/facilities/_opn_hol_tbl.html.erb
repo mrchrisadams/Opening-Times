@@ -1,0 +1,38 @@
+<%
+today_class = ' class="today"' if @status_manager.on_holiday?(@facility.id)
+-%>
+<% if @facility.holiday_openings.empty? -%>
+<tr<%= today_class -%>>
+<td class='hday' scope='row'>Bank Holidays<span class='info'><br /><%= h(@facility.holiday_set.name) %></span></td><td colspan='4'><span class="info">Sorry, this service hasn't provided its bank holiday opening times. <br />Please contact them directly to confirm opening times.</span></td></tr>
+<% else -%>
+  <%
+  counter = 0
+  today = Time.new.wday
+  found_count = 0
+  tmp_html = ""
+  opening = @facility.holiday_openings[counter]
+  if opening.closed?
+    tmp_html += "<td colspan='3' align='center'>Closed</td><td class='comment'>#{h(opening.comment)}</td></tr>\n"
+  else
+    while opening
+      counter += 1
+      found_count += 1
+      if found_count == 1
+        tmp_html += "#{time_span_cells(opening.opens_at,opening.closes_at)}"
+      else
+        tmp_html += "<tr#{today_class}>#{time_span_cells(opening.opens_at,opening.closes_at)}"
+      end
+      tmp_html += "<td class='comment'>#{h(opening.comment)}</td></tr>\n"
+      opening = @facility.holiday_openings[counter]
+    end
+  end
+  html = "<tr id='holidayOpenings'#{today_class}>"
+  if found_count < 2
+    html += "<td class='hday' scope='row'>Bank Holidays<span class='info'><br />" + h(@facility.holiday_set.name) + "</span></td>" + tmp_html
+  else
+    html += "<td class='hday' scope='row' rowspan='#{found_count}'>Bank Holidays<span class='info'><br />" + h(@facility.holiday_set.name) + "<br />#{found_count} openings</span></td>" + tmp_html
+  end
+  %>
+  <%= html %>
+<% end %>
+

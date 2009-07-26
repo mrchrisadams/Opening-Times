@@ -10,39 +10,8 @@ class NormalOpening < Opening
 
   def validate
     super
-
     errors.add(:opens_at,"must be specified") if opens_mins.blank?
     errors.add(:closes_at,"must be specified") if closes_mins.blank?
-#    errors.add(:closes_at,"must be greater than opening time") unless length_mins && length_mins > 0
-
-#    if service
-#      query = "service_id=? AND sequence=? AND ((opens_mins < ? AND closes_mins > ?) OR (opens_mins < ? AND closes_mins > ?) OR (opens_mins >= ? AND closes_mins <= ?))"
-#      if new_record?
-#        conditions = [query, service_id, sequence, opens_mins, opens_mins, closes_mins, closes_mins, opens_mins, closes_mins]
-#      else
-#        conditions = ["id <> ? AND " + query, id, service_id, sequence, opens_mins, opens_mins, closes_mins, closes_mins, opens_mins, closes_mins]
-#      end
-#      errors.add_to_base("overlaps with existing opening") if NormalOpening.exists?(conditions)
-#    end
-
-
-    # for each parent opening compare whether the start overlaps or the end, or if the opening is contained within the other opening
-#    warn self.inspect
-#    if opens_mins && closes_mins && self.service
-#      self.service.normal_openings.each do |o|
-#        next if o == self || o.opens_mins.nil? || o.closes_mins.nil?
-##        warn o.inspect
-#        if o.sequence == sequence &&
-#          ((o.opens_mins < opens_mins && opens_mins < o.closes_mins) ||
-#           (o.opens_mins < closes_mins && closes_mins < o.closes_mins) ||
-#           (o.opens_mins <= opens_mins && closes_mins <= o.closes_mins))
-#          warn "Match"
-##          errors.add_to_base("Two or more openings overlap with each other")
-#          errors.add(:week_day," - overlapping openings on this day")
-#          break
-#        end
-#      end
-#    end
   end
 
   def wday
@@ -61,12 +30,12 @@ class NormalOpening < Opening
     self.wday = Time::RFC2822_DAY_NAME.index(day)
   end
 
-  def is_open_at?(time)
-    wday == time.wday && super(time)
+  def same_wday?(check_wday)
+    wday == check_wday
   end
 
   def ==(opening)
-    self.equal_times?(opening) && self.sequence == opening.sequence
+    self.equal_times?(opening) && same_wday?(opening.wday)
   end
 
   def to_xml(options = {})
@@ -105,3 +74,4 @@ class NormalOpening < Opening
   end
 
 end
+

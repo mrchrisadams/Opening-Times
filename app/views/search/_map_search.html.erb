@@ -53,7 +53,7 @@ function initialize() {
     }
 
     <% @facilities.each_with_index do |n,index| -%>
-    <% info = escape_javascript(link_to(h(n.name),n) + "<br />" + comma_to_br(n.address)) -%>
+    <% info = escape_javascript(link_to(n.full_name,n) + "<br />" + comma_to_br(n.address)) -%>
     var marker = createMarker(<%= "#{n.lat}, #{n.lng} , #{index+1}" %>, "<%= @status_manager.status(n).downcase %>", "<%= info %>");
     map.addOverlay(marker);
     <% if index < 5 %>
@@ -71,3 +71,4 @@ function initialize() {
 <div id="map_canvas" style="border: 1px solid black; height: 360px;"></div>
 <small>You may need to scroll/zoom to find the facilitys marked on the map.</small>
 <br clear="all" />
+

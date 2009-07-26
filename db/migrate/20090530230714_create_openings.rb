@@ -7,6 +7,7 @@ class CreateOpenings < ActiveRecord::Migration
       t.date    :starts_on
       t.date    :ends_on
       t.integer :sequence
+      t.boolean :closed
       t.string  :comment, :limit=>100
       t.string  :type, :limit=>20
     end
@@ -22,3 +23,4 @@ class CreateOpenings < ActiveRecord::Migration
     drop_table :openings
   end
 end
+

@@ -6,7 +6,7 @@ module ApplicationHelper
   end
 
   def commas_to_line_breaks(text)
-    text.gsub(',',"\n") if text
+    text.gsub(/,\s*/,"\n") if text
   end
 
   def anchor_for(text)
@@ -19,3 +19,4 @@ module ApplicationHelper
 
 
 end
+

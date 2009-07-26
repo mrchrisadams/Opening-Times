@@ -182,9 +182,8 @@ address
   :margin auto
   :margin-top .5em
   :background #ff9
-  :border 1px solid #ff0
+  :border 1px solid #cc0
   :color #000
-  :font-weight bold
   :text-align center
   :font-family sans-serif
   :padding 4px 12px 4px 12px
@@ -324,8 +323,11 @@ table.inputFormTable
   label
     :display block
     :padding 4px 0 0 0
+    :white-space nowrap
   label.optional
-    :color #444
+    :color #666
+    &:before
+      content: "* "
 
 table.openingsForm
   :border-collapse collapse
@@ -467,7 +469,9 @@ table.reports
     :border 1px solid #999
     :padding 3px
     :vertical-align top
+    :font-size smaller
   th
     :background #ddd
   td.num
     :text-align right
+

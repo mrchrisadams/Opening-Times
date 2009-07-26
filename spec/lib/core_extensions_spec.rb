@@ -132,7 +132,6 @@ describe "tidy_commas" do
   end
 end
 
-
 describe "is_integer" do
   it "should be true for any string which is a integer without anything around it" do
     "12".is_integer?.should be_true
@@ -165,3 +164,4 @@ describe "tidy_text" do
     "test".tidy_text.should eql('test')
   end
 end
+

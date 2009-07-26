@@ -2,6 +2,10 @@ class UsersController < ApplicationController
   before_filter :require_no_user, :only => [:new, :create]
   before_filter :require_user, :only => [:edit, :update, :destroy]
 
+  def index
+    @user_count = User.count
+  end
+
   def show
     @user = User.find(params[:id])
   end
@@ -45,3 +49,4 @@ class UsersController < ApplicationController
 #  end
 
 end
+

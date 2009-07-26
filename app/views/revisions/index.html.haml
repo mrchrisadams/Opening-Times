@@ -13,19 +13,30 @@
   most recent revisions.
 
 - form_tag '/compare', :method => :get do
-  %ul
+  %table.reports
+    %tr
+      %th{ :colspan => 2 } Compare
+      %th Updated
+      %th Size
+      %th IP
+      %th User
+      %th Comment
+      %th
     - @revisions.each do |r|
       - prev = @revisions[@revisions.index(r)+1]
-      %li
-        = "(" + link_to_unless(r == @revisions.first, 'curr', { :controller=>:compare, :a=>r,:b=>@revisions.first }, :title=>"Compare this version with the current version") + ")"
-        = "(" + link_to_unless(r == @revisions.last, 'prev', { :controller=>:compare, :a=>r,:b=>prev }, :title=>"Compare this version with the previous version") + ")"
-        = radio_button_tag :a, r.id
-        = radio_button_tag :b, r.id
-        = link_to r.created_at.strftime("%I:%M, %d %B %Y"), facility_revision_path(@facility.id, r), :title => time_ago_in_words(r.created_at) + " ago"
-        = link_to r.user_id, r.user, :title => "see other contributions from this user"
-        = "(" + number_with_delimiter(r.length) + " chars)"
-        = r.ip
-        - unless r.comment.blank?
-          = "(" + h(r.comment) + ")"
-        = link_to_unless @revisions.size == 1, "revert", edit_facility_path(@facility, :r=>r), :title=>"Create a new revision based on this one"
-  = submit_tag 'Compare selected', :name => nil, :class => 'button'
+      %tr
+        %td
+          = link_to_unless(r == @revisions.first, 'curr', { :controller=>:compare, :a=>r,:b=>@revisions.first }, :title=>"Compare this version with the current version")
+          |
+          = link_to_unless(r == @revisions.last, 'prev', { :controller=>:compare, :a=>r,:b=>prev }, :title=>"Compare this version with the previous version")
+        %td
+          = radio_button_tag :a, r.id
+          = radio_button_tag :b, r.id
+        %td= link_to r.created_at.strftime("%I:%M, %d %B %Y"), facility_revision_path(@facility.id, r), :title => time_ago_in_words(r.created_at) + " ago"
+        %td= number_with_delimiter(r.length) + " chars"
+        %td= r.ip
+        %td= link_to r.user_id, r.user, :title => "see other contributions from this user"
+        %td=h r.comment
+        %td= link_to_unless @revisions.size == 1, "revert", edit_facility_path(@facility, :r=>r), :title=>"Create a new revision based on this one"
+  %p= submit_tag 'Compare selected', :name => nil, :class => 'button'
+

@@ -31,8 +31,7 @@ describe "parse_time" do
     parse_time("").should be_nil
     parse_time("foo").should be_nil
     parse_time("9BM").should be_nil
-    parse_time("24:01").should be_nil
-    parse_time("9:60").should be_nil
+    parse_time("28:71").should be_nil
   end
 
   it "should convert a string to a Time (more accepting that Time.parse)" do
@@ -51,16 +50,22 @@ describe "parse_time" do
     parse_time("900").should == DateTime.parse("9:00")
   end
 
+  it "should use the :meridian to help with guessing" do
+    parse_time("9", :meridian => "AM").should == DateTime.parse("9AM")
+    parse_time("24:00", :meridian => "AM").should == DateTime.parse("0:00")
+    parse_time("24:00", :meridian => "PM").should == DateTime.parse("12:00")
+  end
+
   it "should add a minute to times of X:29 or X:59 unless told not to" do
-    parse_time("21:29", true).should == DateTime.parse("21:30")
-    parse_time("21:59", true).should == DateTime.parse("22:00")
-    parse_time("21:29", false).should == DateTime.parse("21:29")
-    parse_time("21:59", false).should == DateTime.parse("21:59")
+    parse_time("21:29", :autocorrect => true).should == DateTime.parse("21:30")
+    parse_time("21:59", :autocorrect => true).should == DateTime.parse("22:00")
+    parse_time("21:29", :autocorrect => false).should == DateTime.parse("21:29")
+    parse_time("21:59", :autocorrect => false).should == DateTime.parse("21:59")
   end
 
   it "should subtract a minute to times of X:01 unless told not to" do
-    parse_time("7:01",true).should == DateTime.parse("7:00")
-    parse_time("7:01", false).should == DateTime.parse("7:01")
+    parse_time("7:01", :autocorrect => true).should == DateTime.parse("7:00")
+    parse_time("7:01", :autocorrect => false).should == DateTime.parse("7:01")
   end
 
   it "should accept strange times used by the Coop" do
@@ -167,3 +172,4 @@ describe "wday_to_sequence" do
     wday_to_sequence(6).should == 5 #Sun
   end
 end
+

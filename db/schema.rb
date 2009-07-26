@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20090713212833) do
+ActiveRecord::Schema.define(:version => 20090630193402) do
 
   create_table "facilities", :force => true do |t|
     t.integer  "holiday_set_id"
@@ -26,12 +26,12 @@ ActiveRecord::Schema.define(:version => 20090713212833) do
     t.string   "summary_normal_openings"
     t.decimal  "lat",                                    :precision => 15, :scale => 10
     t.decimal  "lng",                                    :precision => 15, :scale => 10
-    t.integer  "revision",                                                               :default => 0
+    t.integer  "revision",                                                               :default => 1
     t.string   "comment",                 :limit => 100
     t.string   "updated_from_ip"
+    t.datetime "retired_at"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.datetime "retired_at"
   end
 
   add_index "facilities", ["lat", "lng"], :name => "index_facilities_on_lat_and_lng"
@@ -74,6 +74,7 @@ ActiveRecord::Schema.define(:version => 20090713212833) do
     t.date    "starts_on"
     t.date    "ends_on"
     t.integer "sequence"
+    t.boolean "closed"
     t.string  "comment",     :limit => 100
     t.string  "type",        :limit => 20
   end

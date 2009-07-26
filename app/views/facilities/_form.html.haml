@@ -1,7 +1,6 @@
 - @onload = "initialize();" # sf();"
 - content_for :head do
-  %script{ :type=>'text/javascript' }
-    function sf(){ document.f.facility_name.focus(); }
+  = javascript_include_tag :all
 
 = error_messages_for :facility
 
@@ -26,14 +25,14 @@
         %td= facility_form.text_area :address, :rows => 4, :cols => 30
       %tr
         %th= label :facility, :postcode
-        %td
+        %td{ :colspan => 2 }
           = facility_form.text_field :postcode, :size => 8
-          %button{ :onclick => "showAddress(document.getElementById('facility_address').value + ', ' + document.getElementById('facility_postcode').value); return false;" } Update map location
+          %button{ :onclick => "showAddress(document.getElementById('facility_address').value.replace(/\\n/,', ') + ', ' + document.getElementById('facility_postcode').value); return false;" } Update map location
+          Please drag the marker to point to the main entrance
       %tr
         %th Map
         %td= render 'map_edit'
         %td.hint
-          Please drag the arrow to point to the main entrance, or enter the coordiantes below
           %table.layout{ :style=>"margin-top: 8px" }
             %tr
               %td= label :facility, :lat, "Latitude"
@@ -57,7 +56,9 @@
 
     = error_messages_for 'normal opening', :object => @facility.normal_openings
 
-    %p Leave blank any days when the facility is closed. If it is  closed for lunch or open past midnight, enter the first part on one line , then add a new opening to enter the second part.
+    %p
+      Leave blank any days when the business is closed.
+      = link_to('How to enter closed for lunch or open past midnight', multipleopenings_path, :target => "_blank") + '.'
     %table#normalOpenings.openingsForm
       %tr
         %th{ :scope => 'col' } Day
@@ -74,21 +75,61 @@
           %td= opening_form.text_field :comment
           %td.action
             = remove_link_unless_new_record(opening_form)
-
         =# render :partial => 'form_normal_opening', :locals => { :ff => opening_form, :normal_opening => opening_form.object }
 
+    %p= add_normal_opening_link("Add normal opening", facility_form)
 
-    %p= add_normal_opening_link("Add another opening", facility_form)
+  %br
+  %fieldset
+    %legend Bank Holiday opening times
 
-  %p
-    = label :facility, :comment, 'Edit summary', :class => "optional"
-    %small (optional - briefly describe the changes you have made)
-    %br
-    = facility_form.text_field :comment, :class => "fullWidth"
+    %p
+      %small
+        Please select which set of bank holidays this service follows.
+        = link_to('See a list of upcoming bank holidays for each area', bankholidays_path, :target => "_blank") + '.'
+
+    %p
+      - HolidaySet.all.each_with_index do |h_set, index|
+        = facility_form.radio_button :holiday_set_id, h_set.id, :checked => (index == 0)
+        = facility_form.label "holiday_set_id_#{h_set.id}", h(h_set.name)
+        %br
+
+    = error_messages_for 'holiday_openings', :object => @facility.holiday_openings
+
+    %table#holidayOpenings.openingsForm
+      %tr
+        %th
+        %th{ :scope => 'col' } Opens
+        %th{ :scope => 'col' } Closes
+        %th{ :scope => 'col' }
+          %label.optional Comment
+      - facility_form.fields_for :holiday_openings do |opening_form|
+        - next if opening_form.object.marked_for_destruction?
+        %tr.holiday_opening
+          %td
+            = opening_form.check_box :closed?, :onclick => "this.disable"
+            = opening_form.label :closed?, 'Closed'
+          %td= opening_form.text_field :opens_at, :size => 5
+          %td= opening_form.text_field :closes_at, :size => 5
+          %td= opening_form.text_field :comment
+          %td.action
+            = remove_link_unless_new_record(opening_form)
+        =# render :partial => 'form_holiday_opening', :locals => { :ff => opening_form, :holiday_opening => opening_form.object }
+
+    %p= add_holiday_opening_link("Add holiday opening", facility_form)
+
+  - unless @facility.new_record?
+    %p
+      = label :facility, :comment, 'Edit summary', :class => "optional"
+      %small (optional - briefly describe the changes you have made)
+      %br
+      = facility_form.text_field :comment, :class => "fullWidth"
 
   = facility_form.hidden_field :retired?
 
   - button_text = @facility.new_record? ? 'Create' : 'Update'
-  = submit_tag button_text, :disable_with => "Please wait...", :class=>'button tick'
+  %p= submit_tag button_text, :class=>'button tick' #, :disable_with => "Please wait..."
 
-  %br
+  %p
+    %small By submitting you irrevocably agree to release your contributions under the <a href="http://creativecommons.org/licenses/by-sa/3.0/">Creative Commons Attribution/Share-Alike License 3.0</a>.
+

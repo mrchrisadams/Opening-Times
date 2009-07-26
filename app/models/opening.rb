@@ -37,30 +37,32 @@ class Opening < ActiveRecord::Base
     mins_to_time(opens_mins, strftime)
   end
 
-  def opens_at=(time)
-    #TODO this should be improved, really it needs a nicer time parsing method
-    time += "AM" if time.is_a?(String) unless time.length > 2 || time =~ /a|pm/i
-    self.opens_mins = time_to_mins(time)
+  def opens_at=(time, autocorrect=false)
+    self.opens_mins = time_to_mins(parse_time(time, :meridian => "AM", :autocorrect => autocorrect))
   end
 
   def closes_at(strftime = nil)
     mins_to_time(closes_mins, strftime)
   end
 
-  def closes_at=(time)
-    #TODO this should be improved, really it needs a nicer time parsing method
-    time += "PM" if time.is_a?(String) unless time =~ /^0|(a|pm)/i
-    n_mins = time_to_mins(time)
+  def closes_at=(time, autocorrect=false)
+    n_mins = time_to_mins(parse_time(time, :meridian => "PM", :autocorrect => autocorrect))
     self.closes_mins = n_mins == 0 ? MINUTES_IN_DAY : n_mins
   end
 
-  def is_open_at?(time)
-    n_mins = time_to_mins(time)
-    opens_mins <= n_mins and (closes_mins > n_mins or closes_mins == 0)
+  def within_mins?(n_mins)
+    opens_mins <= n_mins and closes_mins > n_mins
   end
 
-  def equal_times?(opening)
-    self.opens_mins == opening.opens_mins && self.closes_mins == opening.closes_mins
+#  def is_open_at?(time)
+#    raise ArgumentError.new unless time.is_a?(Time)
+#    n_mins = time_to_mins(time)
+#    opens_mins <= n_mins and closes_mins > n_mins
+#  end
+
+  def equal_times?(o)
+    self.opens_mins == o.opens_mins && self.closes_mins == o.closes_mins
   end
 
 end
+

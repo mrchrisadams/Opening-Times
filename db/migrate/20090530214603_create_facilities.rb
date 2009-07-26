@@ -21,6 +21,7 @@ class CreateFacilities < ActiveRecord::Migration
       t.integer :revision, :default => 1
       t.string  :comment, :limit=>100
       t.string  :updated_from_ip
+      t.datetime :retired_at, :default => nil
 
       t.timestamps
     end
@@ -34,3 +35,4 @@ class CreateFacilities < ActiveRecord::Migration
     drop_table :facilities
   end
 end
+
