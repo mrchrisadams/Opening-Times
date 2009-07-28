@@ -6,28 +6,28 @@
 
 - form_for @facility, :html => { :name => 'f' } do |facility_form|
   %small
-    * Optional field
+    * Mandatory field
 
   %fieldset
     %legend Business information
     %table.inputFormTable
       %tr
-        %th= label  :facility, :name
+        %th= label  :facility, :name, 'Name', :class => "mandatory"
         %td= facility_form.text_field :name, :class => "fullWidth"
         %td.hint The name of shop, business, etc.
       %tr
-        %th= label :facility, :location
+        %th= label :facility, :location, 'Location', :class => "mandatory"
         %td= facility_form.text_field :location, :class => "fullWidth"
         %td.hint Most general first, i.e. London, Battersea
       %tr
-        %th= label :facility, :address
+        %th= label :facility, :address, 'Address', :class => "mandatory"
         - @facility.address = commas_to_line_breaks(@facility.address)
         %td= facility_form.text_area :address, :rows => 4, :cols => 30
       %tr
-        %th= label :facility, :postcode
+        %th= label :facility, :postcode, 'Postcode', :class => "mandatory"
         %td{ :colspan => 2 }
           = facility_form.text_field :postcode, :size => 8
-          %button{ :onclick => "showAddress(document.getElementById('facility_address').value.replace(/\\n/,', ') + ', ' + document.getElementById('facility_postcode').value); return false;" } Update map location
+          %a{ :onclick => "showAddress(document.getElementById('facility_address').value.replace(/\\n/,', ') + ', ' + document.getElementById('facility_postcode').value); return false;" } Update map location
           Please drag the marker to point to the main entrance
       %tr
         %th Map
@@ -35,19 +35,19 @@
         %td.hint
           %table.layout{ :style=>"margin-top: 8px" }
             %tr
-              %td= label :facility, :lat, "Latitude"
+              %td= label :facility, :lat, "Latitude", :class => "mandatory"
               %td= facility_form.text_field :lat, :size => 15, :class=>'shy'
             %tr
-              %td= label :facility, :lng, "Longitude"
+              %td= label :facility, :lng, "Longitude", :class => "mandatory"
               %td= facility_form.text_field :lng, :size => 15, :class=>'shy'
       %tr
-        %th= label :facility, :phone, 'Phone', :class => "optional"
+        %th= label :facility, :phone, 'Phone'
         %td= facility_form.text_field :phone, :size => 13
       %tr
-        %th= label :facility, :email, 'Email', :class => "optional"
+        %th= label :facility, :email, 'Email'
         %td= facility_form.text_field :email, :class => "fullWidth"
       %tr
-        %th= label :facility, :url, 'Website', :class => "optional"
+        %th= label :facility, :url, 'Website'
         %td= facility_form.text_field :url, :class => "fullWidth"
         %td.hint Link to official website's page for this location
   %br
@@ -89,6 +89,8 @@
         = link_to('See a list of upcoming bank holidays for each area', bankholidays_path, :target => "_blank") + '.'
 
     %p
+      = label :facility, :holiday_set, 'Region', :class => 'mandatory'
+      %br
       - HolidaySet.all.each_with_index do |h_set, index|
         = facility_form.radio_button :holiday_set_id, h_set.id, :checked => (index == 0)
         = facility_form.label "holiday_set_id_#{h_set.id}", h(h_set.name)
@@ -120,7 +122,7 @@
 
   - unless @facility.new_record?
     %p
-      = label :facility, :comment, 'Edit summary', :class => "optional"
+      = label :facility, :comment, 'Edit summary'
       %small (optional - briefly describe the changes you have made)
       %br
       = facility_form.text_field :comment, :class => "fullWidth"
@@ -128,7 +130,7 @@
   = facility_form.hidden_field :retired?
 
   - button_text = @facility.new_record? ? 'Create' : 'Update'
-  %p= submit_tag button_text, :class=>'button tick' #, :disable_with => "Please wait..."
+  %p= submit_tag button_text, :class=>'button tick', :disable_with => "Please wait..."
 
   %p
     %small By submitting you irrevocably agree to release your contributions under the <a href="http://creativecommons.org/licenses/by-sa/3.0/">Creative Commons Attribution/Share-Alike License 3.0</a>.
