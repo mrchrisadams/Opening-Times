@@ -2,20 +2,22 @@ require 'set'
 
 class StatusManager
 
+  include ActiveRecord
+
   STATUS_OPEN   = :Open
   STATUS_CLOSED = :Closed
   STATUS_UNSURE = :Unsure
 
   def initialize(datetime=nil)
     if datetime.is_a?(Time)
-      @holidays = HolidaySet.on_holiday_facility_ids(datetime)
+      @holidays = on_holiday_facility_ids(datetime)
       @statuses = StatusManager.select_status_all(datetime, @facilitys_holidays)
     else
       now = Time.now
       seconds_til_midnight = (24 * 60 * 60) - now.seconds_since_midnight.round
 
 #      @holidays = Set.new
-      @holidays = Rails.cache.fetch('facilitys_on_holiday', :expires_in=> seconds_til_midnight) { HolidaySet.on_holiday_facility_ids(now) }
+      @holidays = Rails.cache.fetch('facilitys_on_holiday', :expires_in=> seconds_til_midnight) { on_holiday_facility_ids(now) }
 
       @statuses = Rails.cache.fetch('current_facilities_status', :expires_in=> 60-(now.sec)) { StatusManager.select_status_all(now, @facilitys_holidays) }
     end
@@ -76,7 +78,7 @@ class StatusManager
 
 
   # Returns the Set of Facility ids which has at least one holiday opening and is in HolidayOpening mode, minus any ignores
-  def self.select_ignore_ids(datetime, check_ids)
+  def select_ignore_ids(datetime, check_ids)
     set = Set.new
     return set if check_ids.empty?
     holiday_sql = "facility_id IN (#{check_ids.to_a.join(',')}) AND "
@@ -85,7 +87,7 @@ class StatusManager
   end
 
   # Returns an Set of all open facility.ids which are in HolidayOpening mode, minus any ignores
-  def self.select_open_ids(datetime, check_ids)
+  def select_open_ids(datetime, check_ids)
     set = Set.new
     return set if check_ids.empty?
     n_mins = time_to_mins(datetime)
@@ -101,10 +103,10 @@ class StatusManager
 
 
   # Returns IDs of all Services that have a bank holiday at datetime
-  def self.on_holiday_facility_ids(datetime)
+  def on_holiday_facility_ids(datetime)
     set = Set.new
 
-    connection.select_rows(sanitize_sql_array(["SELECT facilities.id FROM facilities INNER JOIN holiday_sets on facilities.holiday_set_id = holiday_sets.id INNER JOIN holiday_events ON holiday_sets.id = holiday_events.holiday_set_id WHERE holiday_events.date=?",datetime.to_date])).map{|x| set << x[0].to_i}
+    Base.connection.select_rows("SELECT facilities.id FROM facilities INNER JOIN holiday_sets on facilities.holiday_set_id = holiday_sets.id INNER JOIN holiday_events ON holiday_sets.id = holiday_events.holiday_set_id WHERE holiday_events.date= #{datetime.to_date}").map{|x| set << x[0].to_i}
 
     return set
   end
