@@ -5,7 +5,7 @@ class FacilitiesController < ApplicationController
   before_filter :redirect_id_to_slug, :only => [:show]
 
   def index
-    @facilities = Facility.find(:all, :order => 'updated_at DESC', :limit => 100)
+    @facilities = Facility.find(:all, :conditions => 'retired_at IS NULL', :order => 'updated_at DESC', :limit => 100)
   end
 
   # GET /facilities/new
