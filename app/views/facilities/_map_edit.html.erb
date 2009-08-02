@@ -54,7 +54,7 @@ function updateMap() {
         if (!point) {
           alert("Sorry, couldn't find a location for the address, \"" + address + "\", please try again or manually drag the point to the correct position");
         } else {
-          map.setCenter(point, 18);
+          map.setCenter(point, 17);
           //var marker = new GMarker(point);
           marker.setLatLng(point)
           map.addOverlay(marker);
