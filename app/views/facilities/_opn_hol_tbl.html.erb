@@ -2,7 +2,7 @@
 today_class = ' class="today"' if @status_manager.on_holiday?(@facility.id)
 -%>
 <% if @facility.holiday_openings.empty? -%>
-<tr<%= today_class -%>>
+<tr id='holidayOpenings'<%= today_class -%>>
 <td class='hday' scope='row'>Bank Holidays<span class='info'><br /><%= h(@facility.holiday_set.name) %></span></td><td colspan='4'><span class="info">Sorry, this service hasn't provided its bank holiday opening times. <br />Please contact them directly to confirm opening times.</span></td></tr>
 <% else -%>
   <%

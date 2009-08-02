@@ -129,32 +129,32 @@ shared_examples_for "an opening" do
   end
 
   it "should know the length of the opening in words" do
-    @opening.opens_at = "9am"
-    @opening.closes_at = "5pm"
+    @opening.opens_at = Time.parse("9am")
+    @opening.closes_at = Time.parse("5pm")
     @opening.length.should eql("8 hours")
 
-    @opening.opens_at = "9am"
-    @opening.closes_at = "5:30pm"
+    @opening.opens_at = Time.parse("9am")
+    @opening.closes_at = Time.parse("5:30pm")
     @opening.length.should eql("8 hours 30 mins")
 
-    @opening.opens_at = "9am"
-    @opening.closes_at = "10am"
+    @opening.opens_at = Time.parse("9:00")
+    @opening.closes_at = Time.parse("10am")
     @opening.length.should eql("1 hour")
 
-    @opening.opens_at = "9am"
-    @opening.closes_mins = time_to_mins(parse_time("10:01am")) # avoid autocorrect
+    @opening.opens_at = Time.parse("9:00")
+    @opening.closes_at = Time.parse("10:01")
     @opening.length.should eql("1 hour 1 min")
 
-    @opening.opens_at = "0:00"
-    @opening.closes_mins = time_to_mins(parse_time("0:01")) # avoid autocorrect
+    @opening.opens_at = Time.parse("0:00")
+    @opening.closes_at = Time.parse("0:01")
     @opening.length.should eql("1 min")
 
-    @opening.opens_mins = time_to_mins(parse_time("0:01")) # avoid autocorrect
-    @opening.closes_at = "0:00"
+    @opening.opens_at = Time.parse("0:01")
+    @opening.closes_at = Time.parse("0:00")
     @opening.length.should eql("23 hours 59 mins")
 
-    @opening.opens_at = "0:00"
-    @opening.closes_at = "0:00"
+    @opening.opens_at = Time.parse("0:00")
+    @opening.closes_at = Time.parse("0:00")
     @opening.length.should eql("24 hours")
   end
 

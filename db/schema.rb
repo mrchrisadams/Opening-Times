@@ -56,6 +56,7 @@ ActiveRecord::Schema.define(:version => 20090630193402) do
   create_table "holiday_events", :force => true do |t|
     t.integer  "holiday_set_id"
     t.date     "date"
+    t.boolean  "bank_holiday"
     t.string   "comment",        :limit => 100
     t.datetime "created_at"
     t.datetime "updated_at"

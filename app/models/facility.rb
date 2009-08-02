@@ -1,4 +1,4 @@
-require 'parser_utils'
+#require 'parser_utils'
 
 class Facility < ActiveRecord::Base
   acts_as_mappable :default_units => :miles, :default_formula => :flat
@@ -27,7 +27,6 @@ class Facility < ActiveRecord::Base
     end
     self.postcode.upcase! if postcode
     self.address.gsub!(/\s*,?\s*[\n\r]{1,2}/,", ") if address # turn line breaks in to comma separated address
-    self.revision += 1
   end
 
   validates_presence_of :name, :location, :slug, :address, :revision, :user_id, :updated_from_ip, :holiday_set_id
@@ -48,6 +47,14 @@ class Facility < ActiveRecord::Base
   def after_validation
     self.postcode = extract_postcode(postcode) # Uppercase, tidy spaces etc
     update_summary_normal_openings
+  end
+
+  def before_create
+    self.revision = 1
+  end
+
+  def before_update
+    self.revision += 1
   end
 
   def after_create

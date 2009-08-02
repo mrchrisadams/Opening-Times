@@ -3,6 +3,7 @@ class CreateHolidayEvents < ActiveRecord::Migration
     create_table :holiday_events do |t|
       t.integer :holiday_set_id
       t.date    :date
+      t.boolean :bank_holiday
       t.string  :comment, :limit=>100
 
       t.timestamps
@@ -13,3 +14,4 @@ class CreateHolidayEvents < ActiveRecord::Migration
     drop_table :holiday_events
   end
 end
+

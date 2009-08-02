@@ -1,5 +1,6 @@
 class FacilitiesController < ApplicationController
   before_filter :require_user, :except => [:index, :show]
+  before_filter :check_lockdown, :except => [:index, :show]
   before_filter :check_user, :except => [:index, :show]
   before_filter :redirect_id_to_slug, :only => [:show]
 
@@ -88,9 +89,12 @@ class FacilitiesController < ApplicationController
   private
 
     def redirect_id_to_slug
-      id = params[:id]
-      if params[:format].blank? && id.is_integer? && f = Facility.find(id)
-        redirect_to(facility_slug_path(f.slug)) and return
+      f = Facility.find_by_id(params[:id])
+      if f
+        return redirect_to(facility_slug_path(f.slug))
+      else
+        render :file => "#{RAILS_ROOT}/public/404.html", :status => 404
+        return
       end
     end
 

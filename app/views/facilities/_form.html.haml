@@ -22,12 +22,12 @@
       %tr
         %th= label :facility, :address, 'Address', :class => "mandatory"
         - @facility.address = commas_to_line_breaks(@facility.address)
-        %td= facility_form.text_area :address, :rows => 4, :cols => 30
+        %td= facility_form.text_area :address, :rows => 3, :cols => 30, :onchange => "initialGeocode();"
       %tr
         %th= label :facility, :postcode, 'Postcode', :class => "mandatory"
         %td{ :colspan => 2 }
-          = facility_form.text_field :postcode, :size => 8
-          %a{ :onclick => "showAddress(document.getElementById('facility_address').value.replace(/\\n/,', ') + ', ' + document.getElementById('facility_postcode').value); return false;" } Update map location
+          = facility_form.text_field :postcode, :size => 8, :onchange => "initialGeocode();"
+          %a{ :onclick => "updateMap();" } Update map location
           Please drag the marker to point to the main entrance
       %tr
         %th Map

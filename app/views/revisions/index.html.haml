@@ -15,6 +15,7 @@
 - form_tag '/compare', :method => :get do
   %table.reports
     %tr
+      %th{ :title => "Revision" } Rev
       %th{ :colspan => 2 } Compare
       %th Updated
       %th Size
@@ -25,6 +26,7 @@
     - @revisions.each do |r|
       - prev = @revisions[@revisions.index(r)+1]
       %tr
+        %td.num= r.revision
         %td
           = link_to_unless(r == @revisions.first, 'curr', { :controller=>:compare, :a=>r,:b=>@revisions.first }, :title=>"Compare this version with the current version")
           |

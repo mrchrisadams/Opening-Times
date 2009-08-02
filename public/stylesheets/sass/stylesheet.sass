@@ -155,7 +155,7 @@ address
 .compareBox
   :scroll auto
   :font-family monospace
-  :whitespace preserve
+  :white-space nowrap
 
 #allContent
   :width= !content_width
@@ -315,6 +315,7 @@ table.inputFormTable
     :vertical-align top
   th
     :text-align right
+    :font-weight normal
   th.top
     :text-align center
   td.hint
@@ -333,6 +334,8 @@ table.inputFormTable
 table.openingsForm
   :border-collapse collapse
   tr
+    th
+      :font-weight normal
     td
       :padding 2px
       :vertical-align top
@@ -375,8 +378,9 @@ table.openingTimes
       :font-size .4em
   td.hday
     :color #333
-    :font-size 1.2em
+    :font-size 1em
     :padding-top 4px
+    :white-space nowrap
     .info
       :font-size .6em
   td.comment

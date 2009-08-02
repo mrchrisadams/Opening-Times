@@ -4,17 +4,17 @@ require 'date'
 #:meridian => "AM" or "PM" to hint as which side of noon you want
 #:autocorrect => true will turn 17:59 in to 18:00 and 9:01 in to 9:00
 def parse_time(s, options={})
-  return nil unless s.is_a?(String)
+  raise ArgumentError.new("Expected a string") unless s.is_a?(String)
   begin
-    s.strip!
+    s.gsub!(/\s/,'')
     s.sub!('.',':')
     s.upcase!
 
-    s = "12:00" if s =~ /NOON|MID[\-\s]?D?AY/
-    s = "0:00" if s == "MIDNIGHT"
+    s = "12:00PM" if s =~ /NOON|MID-?D?AY/
+    s = "0:00AM" if s == "MIDNIGHT"
 
-    if options[:meridian]
-      s += options[:meridian] unless s =~ /A|PM$/ || s =~ /^0/
+    if meridian = options[:meridian]
+      s += meridian unless s =~ /A|PM$/ || s =~ /^0\d/
     end
 
     s.insert(-3,':') if s =~ /^[012]?\d\d\d$/
@@ -22,12 +22,7 @@ def parse_time(s, options={})
     s = "0:00" if s == "24:00"
 
     d = DateTime.parse(s)
-
-    if options[:autocorrect]
-      # add or subtract a minute when close to hour or half hour (perhaps this should be in parser tools)
-      d -= 1.minute if d.min == 1
-      d += 1.minute if d.min == 29 || d.min == 59
-    end
+    d = Time.parse("#{d.hour}:#{d.min}")
 
     return d
   rescue ArgumentError
@@ -35,9 +30,23 @@ def parse_time(s, options={})
   end
 end
 
+# add or subtract a minute when close to hour or half hour
+def correct_off_by_one_min(time)
+  case time.min
+    when 1
+      time - 1.minute
+    when 29
+      time + 1.minute
+    when 59 # I'm sure there is a nice way to merge these
+      time + 1.minute
+    else
+      time
+  end
+end
+
 # turns a Time in to minutes past midnight
 def time_to_mins(time)
-  return nil unless time.is_a?(Time) || time.is_a?(Date)
+  return nil unless time.is_a?(Time)
   (time.hour * 60) + time.min
 end
 

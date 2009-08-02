@@ -19,8 +19,10 @@ class RevisionsController < ApplicationController
   end
 
   def delete
+    #TODO need admin to be able to delete a revison
     render "hello"
   end
 
 
 end
+

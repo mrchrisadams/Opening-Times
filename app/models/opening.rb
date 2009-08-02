@@ -37,8 +37,9 @@ class Opening < ActiveRecord::Base
     mins_to_time(opens_mins, strftime)
   end
 
-  def opens_at=(time, autocorrect=false)
-    self.opens_mins = time_to_mins(parse_time(time, :meridian => "AM", :autocorrect => autocorrect))
+  def opens_at=(time)
+    time = parse_time(time, :meridian => "AM") unless time.is_a?(Time)
+    self.opens_mins = time_to_mins(time)
   end
 
   def closes_at(strftime = nil)
@@ -46,8 +47,9 @@ class Opening < ActiveRecord::Base
   end
 
   def closes_at=(time, autocorrect=false)
-    n_mins = time_to_mins(parse_time(time, :meridian => "PM", :autocorrect => autocorrect))
-    self.closes_mins = n_mins == 0 ? MINUTES_IN_DAY : n_mins
+    time = parse_time(time, :meridian => "PM") unless time.is_a?(Time) || time.is_a?(Date)
+    n_mins = time_to_mins(time)
+    self.closes_mins = n_mins == 0 ? MINUTES_IN_DAY : n_mins #FIXME this logic should be fixed directly to closes_mins to ensure it is enforced
   end
 
   def within_mins?(n_mins)

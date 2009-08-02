@@ -5,9 +5,13 @@ class CreateHolidaySets < ActiveRecord::Migration
 
       t.timestamps
     end
+    HolidaySet.create!(:name => "England & Wales")
+    HolidaySet.create!(:name => "Scotland")
+    HolidaySet.create!(:name => "Northern Ireland")
   end
 
   def self.down
     drop_table :holiday_sets
   end
 end
+

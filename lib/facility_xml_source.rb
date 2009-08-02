@@ -6,7 +6,7 @@ class FacilityXmlSource
   DATA_ROOT = File.dirname(__FILE__) + "/../../opening-times-data/"
 
   def initialize(facility_name)
-    @facility_name = facility_name || "**"
+    @facility_name = facility_name || "**" #because nil gets passed if nothing is specified on console
     @files = Dir[xml_path + "*.xml"]
     @attempt_count = @files.size
     @success_count = 0

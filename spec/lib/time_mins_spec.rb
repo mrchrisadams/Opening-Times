@@ -6,7 +6,7 @@ describe "parse_time" do
 
   # Commented out for speed, only enable to check major changes
 #  it "should convert any Time string back to a Time" do
-#    t = DateTime.parse("0:00")
+#    t = Time.parse("0:00")
 #    1439.times do |m|
 #      parse_time(t.strftime("%H:%M"),false).should == t
 #      parse_time(t.strftime("%I:%M%p"),false).to_time.should == t
@@ -15,19 +15,18 @@ describe "parse_time" do
 
 #    (1..12).each do |h|
 #      t = "#{h}AM"
-#      parse_time(t).should == DateTime.parse(t)
+#      parse_time(t).should == Time.parse(t)
 #      t = "#{h}PM"
-#      parse_time(t).should == DateTime.parse(t)
+#      parse_time(t).should == Time.parse(t)
 #    end
 
 #    (0..23).each do |h|
 #      t = "#{h}:00"
-#      parse_time(t).should == DateTime.parse(t)
+#      parse_time(t).should == Time.parse(t)
 #    end
 #  end
 
   it "should return nil if the string can't be convert to a Time" do
-    parse_time(nil).should be_nil
     parse_time("").should be_nil
     parse_time("foo").should be_nil
     parse_time("9BM").should be_nil
@@ -35,69 +34,104 @@ describe "parse_time" do
   end
 
   it "should convert a string to a Time (more accepting that Time.parse)" do
-    parse_time("9am").should == DateTime.parse("9:00")
-    parse_time("9pm").should == DateTime.parse("9:00PM")
-    parse_time("12am").should == DateTime.parse("12:00am")
-    parse_time("12pm").should == DateTime.parse("12:00pm")
-    parse_time("13PM").should == DateTime.parse("13:00")
-    parse_time("21PM").should == DateTime.parse("21:00")
-    parse_time("21:00").should == DateTime.parse("9:00pm")
-    parse_time("24:00").should == DateTime.parse("12:00am")
-    parse_time("9.00").should == DateTime.parse("9:00")
-    parse_time("21.00").should == DateTime.parse("21:00")
-    parse_time("0900").should == DateTime.parse("9:00")
-    parse_time("2100").should == DateTime.parse("21:00")
-    parse_time("900").should == DateTime.parse("9:00")
+    parse_time("0:01").should == Time.parse("0:01")
+    parse_time("9am").should == Time.parse("9:00")
+    parse_time("9pm").should == Time.parse("9:00PM")
+    parse_time("13PM").should == Time.parse("13:00")
+    parse_time("21PM").should == Time.parse("21:00")
+    parse_time("21:00").should == Time.parse("9:00pm")
+    parse_time("9.00").should == Time.parse("9:00")
+    parse_time("21.00").should == Time.parse("21:00")
+    parse_time("0900").should == Time.parse("9:00")
+    parse_time("2100").should == Time.parse("21:00")
+    parse_time("900").should == Time.parse("9:00")
+  end
+
+  it "should understand a variety of formats for 12AM" do
+    midnight = Time.parse("0:00")
+    parse_time("0:00", :meridian => "AM").should == midnight
+    parse_time("12", :meridian => "AM").should == midnight
+    parse_time("12am", :meridian => "AM").should == midnight
+    parse_time("12 AM", :meridian => "AM").should == midnight
+    parse_time("12am", :meridian => "AM").should == midnight
+    parse_time("24:00", :meridian => "AM").should == midnight
+  end
+
+  it "should understand a variety of formats for 12PM" do
+    midday = Time.parse("12:00pm")
+    parse_time("12pm", :meridian => "PM").should == midday
+    parse_time("12 PM", :meridian => "PM").should == midday
+    parse_time("12:00", :meridian => "PM").should == midday
+    parse_time("12.00", :meridian => "PM").should == midday
   end
 
   it "should use the :meridian to help with guessing" do
-    parse_time("9", :meridian => "AM").should == DateTime.parse("9AM")
-    parse_time("24:00", :meridian => "AM").should == DateTime.parse("0:00")
-    parse_time("24:00", :meridian => "PM").should == DateTime.parse("12:00")
-  end
-
-  it "should add a minute to times of X:29 or X:59 unless told not to" do
-    parse_time("21:29", :autocorrect => true).should == DateTime.parse("21:30")
-    parse_time("21:59", :autocorrect => true).should == DateTime.parse("22:00")
-    parse_time("21:29", :autocorrect => false).should == DateTime.parse("21:29")
-    parse_time("21:59", :autocorrect => false).should == DateTime.parse("21:59")
-  end
-
-  it "should subtract a minute to times of X:01 unless told not to" do
-    parse_time("7:01", :autocorrect => true).should == DateTime.parse("7:00")
-    parse_time("7:01", :autocorrect => false).should == DateTime.parse("7:01")
+    parse_time("9", :meridian => "AM").should == Time.parse("9AM")
+    parse_time("0", :meridian => "AM").should == Time.parse("0:00")
+    parse_time("12", :meridian => "AM").should == Time.parse("0:00")
+    parse_time("24:00", :meridian => "AM").should == Time.parse("0:00")
+    parse_time("24:00", :meridian => "PM").should == Time.parse("12:00")
   end
 
   it "should accept strange times used by the Coop" do
-    parse_time("08:00:00").should == DateTime.parse("08:00")
-    parse_time("22:00:00").should == DateTime.parse("22:00")
+    parse_time("08:00:00").should == Time.parse("08:00")
+    parse_time("22:00:00").should == Time.parse("22:00")
   end
 
   it "should understand noon as 12pm" do
-    parse_time("noon").should == DateTime.parse("12:00")
+    parse_time("noon").should == Time.parse("12:00")
   end
 
   it "should understand midday as 12pm" do
-    parse_time("midday").should == DateTime.parse("12:00")
+    parse_time("midday").should == Time.parse("12:00")
   end
 
   it "should understand miday as 12pm" do
-    parse_time("miday").should == DateTime.parse("12:00") #mispelling
+    parse_time("miday").should == Time.parse("12:00") #mispelling
   end
 
   it "should understand mid day as 12pm" do
-    parse_time("mid day").should == DateTime.parse("12:00")
+    parse_time("mid day").should == Time.parse("12:00")
   end
 
   it "should understand mid-day as 12pm" do
-    parse_time("mid-day").should == DateTime.parse("12:00")
+    parse_time("mid-day").should == Time.parse("12:00")
   end
 
   it "should understand midnight as 12pm" do
-    parse_time("midnight").should == DateTime.parse("0:00")
+    parse_time("midnight").should == Time.parse("0:00")
   end
 
 end
+
+
+describe "correct_off_by_one" do
+  it "should subtract a minute to times of X:01" do
+    [["0:01", "0:00"], ["9:01","9:00"], ["12:01","12:00"]].each do |wrong, right|
+      wrong = Time.parse(wrong)
+      right = Time.parse(right)
+      correct_off_by_one_min(wrong).should be_same_time_as(right)
+    end
+  end
+
+  it "should add a minute to times of X:29" do
+    [["0:29", "0:30"], ["9:29","9:30"], ["12:29","12:30"]].each do |wrong, right|
+      wrong = Time.parse(wrong)
+      right = Time.parse(right)
+      correct_off_by_one_min(wrong).should be_same_time_as(right)
+    end
+  end
+
+  it "should add a minute to times of X:59" do
+    [["0:59", "1:00"], ["9:59","10:00"], ["11:59","12:00"], ["12:59","13:00"], ["23:59","0:00"]].each do |wrong, right|
+      wrong = Time.parse(wrong)
+      right = Time.parse(right)
+      correct_off_by_one_min(wrong).should be_same_time_as(right)
+    end
+  end
+end
+
+
 
 
 describe "time_to_mins" do
@@ -109,7 +143,7 @@ describe "time_to_mins" do
   end
 
   it "should convert every minute of the day correctly" do
-    t = DateTime.parse("0:00")
+    t = Time.parse("0:00")
     1439.times do |m|
       time_to_mins(t).should == m
       t += 1.minute
@@ -117,13 +151,13 @@ describe "time_to_mins" do
   end
 
   it "should turn a time in to minutes past midnight" do
-    time_to_mins(DateTime.parse("0:00")).should == 0
-    time_to_mins(DateTime.parse("23:59")).should == 24 * 60 -1
-    time_to_mins(DateTime.parse("9AM")).should == 9 * 60
-    time_to_mins(DateTime.parse("5PM")).should == 17 * 60
-    time_to_mins(DateTime.parse("9:33")).should == 9 * 60 + 33
-    time_to_mins(DateTime.parse("0:00")).should == 0
-    time_to_mins(DateTime.parse("21:00")).should == 1260
+    time_to_mins(Time.parse("0:00")).should == 0
+    time_to_mins(Time.parse("23:59")).should == 24 * 60 -1
+    time_to_mins(Time.parse("9AM")).should == 9 * 60
+    time_to_mins(Time.parse("5PM")).should == 17 * 60
+    time_to_mins(Time.parse("9:33")).should == 9 * 60 + 33
+    time_to_mins(Time.parse("0:00")).should == 0
+    time_to_mins(Time.parse("21:00")).should == 1260
   end
 
 end

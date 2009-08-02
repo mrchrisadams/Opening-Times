@@ -3,12 +3,22 @@
 
 class ApplicationController < ActionController::Base
   helper :all
-  helper_method :current_user_session, :current_user
+  helper_method :current_user_session, :current_user, :lockdown?
   filter_parameter_logging :password, :password_confirmation
 
   protect_from_forgery # See ActionController::RequestForgeryProtection for details
 
   private
+
+    # Stop all editing
+    def lockdown?
+      return false
+    end
+
+    def check_lockdown
+      render 'partials/_lockdown' if lockdown?
+    end
+
     def current_user_session
       return @current_user_session if defined?(@current_user_session)
       @current_user_session = UserSession.find
@@ -55,3 +65,4 @@ class ApplicationController < ActionController::Base
     end
 
 end
+

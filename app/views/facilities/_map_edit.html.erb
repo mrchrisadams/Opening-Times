@@ -30,8 +30,24 @@ function initialize() {
   }
 }
 
-function showAddress(address) {
+
+function initialGeocode() {
+  var lat = document.getElementById('facility_lat').value;
+  var lng = document.getElementById('facility_lng').value;
+  if (lat.length == 0 || lng.length == 0) {
+    updateMap();
+  }
+}
+
+
+function updateMap() {
   if (geocoder) {
+    var address = document.getElementById('facility_address').value;
+    var postcode = document.getElementById('facility_postcode').value;
+    if (address.length == 0 && postcode.length == 0) {
+      return false;
+    }
+    address = address.replace(/\\n/,', ') + ', ' + postcode;
     geocoder.getLatLng(
       address + ", UK",
       function(point) {
@@ -49,8 +65,10 @@ function showAddress(address) {
       }
     );
   }
+  return false;
 }
 /* ]]> */
 </script>
 <% end -%>
 <div id="map_canvas" style="border: 1px solid black; width: 500px; height: 256px;"></div>
+
