@@ -20,7 +20,7 @@
 
   %p.bookmark= render :partial => 'partials/add_this' if RAILS_ENV == 'production'
 
-  - if current_page?(facilities_path) #TODO || current_page?(:controller=>:search, :action=>:index)
+  - if current_page?(facilities_path) || current_page?(search_path)
     %p
       Opening Times server clock
       = Time.current.strftime("%I:%M%p - %a %d %b %Y")

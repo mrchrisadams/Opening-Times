@@ -1,0 +1,26 @@
+- content_for :head do
+  %link{ :href => url_for(:format => :xml), :rel => :alternate, :type => 'application/rss+xml' }
+
+%h1= @page_title = "Recently removed"
+
+%table.reports
+  %tr
+    %th ID
+    %th Name
+    %th User
+    %th Updated
+    %th Comment
+
+  - for facility in @removed
+    %tr
+      %td.num= link_to facility.id, facility_path(facility.id)
+      %td= link_to h(facility.full_name), facility_slug_path(facility)
+      %td.num= facility.user_id
+      %td= time_ago_in_words(facility.retired_at) + " ago"
+      %td=h facility.comment
+
+%h2 See also
+
+%ul
+  %li= link_to 'Recent changes', recentchanges_path
+
