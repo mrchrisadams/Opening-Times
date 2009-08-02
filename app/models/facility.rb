@@ -32,7 +32,6 @@ class Facility < ActiveRecord::Base
   validates_presence_of :name, :location, :slug, :address, :revision, :user_id, :updated_from_ip, :holiday_set_id
   validates_format_of :postcode, :with => POSTCODE_REGX
   validates_format_of :email, :with => EMAIL_REGX, :allow_blank => true
-  validates_uniqueness_of :slug
 
   validates_presence_of :comment, :if => :retired?, :message => "must be provided if facility is marked for removal"
 

@@ -44,7 +44,7 @@ function updateMap() {
   if (geocoder) {
     var address = document.getElementById('facility_address').value;
     var postcode = document.getElementById('facility_postcode').value;
-    if (address.length == 0 && postcode.length == 0) {
+    if (address.length == 0 || postcode.length == 0) {
       return false;
     }
     address = address.replace(/\\n/,', ') + ', ' + postcode;
@@ -70,5 +70,5 @@ function updateMap() {
 /* ]]> */
 </script>
 <% end -%>
-<div id="map_canvas" style="border: 1px solid black; width: 500px; height: 256px;"></div>
+<div id="map_canvas" style="border: 1px solid black; width: 500px; height: 256px; overflow: hidden;"></div>
 

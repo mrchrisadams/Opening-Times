@@ -26,7 +26,8 @@
         = link_to 'Edit', edit_facility_path(@facility)
         |
         = link_to 'Remove', remove_facility_path(@facility)
-
+        |
+        = link_to 'Clone', new_facility_path(:f => @facility.id), :title => 'Create a new business based on this one'
 
   Summary:
   = @facility.summary_normal_openings

@@ -25,13 +25,14 @@
         %td= facility_form.text_area :address, :rows => 3, :cols => 30, :onchange => "initialGeocode();"
       %tr
         %th= label :facility, :postcode, 'Postcode', :class => "mandatory"
-        %td{ :colspan => 2 }
+        %td
           = facility_form.text_field :postcode, :size => 8, :onchange => "initialGeocode();"
           %a{ :onclick => "updateMap();" } Update map location
-          Please drag the marker to point to the main entrance
       %tr
         %th Map
-        %td= render 'map_edit'
+        %td.hint
+          Please drag the marker to point to the main entrance.
+          = render 'map_edit'
         %td.hint
           %table.layout{ :style=>"margin-top: 8px" }
             %tr
@@ -85,12 +86,10 @@
 
     %p
       %small
-        Please select which set of bank holidays this service follows.
+        Please select which set of bank holidays this business follows.
         = link_to('See a list of upcoming bank holidays for each area', bankholidays_path, :target => "_blank") + '.'
 
     %p
-      = label :facility, :holiday_set, 'Region', :class => 'mandatory'
-      %br
       - HolidaySet.all.each_with_index do |h_set, index|
         = facility_form.radio_button :holiday_set_id, h_set.id, :checked => (index == 0)
         = facility_form.label "holiday_set_id_#{h_set.id}", h(h_set.name)

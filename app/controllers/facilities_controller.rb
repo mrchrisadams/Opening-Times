@@ -12,8 +12,10 @@ class FacilitiesController < ApplicationController
   def new
     @facility = Facility.new
 
-    if params[:r]
-      revision = FacilityRevision.find(params[:r])
+    revision = Facility.find(params[:f]).facility_revisions.last.id rescue nil
+    revision = params[:r].to_i unless revision
+    if revision > 0
+      revision = FacilityRevision.find(revision)
       @facility.from_xml(revision.xml)
       @facility.comment = ""
     end
@@ -50,7 +52,7 @@ class FacilitiesController < ApplicationController
       end
     rescue
       # See note in Facility after_save
-      @facility.errors_to_base.add("#{$!} - #{$@} - Overlapping normal openings #{@facility.normal_openings.inspect}")
+      @facility.errors.add_to_base("Overlapping normal openings")
       build_spare_openings
       render "new"
     end
@@ -99,6 +101,11 @@ class FacilitiesController < ApplicationController
     end
 
     def build_spare_openings
+
+      if @facility.new_record?
+        @facility.normal_openings.each { |x| x.id = nil }
+      end
+
       if @facility.normal_openings.empty?
         for day in Opening::DAYNAMES
           @facility.normal_openings.build(:week_day=>day)
@@ -107,7 +114,7 @@ class FacilitiesController < ApplicationController
         next_day = (@facility.normal_openings.last.wday + 1) % 7
         @facility.normal_openings.build(:wday=> next_day)
       end
-      @facility.holiday_openings.build if @facility.new_record? && @facility.holiday_openings.empty?
+      @facility.holiday_openings.build(:closed => true) if @facility.new_record? && @facility.holiday_openings.empty?
     end
 
     def update_user_info

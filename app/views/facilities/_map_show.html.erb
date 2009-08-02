@@ -25,7 +25,7 @@ function initialize() {
       markerOptions = { icon:numberIcon };
       var marker = new GMarker(point, markerOptions);
       GEvent.addListener(marker, "click", function() {
-        marker.openInfoWindowHtml(info);
+        marker.openInfoWindowHtml(info,{maxWidth:250});
       });
       return marker;
     }
@@ -46,7 +46,7 @@ function initialize() {
     map.addOverlay(locationMarker);
 
     <% info = "<strong>#{@facility.full_name}</strong><br />#{comma_to_br(@facility.address)}, #{@facility.postcode}" -%>
-    locationMarker.openInfoWindowHtml("<%= escape_javascript(info) %>");
+    locationMarker.openInfoWindowHtml("<%= escape_javascript(info) %>",{maxWidth:250});
   }
 }
 /* ]]> */

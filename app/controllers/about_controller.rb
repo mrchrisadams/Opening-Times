@@ -1,7 +1,7 @@
 class AboutController < ApplicationController
 
   def bankholidays
-    @holiday_sets = HolidaySet.find(:all, :include=>:holiday_events)
+    @holiday_sets = HolidaySet.all
     respond_to do |format|
       format.xml { render :xml => @holiday_sets.to_xml( :include=>:holiday_events ) }
       format.json { render :json => @holiday_sets.to_json( :include=>:holiday_events ) }
@@ -32,3 +32,4 @@ class AboutController < ApplicationController
   end
 
 end
+

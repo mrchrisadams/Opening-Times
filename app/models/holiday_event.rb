@@ -5,5 +5,7 @@ class HolidayEvent < ActiveRecord::Base
   validates_presence_of :date, :holiday_set_id
   validates_length_of :comment, :maximum => 100, :allow_blank => true
 
+  default_scope :order => 'date'
+
 end
 

@@ -11,19 +11,15 @@
   You can find out more information about
   = link_to('Bank holidays and British Summer Time on DirectGov', 'http://www.direct.gov.uk/en/Governmentcitizensandrights/LivingintheUK/DG_073741') + '.'
 
-- for h_set in @holiday_sets
-  %h2= h_set.name
-  %table.reports
-    %tr
-      %th Year
-      %th Month
-      %th Day
-      %th Weekday
-      %th
-    - for h_event in h_set.holiday_events
-      %tr{ :class => h_event.date == Date.today ? 'highlight' : '' }
-        %td= h_event.date.strftime("%Y")
-        %td= h_event.date.strftime("%b")
-        %td= h_event.date.strftime("%d")
-        %td= h_event.date.strftime("%A")
-        %td= h_event.comment
+- @holiday_sets.each do |h_set|
+  %h2&= h_set.name
+  - prev_year = ""
+  %ul
+    - h_set.holiday_events.each do |h_event|
+      - if h_event.date.year != prev_year
+        %li
+          %h3= prev_year = h_event.date.year
+      %li{ :class => h_event.date == Date.today ? 'highlight' : nil }
+        = h_event.date.strftime("%a %d %b %Y").sub(/ 0(\d)/,' \1')
+        = h_event.comment
+
