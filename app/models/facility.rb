@@ -16,7 +16,7 @@ class Facility < ActiveRecord::Base
   named_scope :active, :conditions => { :retired_at => nil }
 
   accepts_nested_attributes_for :normal_openings, :allow_destroy => true, :reject_if => proc { |attrs| attrs['opens_at'].blank? && attrs['closes_at'].blank? && attrs['comment'].blank? }
-  accepts_nested_attributes_for :holiday_openings, :allow_destroy => true, :reject_if => proc { |attrs| attrs['closed'].blank? && attrs['opens_at'].blank? && attrs['closes_at'].blank? && attrs['comment'].blank? }
+  accepts_nested_attributes_for :holiday_openings, :allow_destroy => true, :reject_if => proc { |attrs| (attrs['closed'] == "0" || attrs['closed'].blank?) && attrs['opens_at'].blank? && attrs['closes_at'].blank? && attrs['comment'].blank? }
 
   def before_validation
     self.slug = full_name.slugify
