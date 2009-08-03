@@ -1,6 +1,6 @@
 <h1>Login</h1>
 
-<p>Please login or <%= link_to 'register as a new user', new_user_path %>.</p>
+<p>Please login or <%= link_to 'sign up as a new user', signup_path %>.</p>
 
 <% form_for(@user_session) do |f| %>
   <%= f.error_messages %>
@@ -17,3 +17,4 @@
     <%= f.submit 'Login', :disable_with => "Please wait...", :class => "button tick" %>
   </p>
 <% end %>
+
