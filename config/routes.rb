@@ -16,7 +16,9 @@ ActionController::Routing::Routes.draw do |map|
   map.resources :user_sessions
   map.resources :users
 
-  map.connect 'compare/:a/:b', :controller => 'compare', :defaults => { :a => nil, :b => nil }
+  map.compare 'compare/:a/:b', :controller => 'compare', :defaults => { :a => nil, :b => nil }
+
+  map.ip 'ip/:ip', :controller => 'ip', :ip => /\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}/
 
   %w(about accessibility bankholidays copyright feedback guidelines help license multipleopenings privacy recentchanges recentlyremoved sitemap statistics).each do |a|
     map.send "#{a}", "#{a}", :controller => 'about', :action => a
