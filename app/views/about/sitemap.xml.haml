@@ -16,5 +16,6 @@
     %loc= "http://#{request.host_with_port}/privacy"
   - for facility in @facilities
     %url
-      %loc= facility_url(facility)
+      %loc= facility_slug_url(facility.slug)
       %lastmod= facility.updated_at.strftime("%Y-%m-%d")
+

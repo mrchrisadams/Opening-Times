@@ -1,5 +1,5 @@
 - content_for :head do
-  %link{ :href => url_for(:format => :xml), :rel => :alternate, :type => 'application/rss+xml' }
+  = auto_discovery_link_tag(:atom, { :format => :xml }, { :title => "Recent changes ATOM feed" } )
 
 %h1= @page_title = "Recent changes"
 

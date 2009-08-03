@@ -23,7 +23,7 @@ ActionController::Routing::Routes.draw do |map|
     map.send "#{a}", "#{a}.:format", :controller => 'about', :action => a
   end
 
-  map.search 'search/:action', :controller => 'search'
+  map.search 'search.:format', :controller => 'search', :defaults => { :format => nil }
 #  map.fireeagle 'search/fireeagle', :controller => 'search', :action => 'fireeagle'
 
   map.facility_slug ':slug', :controller => 'slug_trap', :action => 'show'

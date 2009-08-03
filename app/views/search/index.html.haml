@@ -1,3 +1,6 @@
+- content_for :head do
+  = auto_discovery_link_tag(:atom, { :overwrite_params => { :format => :xml  } }, { :title => "ATOM feed" } )
+
 %h1= @page_title = "Facilities near \"#{h(params[:location])}\""
 
 %div{:style=>"width:50%; float:left"}
@@ -31,3 +34,4 @@
 
 %div{:style=>"width:50%; float:left"}
   = render :partial => "map_search"
+

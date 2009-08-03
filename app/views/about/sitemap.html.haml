@@ -1,4 +1,8 @@
+- content_for :head do
+  = auto_discovery_link_tag(:atom, { :format => :xml }, { :title => "XML sitemap" } )
+
 %h1= @page_title = "Site map"
 
 %ul
   %li Woo
+
