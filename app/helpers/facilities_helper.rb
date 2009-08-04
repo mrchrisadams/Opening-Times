@@ -8,13 +8,48 @@ module FacilitiesHelper
     text
   end
 
-  def time_span_cells(opens,closes)
-    if opens == closes
+  def time_span_cells2(opens, closes)
+    if opens == "12PM" && closes == "12PM"
       "<td colspan='3' align='center'>24 <span class='ampm'>hours</span></td>\n"
     else
       "<td>#{fmt_time(opens)}</td>\n<td>-</td>\n<td>#{fmt_time(closes)}</td>\n"
     end
   end
+
+  def time_span_cells(opening)
+    if opening.opens_mins == 0 && opening.closes_mins == Opening::MINUTES_IN_DAY
+      "<td colspan='3' align='center'>24 <span class='ampm'>hours</span></td>\n"
+    else
+      "<td>#{fmt_time(opening.opens_at)}</td>\n<td>-</td>\n<td>#{fmt_time(opening.closes_at)}</td>\n"
+    end
+  end
+
+  def midnight2midnight(o1,o2)
+    o1 && o2 && o1.closes_mins == Opening::MINUTES_IN_DAY && o2.opens_mins == 0
+  end
+
+
+  def normal_opening_rows2
+
+    # for each day
+      # build_opening_rows for that day
+
+      # for each opening on that day
+        # when midnight and next = midnight
+          # times(opens,"")
+          # "opens past midnight"
+        # when midnight and prev = midnight
+          # times("",closes)
+        # else
+          # times(opens,closes)
+        # return times and count
+      # if count > 1
+        # num_openings blah
+      # build day
+
+
+  end
+
 
 
   # TODO this should be refactored
@@ -32,9 +67,9 @@ module FacilitiesHelper
         counter += 1
         found_count += 1
         if found_count == 1 # if there is more than one opening for this day
-          tmp_html += "#{time_span_cells(opening.opens_at,opening.closes_at)}"
+          tmp_html += "#{time_span_cells(opening)}"
         else
-          tmp_html += "<tr#{highlight}>\n#{time_span_cells(opening.opens_at,opening.closes_at)}"
+          tmp_html += "<tr#{highlight}>\n#{time_span_cells(opening)}"
         end
         tmp_html += "<td class='comment'>#{h(opening.comment)}</td>\n</tr>\n"
         opening = normal_openings[counter]
@@ -50,6 +85,11 @@ module FacilitiesHelper
       else
         html += "<td class='day' scope='row' rowspan='#{found_count}'><abbr title='#{Date::DAYNAMES[day]}'>#{Date::ABBR_DAYNAMES[day]}</abbr><br /><span class='info'>#{found_count} openings</span></td>" + tmp_html
       end
+
+#      if midnight2midnight(normal_openings[counter-1], opening)
+#        html += "<tr>\n<td></td><td colspan='3' style='text-align: center' class='comment'>Open past midnight</td></tr>"
+#      end
+
     end
     return html
   end

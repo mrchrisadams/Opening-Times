@@ -1,5 +1,3 @@
-#require 'parser_utils'
-
 class Facility < ActiveRecord::Base
   acts_as_mappable :default_units => :miles, :default_formula => :flat
 
@@ -61,8 +59,7 @@ class Facility < ActiveRecord::Base
     # raise an exception here which causes a rollback
     # and catch the exception in the create action of the controller.
     # For update, it is just a normal validate
-    raise "One or more normal opening times overlap" if overlapping_normal_opening_for_same_facility?
-    raise "One or more bank holiday opening times overlap or you have a closed and non closed bank holiday opening" if overlapping_or_closed_holiday_opening_for_same_facility?
+    raise "One or more openings overlap" if overlapping_normal_opening_for_same_facility? || overlapping_or_closed_holiday_opening_for_same_facility?
   end
 
   def validate_on_update
@@ -182,7 +179,7 @@ class Facility < ActiveRecord::Base
       xml.tag!(:updated_at, updated_at)
 
       normal_openings.to_xml(:builder=>xml,:skip_instruct=>true) unless normal_openings.empty?
-#      holiday_openings.to_xml(:builder=>xml,:skip_instruct=>true) unless holiday_openings.empty?
+      holiday_openings.to_xml(:builder=>xml,:skip_instruct=>true) unless holiday_openings.empty?
 #      special_openings.to_xml(:builder=>xml,:skip_instruct=>true) unless special_openings.empty?
     end
   end
@@ -216,6 +213,10 @@ class Facility < ActiveRecord::Base
 
     (s/"normal-openings/opening").each do |opn|
       o = self.normal_openings.build
+      o.from_xml(opn)
+    end
+    (s/"holiday-openings/opening").each do |opn|
+      o = self.holiday_openings.build
       o.from_xml(opn)
     end
     self

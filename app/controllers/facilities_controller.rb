@@ -52,7 +52,7 @@ class FacilitiesController < ApplicationController
       end
     rescue
       # See note in Facility after_save
-      @facility.errors.add_to_base("Overlapping normal openings")
+      @facility.errors.add_to_base("One or more openings overlap or you have a closed and open session on the same day.")
       build_spare_openings
       render "new"
     end
@@ -104,6 +104,7 @@ class FacilitiesController < ApplicationController
 
       if @facility.new_record?
         @facility.normal_openings.each { |x| x.id = nil }
+        @facility.holiday_openings.each { |x| x.id = nil }
       end
 
       if @facility.normal_openings.empty?

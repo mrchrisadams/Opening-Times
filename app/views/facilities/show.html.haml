@@ -48,21 +48,21 @@
       .advertBox
 
       %h2 Address
-      %address
-        = comma_to_br(h(@facility.full_address))
-      - unless (@facility.phone || @facility.email || @facility.url).blank?
+      %p
+        %address
+          = comma_to_br(h(@facility.full_address))
+      - unless (@facility.phone || @facility.url).blank?
         %ul.noBullet
           - unless @facility.phone.blank?
             %li= 'Tel:&nbsp;' + @facility.phone
-          - unless @facility.email.blank?
-            %li= 'Email:&nbsp;' + mail_to(@facility.email)
           - unless @facility.url.blank?
-            %li= link_to("More information on #{h(@facility.full_name)}", @facility.url)
+            %li= link_to("More info", @facility.url)
 
-      %h2 Nearby businesses
-      %ol
-        - @nearby[0...5].each_with_index do |nearby,index|
-          %li= link_to h(nearby.full_name), facility_slug_path(nearby.slug)
+      - unless @nearby.empty?
+        %h2 Nearby businesses
+        %ol
+          - @nearby[0...5].each_with_index do |nearby,index|
+            %li= link_to h(nearby.full_name), facility_slug_path(nearby.slug)
 
       = render 'facilities/infobox'
 

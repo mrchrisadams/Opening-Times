@@ -42,6 +42,13 @@ describe Facility do
       @facility.overlapping_or_closed_holiday_opening_for_same_facility?.should be_true
     end
 
+    it "should return true if there are more than one closed HolidayOpening" do
+      @facility.holiday_openings.build(:closed => true)
+      @facility.holiday_openings.build(:closed => true)
+      @facility.holiday_openings.build(:opens_at => "9am", :closes_at => "5pm")
+      @facility.overlapping_or_closed_holiday_opening_for_same_facility?.should be_true
+    end
+
     it "should return false when HolidayOpenings don't overlap" do
       @facility.holiday_openings.build(:opens_at => "9am", :closes_at => "12pm")
       @facility.holiday_openings.build(:opens_at => "1pm", :closes_at => "5pm")

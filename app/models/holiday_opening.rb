@@ -35,5 +35,18 @@ class HolidayOpening < Opening
     return xml
   end
 
+  def from_xml(xml)
+    unless xml.is_a?(Hpricot::Elem)
+      xml = Hpricot.XML(xml)
+      xml = (xml/"opening")
+    end
+    unless self.closed = !!xml["closed"]
+      self.opens_at  = xml["opens"]
+      self.closes_at = xml["closes"]
+    end
+    self.comment   = xml["comment"]
+  end
+
+
 end
 

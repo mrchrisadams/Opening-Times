@@ -18,9 +18,9 @@ today_class = ' class="today"' if @status_manager.on_holiday?(@facility.id)
       counter += 1
       found_count += 1
       if found_count == 1
-        tmp_html += "#{time_span_cells(opening.opens_at,opening.closes_at)}"
+        tmp_html += "#{time_span_cells(opening)}"
       else
-        tmp_html += "<tr#{today_class}>#{time_span_cells(opening.opens_at,opening.closes_at)}"
+        tmp_html += "<tr#{today_class}>#{time_span_cells(opening)}"
       end
       tmp_html += "<td class='comment'>#{h(opening.comment)}</td></tr>\n"
       opening = @facility.holiday_openings[counter]
