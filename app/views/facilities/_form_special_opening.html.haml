@@ -2,8 +2,9 @@
   %td= f.calendar_date_select :starts_on, { :size=>8 }
   %td= f.calendar_date_select :ends_on, { :size=>8 }
   %td= f.select :closed?, [['Open' , ''], ['Closed', true]]
-  %td= f.text_field :opens_at, :size => 5
-  %td= f.text_field :closes_at, :size => 5
-  %td= f.text_field :comment, :size => 18
+  %td= f.text_field :opens_at, :size => 5, :maxlength => 7
+  %td= f.text_field :closes_at, :size => 5, :maxlength => 7
+  %td= f.text_field :comment
   %td.action
     = remove_link_unless_new_record(f)
+

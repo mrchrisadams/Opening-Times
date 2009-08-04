@@ -60,6 +60,11 @@
     %p
       Leave blank any days when the business is closed.
       = link_to('How to enter closed for lunch or open past midnight', multipleopenings_path, :target => "_blank") + '.'
+
+    %p
+      %small
+        Tip, you can also type midnight (for 12AM), and midday (for 12PM)
+
     %table#normalOpenings.openingsForm
       %tr
         %th{ :scope => 'col' } Day
@@ -71,8 +76,8 @@
         - next if opening_form.object.marked_for_destruction?
         %tr.normal_opening
           %td= opening_form.select :week_day, Opening::DAYNAMES
-          %td= opening_form.text_field :opens_at, :size => 5
-          %td= opening_form.text_field :closes_at, :size => 5
+          %td= opening_form.text_field :opens_at, :size => 5, :maxlength => 7
+          %td= opening_form.text_field :closes_at, :size => 5, :maxlength => 7
           %td= opening_form.text_field :comment
           %td.action
             = remove_link_unless_new_record(opening_form)
@@ -110,8 +115,8 @@
           %td
             = opening_form.check_box :closed?, :onclick => "this.disable"
             = opening_form.label :closed?, 'Closed'
-          %td= opening_form.text_field :opens_at, :size => 5
-          %td= opening_form.text_field :closes_at, :size => 5
+          %td= opening_form.text_field :opens_at, :size => 5, :maxlength => 7
+          %td= opening_form.text_field :closes_at, :size => 5, :maxlength => 7
           %td= opening_form.text_field :comment
           %td.action
             = remove_link_unless_new_record(opening_form)

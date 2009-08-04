@@ -3,8 +3,8 @@
     %td
       = f.check_box :closed?
       = f.label :closed?, 'Closed'
-    %td= f.text_field :opens_at, :size => 5
-    %td= f.text_field :closes_at, :size => 5
+    %td= f.text_field :opens_at, :size => 5, :maxlength => 7
+    %td= f.text_field :closes_at, :size => 5, :maxlength => 7
     %td= f.text_field :comment
     %td.action
       = remove_link_unless_new_record(f)
