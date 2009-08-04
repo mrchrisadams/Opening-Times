@@ -56,15 +56,10 @@ class Opening < ActiveRecord::Base
     opens_mins <= n_mins and closes_mins > n_mins
   end
 
-#  def is_open_at?(time)
-#    raise ArgumentError.new unless time.is_a?(Time)
-#    n_mins = time_to_mins(time)
-#    opens_mins <= n_mins and closes_mins > n_mins
-#  end
-
   def equal_times?(o)
     self.opens_mins == o.opens_mins && self.closes_mins == o.closes_mins
   end
+
 
 end
 

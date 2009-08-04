@@ -222,8 +222,5 @@ class Facility < ActiveRecord::Base
     self
   end
 
-  private
-
-
 end
 
