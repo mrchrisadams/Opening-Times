@@ -9,6 +9,9 @@ class Opening < ActiveRecord::Base
 
   default_scope :order => 'starts_on,sequence,opens_mins'
 
+#  validates_associated :facility
+#  validates_presence_of :facility_id
+
   def validate
     errors.add(:opens_at,'must be a valid time between 0:00 and 23:59') unless opens_mins.nil? || (0..MINUTES_IN_DAY-1).include?(opens_mins)
     errors.add(:closes_at,'must be a valid time between 0:01 and 0:00') unless closes_mins.nil? || (1..MINUTES_IN_DAY).include?(closes_mins)
@@ -38,7 +41,7 @@ class Opening < ActiveRecord::Base
   end
 
   def opens_at=(time)
-    time = parse_time(time, :meridian => "AM") unless time.is_a?(Time)
+    time = parse_time(time, "AM") unless time.is_a?(Time)
     self.opens_mins = time_to_mins(time)
   end
 
@@ -46,8 +49,9 @@ class Opening < ActiveRecord::Base
     mins_to_time(closes_mins, strftime)
   end
 
-  def closes_at=(time, autocorrect=false)
-    time = parse_time(time, :meridian => "PM") unless time.is_a?(Time) || time.is_a?(Date)
+  def closes_at=(time)
+    meridian = time =~ /^(0|12)(:|\.)?(00)?$/ ? "AM" : "PM"
+    time = parse_time(time, meridian) unless time.is_a?(Time) || time.is_a?(Date)
     n_mins = time_to_mins(time)
     self.closes_mins = n_mins == 0 ? MINUTES_IN_DAY : n_mins #FIXME this logic should be fixed directly to closes_mins to ensure it is enforced
   end
@@ -59,7 +63,6 @@ class Opening < ActiveRecord::Base
   def equal_times?(o)
     self.opens_mins == o.opens_mins && self.closes_mins == o.closes_mins
   end
-
 
 end
 

@@ -4,102 +4,119 @@ require 'date'
 
 describe "parse_time" do
 
-  # Commented out for speed, only enable to check major changes
-#  it "should convert any Time string back to a Time" do
-#    t = Time.parse("0:00")
-#    1439.times do |m|
-#      parse_time(t.strftime("%H:%M"),false).should == t
-#      parse_time(t.strftime("%I:%M%p"),false).to_time.should == t
-#      t += 1.minute
-#    end
-
-#    (1..12).each do |h|
-#      t = "#{h}AM"
-#      parse_time(t).should == Time.parse(t)
-#      t = "#{h}PM"
-#      parse_time(t).should == Time.parse(t)
-#    end
-
-#    (0..23).each do |h|
-#      t = "#{h}:00"
-#      parse_time(t).should == Time.parse(t)
-#    end
-#  end
-
   it "should return nil if the string can't be convert to a Time" do
-    parse_time("").should be_nil
-    parse_time("foo").should be_nil
-    parse_time("9BM").should be_nil
-    parse_time("28:71").should be_nil
+    parse_time("", "AM").should be_nil
+    parse_time("foo", "AM").should be_nil
+    parse_time("9BM", "AM").should be_nil
+    parse_time("28:71", "AM").should be_nil
+    parse_time("", "PM").should be_nil
+    parse_time("foo", "PM").should be_nil
+    parse_time("9BM", "PM").should be_nil
+    parse_time("28:71", "PM").should be_nil
   end
 
-  it "should convert a string to a Time (more accepting that Time.parse)" do
-    parse_time("0:01").should == Time.parse("0:01")
-    parse_time("9am").should == Time.parse("9:00")
-    parse_time("9pm").should == Time.parse("9:00PM")
-    parse_time("13PM").should == Time.parse("13:00")
-    parse_time("21PM").should == Time.parse("21:00")
-    parse_time("21:00").should == Time.parse("9:00pm")
-    parse_time("9.00").should == Time.parse("9:00")
-    parse_time("21.00").should == Time.parse("21:00")
-    parse_time("0900").should == Time.parse("9:00")
-    parse_time("2100").should == Time.parse("21:00")
-    parse_time("900").should == Time.parse("9:00")
+  it "should accept a twenty four hour string" do
+    parse_time("09.00", "AM").should == Time.parse("9:00")
+    parse_time("21.00", "PM").should == Time.parse("21:00")
+  end
+
+  it "should accept a full stop as the dividor" do
+    parse_time("9.00", "AM").should == Time.parse("9:00")
+    parse_time("21.00", "PM").should == Time.parse("21:00")
+  end
+
+  it "should ignore the hint, when the meridian is specified in the string" do
+    parse_time("9am", "PM").should == Time.parse("9:00AM")
+    parse_time("9pm", "AM").should == Time.parse("9:00PM")
+  end
+
+  it "should ignore the hint, when the string begins with 0 (twenty four hour clock)" do
+    parse_time("0900", "PM").should == Time.parse("9:00")
+  end
+
+  it "should allow spaces between the time and meridian within the string" do
+    parse_time("9 PM", "PM").should == Time.parse("21:00")
+    parse_time("9  PM", "PM").should == Time.parse("21:00")
+  end
+
+  it "should convert a string to a Time with AM hint (more accepting that Time.parse)" do
+    parse_time("0:01", "AM").should == Time.parse("0:01")
+    parse_time("9", "AM").should == Time.parse("9:00")
+    parse_time("9:00", "AM").should == Time.parse("9:00")
+  end
+
+  it "should convert a string to a Time with PM hint (more accepting that Time.parse)" do
+    parse_time("21:00", "PM").should == Time.parse("21:00")
+    parse_time("2100", "PM").should == Time.parse("21:00")
+    parse_time("900", "PM").should == Time.parse("21:00")
+    parse_time("9", "PM").should == Time.parse("21:00")
+  end
+
+  it "should convert 1800 to a Time of 18:00" do
+    parse_time("1800", "PM").should == Time.parse("18:00")
   end
 
   it "should understand a variety of formats for 12AM" do
     midnight = Time.parse("0:00")
-    parse_time("0:00", :meridian => "AM").should == midnight
-    parse_time("12", :meridian => "AM").should == midnight
-    parse_time("12am", :meridian => "AM").should == midnight
-    parse_time("12 AM", :meridian => "AM").should == midnight
-    parse_time("12am", :meridian => "AM").should == midnight
-    parse_time("24:00", :meridian => "AM").should == midnight
+    parse_time("0", "AM").should == midnight
+    parse_time("0:00", "AM").should == midnight
+    parse_time("12", "AM").should == midnight
+    parse_time("12am", "AM").should == midnight
+    parse_time("12 AM", "AM").should == midnight
+    parse_time("12am", "AM").should == midnight
+    parse_time("24:00", "AM").should == midnight
   end
 
   it "should understand a variety of formats for 12PM" do
     midday = Time.parse("12:00pm")
-    parse_time("12pm", :meridian => "PM").should == midday
-    parse_time("12 PM", :meridian => "PM").should == midday
-    parse_time("12:00", :meridian => "PM").should == midday
-    parse_time("12.00", :meridian => "PM").should == midday
+    parse_time("12", "PM").should == midday
+    parse_time("12pm", "PM").should == midday
+    parse_time("12 PM", "PM").should == midday
+    parse_time("12:00", "PM").should == midday
+    parse_time("12.00", "PM").should == midday
   end
 
   it "should use the :meridian to help with guessing" do
-    parse_time("9", :meridian => "AM").should == Time.parse("9AM")
-    parse_time("0", :meridian => "AM").should == Time.parse("0:00")
-    parse_time("12", :meridian => "AM").should == Time.parse("0:00")
-    parse_time("24:00", :meridian => "AM").should == Time.parse("0:00")
-    parse_time("24:00", :meridian => "PM").should == Time.parse("12:00")
+    parse_time("9", "AM").should == Time.parse("9AM")
+    parse_time("0", "AM").should == Time.parse("0:00")
+    parse_time("12", "AM").should == Time.parse("0:00")
+    parse_time("24:00", "AM").should == Time.parse("0:00")
+    parse_time("24:00", "PM").should == Time.parse("12:00")
   end
 
   it "should accept strange times used by the Coop" do
-    parse_time("08:00:00").should == Time.parse("08:00")
-    parse_time("22:00:00").should == Time.parse("22:00")
+    parse_time("08:00:00", "AM").should == Time.parse("08:00")
+    parse_time("22:00:00", "PM").should == Time.parse("22:00")
   end
 
   it "should understand noon as 12pm" do
-    parse_time("noon").should == Time.parse("12:00")
+    parse_time("noon", "AM").should == Time.parse("12:00")
+    parse_time("noon", "PM").should == Time.parse("12:00")
   end
 
   it "should understand midday as 12pm" do
-    parse_time("midday").should == Time.parse("12:00")
+    parse_time("midday", "AM").should == Time.parse("12:00")
+    parse_time("midday", "PM").should == Time.parse("12:00")
   end
 
   it "should understand miday as 12pm" do
-    parse_time("miday").should == Time.parse("12:00") #mispelling
+    parse_time("miday", "AM").should == Time.parse("12:00") #mispelling
+    parse_time("miday", "PM").should == Time.parse("12:00") #mispelling
   end
 
   it "should understand mid day as 12pm" do
-    parse_time("mid day").should == Time.parse("12:00")
+    parse_time("mid day", "AM").should == Time.parse("12:00")
+    parse_time("mid day", "PM").should == Time.parse("12:00")
   end
 
   it "should understand mid-day as 12pm" do
-    parse_time("mid-day").should == Time.parse("12:00")
+    parse_time("mid-day", "AM").should == Time.parse("12:00")
+    parse_time("mid-day", "PM").should == Time.parse("12:00")
   end
 
   it "should understand midnight as 12pm" do
-    parse_time("midnight").should == Time.parse("0:00")
+    parse_time("midnight", "AM").should == Time.parse("0:00")
+    parse_time("midnight", "PM").should == Time.parse("0:00")
   end
 
 end

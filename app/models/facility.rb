@@ -8,7 +8,6 @@ class Facility < ActiveRecord::Base
   has_many :facility_revisions
   belongs_to :user
   belongs_to :holiday_set
-
   attr_accessible :name, :location, :description, :lat, :lng, :address, :postcode, :phone, :email, :url, :holiday_set_id, :normal_openings_attributes, :holiday_openings_attributes, :comment, :retired
 
   named_scope :active, :conditions => { :retired_at => nil }
@@ -38,7 +37,10 @@ class Facility < ActiveRecord::Base
 
   def validate
     dupe = Facility.find_by_slug(slug)
-    errors.add_to_base("A facility with this name and location already exists, please contact us to remove duplicates") if dupe && dupe != self
+    errors.add(:location, " - a business with this name and location already exists") if dupe && dupe != self
+
+    errors.add_to_base("One or more normal opening times overlap") if overlapping_normal_opening_for_same_facility?
+    errors.add_to_base("One or more bank holiday opening times overlap or you have a closed and non closed bank holiday opening") if overlapping_or_closed_holiday_opening_for_same_facility?
   end
 
   def after_validation
@@ -54,26 +56,21 @@ class Facility < ActiveRecord::Base
     self.revision += 1
   end
 
-  def after_create
-    # because child objects can be accessed until the parent has been created
-    # raise an exception here which causes a rollback
-    # and catch the exception in the create action of the controller.
-    # For update, it is just a normal validate
-    raise "One or more openings overlap" if overlapping_normal_opening_for_same_facility? || overlapping_or_closed_holiday_opening_for_same_facility?
-  end
-
-  def validate_on_update
-    # see note for after_create
-    errors.add_to_base("One or more normal opening times overlap") if overlapping_normal_opening_for_same_facility?
-    errors.add_to_base("One or more bank holiday opening times overlap or you have a closed and non closed bank holiday opening") if overlapping_or_closed_holiday_opening_for_same_facility?
-  end
+#  def after_create
+#    # because child objects can be accessed until the parent has been created
+#    # raise an exception here which causes a rollback
+#    # and catch the exception in the create action of the controller.
+#    # For update, it is just a normal validate
+#    raise "One or more openings overlap" if overlapping_normal_opening_for_same_facility? || overlapping_or_closed_holiday_opening_for_same_facility?
+#  end
 
   def overlapping_normal_opening_for_same_facility?
     normal_openings.each do |normal_opening|
       normal_openings.each do |c|
         next if normal_opening.object_id == c.object_id || normal_opening.marked_for_destruction? || c.marked_for_destruction?
         if normal_opening.same_wday?(c.wday) &&
-          (normal_opening.within_mins?(c.opens_mins) || normal_opening.within_mins?(c.opens_mins))
+          (normal_opening.within_mins?(c.opens_mins) || normal_opening.within_mins?(c.closes_mins))
+          normal_opening.errors.add(:week_day, " - this opening overlaps with another on for the same day")
           return true
         end
       end
@@ -87,6 +84,7 @@ class Facility < ActiveRecord::Base
         next if holiday_opening.object_id == c.object_id || holiday_opening.marked_for_destruction? || c.marked_for_destruction?
         if holiday_opening.closed? ||
            holiday_opening.within_mins?(c.opens_mins) || holiday_opening.within_mins?(c.opens_mins)
+          holiday_opening.errors.add(:opens_at, " - overlaps with another bank holiday opening")
           return true
         end
       end

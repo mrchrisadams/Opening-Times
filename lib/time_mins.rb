@@ -1,10 +1,8 @@
 require 'date'
 
-#Turn a string in to a DateTime with a bit of manipulation
-#:meridian => "AM" or "PM" to hint as which side of noon you want
-#:autocorrect => true will turn 17:59 in to 18:00 and 9:01 in to 9:00
-def parse_time(s, options={})
-  raise ArgumentError.new("Expected a string") unless s.is_a?(String)
+#Turn a string in to a DateTime with a bit of guess work,
+# parse_time("9", "AM"), hint should be "AM" or "PM" to hint as which side of noon you want
+def parse_time(s, hint)
   begin
     s.gsub!(/\s/,'')
     s.sub!('.',':')
@@ -13,19 +11,18 @@ def parse_time(s, options={})
     s = "12:00PM" if s =~ /NOON|MID-?D?AY/
     s = "0:00AM" if s == "MIDNIGHT"
 
-    if meridian = options[:meridian]
-      s += meridian unless s =~ /A|PM$/ || s =~ /^0\d/
-    end
 
     s.insert(-3,':') if s =~ /^[012]?\d\d\d$/
     s.insert(-3,':00') if s =~ /^\d\d?(AM|PM)$/
     s = "0:00" if s == "24:00"
 
+    s += hint unless s =~ /A|PM$/ || s =~ /^0\d/
+
     d = DateTime.parse(s)
     d = Time.parse("#{d.hour}:#{d.min}")
 
     return d
-  rescue ArgumentError
+  rescue
     return nil
   end
 end
