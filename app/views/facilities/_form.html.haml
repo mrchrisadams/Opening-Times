@@ -50,20 +50,21 @@
       %tr
         %th= label :facility, :url, 'Website'
         %td= facility_form.text_field :url, :class => "fullWidth"
-        %td.hint Link to official website's page for this location
+        %td.hint Further info from official website
   %br
   %fieldset
     %legend Normal opening times
 
     = error_messages_for 'normal opening', :object => @facility.normal_openings
 
-    %p
-      Leave blank any days when the business is closed.
-      = link_to('How to enter closed for lunch or open past midnight', multipleopenings_path, :target => "_blank") + '.'
+    %small
+      %ul
+        %li Leave blank any days when the business is closed.
+        %li
+          See
+          = link_to('how to enter closed for lunch or open past midnight', multipleopenings_path, :target => "_blank")
+        %li You can also type midnight (for 12AM), and midday (for 12PM)
 
-    %p
-      %small
-        Tip, you can also type midnight (for 12AM), and midday (for 12PM)
 
     %table#normalOpenings.openingsForm
       %tr

@@ -22,7 +22,7 @@ class UsersController < ApplicationController
     @user = User.new(params[:user])
 
     if verify_recaptcha(:model => @user) && @user.save
-      flash[:notice] = 'Registration successful'
+      flash[:success] = 'Registration successful'
       redirect_to guidelines_path
     else
       render :action => "new"
@@ -33,7 +33,7 @@ class UsersController < ApplicationController
     @user = current_user
 
     if @user.update_attributes(params[:user])
-      flash[:notice] = 'User information successfully updated'
+      flash[:success] = 'User information successfully updated'
       redirect_back_or_default(root_url)
     else
       render :action => "edit"

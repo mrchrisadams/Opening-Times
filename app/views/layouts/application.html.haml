@@ -28,11 +28,12 @@
       = yield :top_content
 
       #mainContent
-        - if flash[:notice]
-          %p#flash= flash[:notice]
+        - flash.each do |name, msg|
+          = content_tag :div, msg, :class => 'flash', :id => "flash-#{name}"
 
         %a{:name=>'content'}
         = yield
 
       = render :partial => 'partials/footer'
     =# render :partial => 'partials/analytics' if RAILS_ENV == 'production'
+

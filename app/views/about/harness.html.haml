@@ -1,22 +1,46 @@
-%h1 Test harness (h1)
+%h1= @page_title = "Test harness"
 
-%p 
-  Normal paragraph. Blah blah
-  = link_to 'some link', root_path
-  
-%h2 Heading 2
+%p
+  This is a test page to try out all the CSS and such
+
+%p
+  Currently the website is under testing so there may be errors, bugs, incorrect or missing information.
+  I am really keen to hear feedback from any users, so please
+  = link_to( "get in touch", feedback_path) + '.'
+
+%h2 Flash
+
+#flash-info.flash Test info message
+
+#flash-success.flash Test success message
+
+#flash-error.flash Test error message
+
+
+
+%h2 Thanks
+
+%p Thanks to Laura, my parents and all my friends and colleagues who put up with me.
+
+%h3 Open Source software used
+
+%p
+  Thanks to the following open source projects which were used to help build Opening Times
 
 %ul
-  %li Unordered list
-  %li item 2
-  %li item 3
-  
-%h3 Heading 3
-
-%p.backcolor1 Paragraph in color1
-
-%p.backcolor2 Paragraph in color2
-
-%p.backhighlight Paragraph in highlight
-
+  %li= link_to 'Ruby', 'http://www.ruby-lang.org'
+  %li= link_to 'Ruby on Rails', 'http://www.rubyonrails.org'
+  %li= link_to 'Linux', 'http://www.linux.org'
+  %li= link_to 'GNU', 'http://www.gnu.org'
+  %li= link_to 'Ubuntu', 'http://www.ubuntu.com'
+  %li= link_to 'Git', 'http://git.or.cz'
+  %li= link_to 'Thin', 'http://code.macournoyer.com/thin/'
+  %li= link_to 'Nginx', 'http://nginx.net'
+  %li= link_to 'Firefox', 'http://www.mozilla.com/firefox'
+  %li= link_to 'Firefox HTML validator', 'http://users.skynet.be/mgueury/mozilla'
+  %li= link_to 'Inkscape', 'http://www.inkscape.org/'
+  %li
+    = link_to "FAMFAMFAM", 'http://www.famfamfam.com/lab/icons/silk/'
+    (Creative Commons icons)
+  %li Any other projects I've forgotten, let me know if you want a link
 

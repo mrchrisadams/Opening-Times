@@ -178,16 +178,23 @@ address
     :color #000
     :background #bbb
 
-#flash
+.flash
   :margin auto
   :margin-top .5em
-  :background #ff9
-  :border 1px solid #cc0
+  :border 1px solid #999
   :color #000
-  :text-align center
   :font-family sans-serif
-  :padding 4px 12px 4px 12px
-  :width 70%
+  :padding 4px 24px
+  :width 40%
+
+#flash-info
+  :background url(/images/exclamation.png) 4px 5px no-repeat #ff9
+
+#flash-success
+  :background url(/images/tick.png) 4px 5px no-repeat #9f9
+
+#flash-error
+  :background url(/images/cross.png) 4px 5px no-repeat #f99
 
 .highlight
   :background= #ffc

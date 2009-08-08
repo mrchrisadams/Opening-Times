@@ -44,7 +44,7 @@ class FacilitiesController < ApplicationController
 
 #    begin
       if @facility.save
-        flash[:notice] = 'Business was successfully created.'
+        flash[:success] = 'Business was successfully created.'
         redirect_to(@facility)
       else
         build_spare_openings
@@ -64,7 +64,7 @@ class FacilitiesController < ApplicationController
     update_user_info
 
     if @facility.update_attributes(params[:facility])
-      flash[:notice] = 'Business was successfully updated.'
+      flash[:success] = 'Business was successfully updated.'
       redirect_to(@facility)
     else
       build_spare_openings
