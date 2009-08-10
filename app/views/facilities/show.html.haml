@@ -48,9 +48,8 @@
       .advertBox
 
       %h2 Address
-      %p
-        %address
-          = comma_to_br(h(@facility.full_address))
+      %address
+        = comma_to_br(h(@facility.full_address))
       - unless (@facility.phone || @facility.url).blank?
         %ul.noBullet
           - unless @facility.phone.blank?
