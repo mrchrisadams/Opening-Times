@@ -13,7 +13,7 @@
       = @facility.updated_at.strftime("%I:%M %d %b %Y")
     %li
       Updated by user:
-      = link_to @facility.user_id, @facility.user
+      = link_to @facility.user_id, user_path(@facility.user_id)
     %li
       Revision:
       = link_to @facility.revision, facility_revisions_path(@facility)
