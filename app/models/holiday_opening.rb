@@ -2,15 +2,17 @@ require 'set'
 
 class HolidayOpening < Opening
 
-  SEQUENCE_OPEN = 0
-  SEQUENCE_CLOSED = 1
-
   belongs_to :facility
 
   attr_accessible :closed
 
   def before_validation
-    self.opens_mins = self.closes_mins = nil if closed?
+    if closed?
+      self.opens_mins = self.closes_mins = nil
+    else  
+      self.closed = false 
+      true # set closed to false for consistent value in DB, returns true to allow validation to pass
+    end
   end
 
   def validate

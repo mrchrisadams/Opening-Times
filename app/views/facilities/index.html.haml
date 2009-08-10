@@ -8,3 +8,4 @@
       = link_to h(f.full_name), f
       %small
         = "(#{time_ago_in_words(f.updated_at)} ago)"
+        %span{ :class => @status_manager.status(f).downcase }= @status_manager.status(f)

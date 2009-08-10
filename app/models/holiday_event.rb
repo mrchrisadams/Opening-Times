@@ -7,5 +7,7 @@ class HolidayEvent < ActiveRecord::Base
 
   default_scope :order => 'date'
 
+  named_scope :future, :conditions => ["date >= ?", Time.now.to_date]
+
 end
 

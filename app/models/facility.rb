@@ -46,6 +46,7 @@ class Facility < ActiveRecord::Base
   def after_validation
     self.postcode = extract_postcode(postcode) # Uppercase, tidy spaces etc
     update_summary_normal_openings
+    self.url = "http://" + url unless url.blank? || url =~ /\Ahttps?:\/\//
   end
 
   def before_create
@@ -55,14 +56,6 @@ class Facility < ActiveRecord::Base
   def before_update
     self.revision += 1
   end
-
-#  def after_create
-#    # because child objects can be accessed until the parent has been created
-#    # raise an exception here which causes a rollback
-#    # and catch the exception in the create action of the controller.
-#    # For update, it is just a normal validate
-#    raise "One or more openings overlap" if overlapping_normal_opening_for_same_facility? || overlapping_or_closed_holiday_opening_for_same_facility?
-#  end
 
   def overlapping_normal_opening_for_same_facility?
     normal_openings.each do |normal_opening|
@@ -121,10 +114,6 @@ class Facility < ActiveRecord::Base
 
   def full_address
     "#{address}, #{postcode}"
-  end
-
-  def to_xml
-    super({ :include => [:normal_openings] })
   end
 
   def group_set_summary(group_set)

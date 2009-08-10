@@ -5,6 +5,7 @@ class FacilitiesController < ApplicationController
   before_filter :redirect_id_to_slug, :only => [:show]
 
   def index
+    @status_manager = StatusManager.new
     @facilities = Facility.find(:all, :conditions => 'retired_at IS NULL', :order => 'updated_at DESC', :limit => 100)
   end
 
@@ -115,7 +116,7 @@ class FacilitiesController < ApplicationController
         next_day = (@facility.normal_openings.last.wday + 1) % 7
         @facility.normal_openings.build(:wday=> next_day)
       end
-      @facility.holiday_openings.build(:closed => true) if @facility.new_record? && @facility.holiday_openings.empty?
+      @facility.holiday_openings.build if @facility.holiday_openings.empty?
     end
 
     def update_user_info
