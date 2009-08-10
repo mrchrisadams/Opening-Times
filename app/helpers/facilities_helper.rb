@@ -61,7 +61,7 @@ module FacilitiesHelper
     [1,2,3,4,5,6,0].each do |day| # Each day of the week
       found_count = 0
       tmp_html = ""
-      highlight = highlight_day == day ? ' class="today"' : ''
+      highlight = (!@status_manager.on_holiday?(@facility.id) && highlight_day == day) ? ' class="today"' : ''
       opening = normal_openings[counter]
       while opening && opening.wday == day # if the opening is for this day
         counter += 1
