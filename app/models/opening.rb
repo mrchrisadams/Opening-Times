@@ -52,8 +52,12 @@ class Opening < ActiveRecord::Base
   def closes_at=(time)
     meridian = time =~ /^(0|12)(:|\.)?(00)?$/ ? "AM" : "PM"
     time = parse_time(time, meridian) unless time.is_a?(Time) || time.is_a?(Date)
-    n_mins = time_to_mins(time)
-    self.closes_mins = n_mins == 0 ? MINUTES_IN_DAY : n_mins #FIXME this logic should be fixed directly to closes_mins to ensure it is enforced
+    self.closes_mins = time_to_mins(time)
+  end
+  
+  def closes_mins=(n_mins)
+    n_mins = MINUTES_IN_DAY if n_mins == 0
+    write_attribute(:closes_mins, n_mins)
   end
 
   def within_mins?(n_mins)

@@ -57,10 +57,10 @@ class NormalOpening < Opening
       xml = Hpricot.XML(xml)
       xml = (xml/"opening")
     end
-    self.week_day  = xml["week-day"]
-    self.opens_at  = xml["opens"]
-    self.closes_at = xml["closes"]
-    self.comment   = xml["comment"]
+    self.week_day    = xml["week-day"]
+    self.opens_mins  = time_to_mins(Time.parse(xml["opens"])) # no AM/PM hints, just 24 hour 
+    self.closes_mins = time_to_mins(Time.parse(xml["closes"]))
+    self.comment     = xml["comment"]
   end
 
   # Returns an array of all Service.ids which are open, minus any ignores

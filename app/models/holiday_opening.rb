@@ -42,9 +42,9 @@ class HolidayOpening < Opening
       xml = Hpricot.XML(xml)
       xml = (xml/"opening")
     end
-    unless self.closed = !!xml["closed"]
-      self.opens_at  = xml["opens"]
-      self.closes_at = xml["closes"]
+    unless self.closed = xml["closed"] =~ /true/
+      self.opens_mins  = time_to_mins(Time.parse(xml["opens"])) # no AM/PM hints, just 24 hour 
+      self.closes_mins = time_to_mins(Time.parse(xml["closes"]))
     end
     self.comment   = xml["comment"]
   end

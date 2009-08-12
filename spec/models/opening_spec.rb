@@ -35,12 +35,12 @@ shared_examples_for "an opening" do
 
   it "should accept opens_mins of 1439" do
     @opening.opens_mins = 1439
-    @opening.closes_mins = 1440 # avoid opens > closes
+    @opening.closes_mins = Opening::MINUTES_IN_DAY # avoid opens > closes
     @opening.should be_valid
   end
 
   it "should not accept opens_mins greater than 1439" do
-    @opening.opens_mins = 1440
+    @opening.opens_mins = Opening::MINUTES_IN_DAY
     @opening.should_not be_valid
   end
 
@@ -52,19 +52,20 @@ shared_examples_for "an opening" do
     @opening.should be_valid
   end
 
-  it "should not accept closes_mins less than 1" do
+  it "should turn closes_mins of 0 in to Opening::MINUTES_IN_DAY" do
     @opening.closes_mins = 0
-    @opening.should_not be_valid
+    @opening.closes_mins.should == Opening::MINUTES_IN_DAY
+    @opening.should be_valid
   end
 
   # closes maximum
 
-  it "should accept closes_mins of 1440" do
-    @opening.closes_mins = 1440
+  it "should accept closes_mins of Opening::MINUTES_IN_DAY" do
+    @opening.closes_mins = Opening::MINUTES_IN_DAY
     @opening.should be_valid
   end
 
-  it "should not accept closes_mins greater than 1440" do
+  it "should not accept closes_mins greater than Opening::MINUTES_IN_DAY" do
     @opening.closes_mins = 1441
     @opening.should_not be_valid
   end
