@@ -131,7 +131,7 @@ class Facility < ActiveRecord::Base
       if group_set.empty?
         group_set << opening
       else
-        if prev.opens_mins == opening.opens_mins && prev.closes_mins == opening.closes_mins #prev.equal_times?(opening)
+        if prev.equal_mins?(opening)
           group_set << opening
         else
           out << group_set_summary(group_set)

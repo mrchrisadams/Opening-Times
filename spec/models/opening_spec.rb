@@ -161,13 +161,13 @@ shared_examples_for "an opening" do
 
   it "should know whether another opening has the same opening times as itself" do
     o2 = @opening.clone
-    @opening.equal_times?(o2).should be_true
+    @opening.equal_mins?(o2).should be_true
     o2.opens_mins += 1
-    @opening.equal_times?(o2).should be_false
+    @opening.equal_mins?(o2).should be_false
     o2.opens_mins -= 1
-    @opening.equal_times?(o2).should be_true
+    @opening.equal_mins?(o2).should be_true
     o2.opens_mins -= 1
-    @opening.equal_times?(o2).should be_false
+    @opening.equal_mins?(o2).should be_false
   end
 
 end

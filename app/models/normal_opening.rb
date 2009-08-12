@@ -35,7 +35,7 @@ class NormalOpening < Opening
   end
 
   def ==(opening)
-    self.equal_times?(opening) && same_wday?(opening.wday)
+    self.equal_mins?(opening) && same_wday?(opening.wday)
   end
 
   def to_xml(options = {})
