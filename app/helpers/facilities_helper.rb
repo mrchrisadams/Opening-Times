@@ -107,7 +107,7 @@ module FacilitiesHelper
 
   def add_normal_opening_link(name, form)
     link_to_function name do |page|
-      normal_opening = render(:partial => 'form_normal_opening', :locals => { :ff => form, :normal_opening => NormalOpening.new })
+      normal_opening = render(:partial => 'form_normal_opening', :locals => { :ff => form, :normal_opening => form.object.normal_openings.build })
       page << %{
 var new_normal_opening_id = "new_" + new Date().getTime();
 $('normalOpenings').insert({ bottom: "#{ escape_javascript normal_opening }".replace(/new_\\d+/g, new_normal_opening_id) });
