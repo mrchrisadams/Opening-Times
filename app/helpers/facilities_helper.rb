@@ -28,30 +28,6 @@ module FacilitiesHelper
     o1 && o2 && o1.closes_mins == Opening::MINUTES_IN_DAY && o2.opens_mins == 0
   end
 
-
-  def normal_opening_rows2
-
-    # for each day
-      # build_opening_rows for that day
-
-      # for each opening on that day
-        # when midnight and next = midnight
-          # times(opens,"")
-          # "opens past midnight"
-        # when midnight and prev = midnight
-          # times("",closes)
-        # else
-          # times(opens,closes)
-        # return times and count
-      # if count > 1
-        # num_openings blah
-      # build day
-
-
-  end
-
-
-
   # TODO this should be refactored
   def normal_openings_rows(normal_openings, highlight_day)
     return '<tr><td></td><td colspan="4"><p class="info">Sorry, this facility hasn\'t provided its normal opening times.</p></td></tr>' if normal_openings.empty?
@@ -125,6 +101,20 @@ $('holidayOpenings').insert({ bottom: "#{ escape_javascript holiday_opening }".r
     end
   end
 
+  def generate_html(form_builder, method, options = {})
+    options[:object] ||= form_builder.object.class.reflect_on_association(method).klass.new
+    options[:partial] ||= method.to_s.singularize
+    options[:form_builder_local] ||= :f  
+
+    form_builder.fields_for(method, options[:object], :child_index => 'NEW_RECORD') do |f|
+      render(:partial => options[:partial], :locals => { options[:form_builder_local] => f })
+    end
+
+  end
+
+  def generate_template(form_builder, method, options = {})
+    escape_javascript generate_html(form_builder, method, options)
+  end
 
 end
 

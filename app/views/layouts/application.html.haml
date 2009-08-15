@@ -9,6 +9,8 @@
     - if @no_index
       = tag(:meta, { :name=>'robots', :content => 'noindex' })
     = stylesheet_link_tag :all, :cache => true, :media => 'all'
+    - javascript_tag do
+      = yield(:jstemplates)
     = yield :head
     - if RAILS_ENV == 'development'
       %style{ :type=>'text/css' }
@@ -16,7 +18,7 @@
 
   %body{ :onload => @onload, :unload => @onunload }
     %a{ :name => "top", :id => "top" }
-    #allContent
+    #container
       %a#skipToContent{:href=>'#content', :accesskey=>'s'}
         %img{:src=>'/images/invis.png',:width=>1,:height=>1, :alt=>'Skip to content'}
 

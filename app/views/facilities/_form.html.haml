@@ -4,7 +4,12 @@
 
 = error_messages_for :facility
 
-- form_for @facility, :html => { :name => 'f' } do |facility_form|
+- form_for @facility do |facility_form|
+
+  - content_for :jstemplates do 
+    = "var normalopening='#{generate_template(facility_form, :normal_openings, :partial => "form_normal_opening")}'"
+    = "var holidayopening='#{generate_template(facility_form, :holiday_openings, :partial => "form_holiday_opening")}'"
+
   %small
     * Mandatory field
 
@@ -66,7 +71,7 @@
         %li You can also type midnight (for 12AM), and midday (for 12PM)
 
 
-    %table#normalOpenings.openingsForm
+    %table#normalopenings.openingsForm
       %tr
         %th{ :scope => 'col' } Day
         %th{ :scope => 'col' } Opens
@@ -75,9 +80,9 @@
           %label.optional Comment
       - facility_form.fields_for :normal_openings do |opening_form|
         - next if opening_form.object.marked_for_destruction?
-        = render(:partial => 'form_normal_opening', :locals => { :ff => facility_form, :normal_opening => opening_form.object })
+        = render :partial => 'form_normal_opening', :locals => { :f => opening_form }
 
-    %p= add_normal_opening_link("Add normal opening", facility_form)
+    %p= link_to 'Add a normal opening', '#normalopening', :class => "add_nested_item", :rel => "normalopenings"
 
   %br
   %fieldset
@@ -96,7 +101,7 @@
 
     = error_messages_for 'holiday_openings', :object => @facility.holiday_openings
 
-    %table#holidayOpenings.openingsForm
+    %table#holidayopenings.openingsForm
       %tr
         %th
         %th{ :scope => 'col' } Opens
@@ -105,9 +110,9 @@
           %label.optional Comment
       - facility_form.fields_for :holiday_openings do |opening_form|
         - next if opening_form.object.marked_for_destruction?
-        = render(:partial => 'form_holiday_opening', :locals => { :ff => facility_form, :holiday_opening => opening_form.object })
+        = render :partial => 'form_holiday_opening', :locals => { :f => opening_form }
 
-    %p= add_holiday_opening_link("Add holiday opening", facility_form)
+    %p= link_to 'Add a holiday opening', '#holidayopening', :class => "add_nested_item", :rel => "holidayopenings"
 
   - unless @facility.new_record?
     %p
