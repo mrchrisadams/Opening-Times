@@ -1,0 +1,194 @@
+!foreground1= #033649
+!foreground2= #036564
+!highlight= #fcfccc
+!subtle1= #deddcb
+
+!font_list= "sans-serif"
+
+body 
+  margin: 0
+  :font-family = !font_list
+
+h1, h2, h3
+  :color= !foreground2
+  font-weight: normal
+  margin: .3em 0 .1em 0
+
+h1
+  :font
+    :size 3em
+
+a
+  :color= !foreground2
+  text-decoration: underline
+  &:visited
+    :color= !foreground2
+  &:hover
+    :background= !foreground2
+    padding: 2px 0
+    color: #fff
+
+input, textarea, select
+  :font-size large
+  :font-family= !font_list
+  :padding 4px
+  :background= !subtle1
+  :border 1px solid
+  :border-color= !foreground2
+  &:focus
+    :background= !highlight
+
+fieldset
+  :border 1px solid
+  :border-color= !foreground2
+  legend
+    :color= !foreground2
+    :font-size 1.5em
+
+.container_16
+  background: #fff
+
+a#skipToContent
+  float: left
+  margin-top: -20px
+
+#userBar
+  background: #666
+  color: #ccc
+  padding: 2px 0
+  text-align: right
+  font-size: small
+
+#userBar a
+  color: #fff
+  text-decoration: none
+  padding: 2px
+  &:hover
+    color: #000
+    background: #bbb
+
+#banner
+  :background= !foreground2
+  padding 2px
+  border-bottom: 1px solid #fff
+  h2
+    margin: 0
+    a
+      :color= #fff
+      font-size: 1.8em
+      padding: 0
+      margin: 0
+      text-decoration: none
+      img, object
+        margin: 6px 12px
+        vertical-align: middle
+
+#searchBar
+  :background= !foreground2
+  :padding 4px 0
+  a, a:visited
+    :color #fff
+  #group, #location
+    :width 12em
+  label
+    :color #fff
+
+
+
+#main
+  background: #fff
+  padding: 0 0 2em 0
+
+.flash
+  :margin auto
+  :margin-top .5em
+  :border 1px solid #999
+  :color #000
+  :font-family sans-serif
+  :padding 4px 24px
+  :width 40%
+
+#flash-info
+  :background url(/images/exclamation.png) 4px 5px no-repeat #ff9
+
+#flash-success
+  :background url(/images/tick.png) 4px 5px no-repeat #9f9
+
+#flash-error
+  :background url(/images/cross.png) 4px 5px no-repeat #f99
+
+.highlight
+  :background= !highlight
+  :border 1px solid #cc6
+  :padding 4px
+
+
+#footer
+  :background= !foreground2
+  padding: 1em 0 4em 0 
+  text-align: center
+  color: #ddd
+  p
+    color: #ddd
+  p.bookmark a
+    &:hover, &:focus
+      :background= !foreground2
+      text-decoration: none  
+  ul
+    list-style: none
+    padding: 0
+    margin: 0
+    li
+      display: inline
+      border-left: 1px solid
+      border-color: #fff
+      padding-left: 0.25em
+      &:first-child
+        border: none
+      a
+        padding: 0.5em
+        text-decoration: none
+        color: #fff
+        &:hover
+          color: =!foreground1
+          background-color #ccc
+  ul.small
+    font-size: small
+
+
+input.fullWidth
+  :width 492px
+
+input.shy
+  :border-color #999
+  :font-size small
+
+input.button
+  :border 1px outset
+
+input.tick
+  :padding-left 32px
+  :background url(/images/tick.png) no-repeat 8px 8px #cec
+  :color #070
+
+input.cross
+  :padding-left 32px
+  :background url(/images/cross.png) no-repeat 8px 8px #ecc
+  :color #700
+
+.errorExplanation
+  :background #fdd
+  :border 1px solid #c00
+  :padding 8px
+  h2
+    :color #c00
+
+.fieldWithErrors
+  :display inline
+  input, textarea, select
+    :border 2px solid #C00
+    :background= #fdd
+    &:focus
+      :background= !highlight
+
+

@@ -1,7 +1,10 @@
-#searchBar
-  %form{ :action=>"/search", :method=>"get" }
-    = label_tag 'location', 'Where', :accesskey=>'4'
-    = text_field_tag 'location', params[:location], :size => 14
-    = #label_tag 'group', 'What'
-    = #render :partial=>'partials/groups_select'
-    = submit_tag 'Search', :name => nil, :class=>'button'
+#searchBar.container_16
+  .grid_16
+    %form{ :action=>"/search", :method=>"get" }
+      = label_tag 'location', 'Where', :accesskey=>'4'
+      = text_field_tag 'location', params[:location], :size => 14
+      = #label_tag 'group', 'What'
+      = #render :partial=>'partials/groups_select'
+      = submit_tag 'Search', :name => nil, :class=>'button'
+  .clearfix
+

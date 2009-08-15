@@ -1,27 +1,26 @@
-#footer
+#footer.container_16
+  .grid_16
+    %ul
+      %li
+        %strong
+          = link_to 'Add a business', new_facility_path
+      %li= link_to 'Blog', 'http://blog.opening-times.co.uk'
+      %li= link_to 'Help', help_path
 
-  %ul
-    %li
-      %strong
-        = link_to 'Add a business', new_facility_path
-    %li= link_to 'Blog', 'http://blog.opening-times.co.uk'
-    %li= link_to 'Help', help_path
+    %br
 
-  %br
+    %ul.small
+      %li= link_to "&copy; Copyright #{Time.now.year}", copyright_path
+      %li= link_to 'About', about_path, :accesskey => '8'
+      %li= link_to 'Guidelines', guidelines_path
+      %li= link_to 'Accessibility', accessibility_path, :accesskey => '9'
+      %li= link_to 'Privacy', privacy_path
+      %li= link_to 'Feedback', feedback_path
 
+    %p.bookmark= render :partial => 'partials/add_this' if RAILS_ENV == 'production'
 
-  %ul.small
-    %li= link_to "&copy; Copyright #{Time.now.year}", copyright_path
-    %li= link_to 'About', about_path, :accesskey => '8'
-    %li= link_to 'Guidelines', guidelines_path
-    %li= link_to 'Accessibility', accessibility_path, :accesskey => '9'
-    %li= link_to 'Privacy', privacy_path
-    %li= link_to 'Feedback', feedback_path
-
-  %p.bookmark= render :partial => 'partials/add_this' if RAILS_ENV == 'production'
-
-  - if current_page?(facilities_path) || current_page?(search_path)
-    %p
-      Opening Times server clock
-      = Time.current.strftime("%I:%M%p - %a %d %b %Y")
-
+    - if current_page?(facilities_path) || current_page?(search_path)
+      %p
+        Opening Times server clock
+        = Time.current.strftime("%I:%M%p - %a %d %b %Y")
+  .clearfix

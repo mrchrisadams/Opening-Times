@@ -6,62 +6,61 @@
 - @page_title = @facility.full_name
 - @page_desc = "Opening times and map for #{@facility.full_name}, #{@facility.address}"
 
-%h1= h @facility.full_name
+- content_for :top_content do
+  .grid_16
+    %h1= h @facility.full_name
 
-%table.layout
-  %tr
-    %td{ :style=>"padding-right: 8px; border-right: 1px solid #ddd;" }
+  .grid_10
+    %p{ :class => @status.downcase }
+      =h @facility.name
+      is currently
+      %strong
+        = @status.downcase
 
-      %p{ :class => @status.downcase }
-        =h @facility.name
-        is currently
-        %strong
-          = @status.downcase
+    - unless @facility.description.blank?
+      = simple_format(@facility.description)
 
-      - unless @facility.description.blank?
-        = simple_format(@facility.description)
+    %h2 Normal opening times
+    %table.openingTimes
+      %colgroup
+        %col.day
+        %col.time
+        %col.dash
+        %col.time
+        %col.comment
+      %tr
+        %th
+        %th{ :scope=>'col' } Opens
+        %th
+        %th{ :scope=>'col' } Closes
+        %th
+      = normal_openings_rows(@facility.normal_openings, Time.now.wday)
+      = render 'facilities/opn_hol_tbl'
 
-      %h2 Normal opening times
-      %table.openingTimes
-        %colgroup
-          %col.day
-          %col.time
-          %col.dash
-          %col.time
-          %col.comment
-        %tr
-          %th
-          %th{ :scope=>'col' } Opens
-          %th
-          %th{ :scope=>'col' } Closes
-          %th
-        = normal_openings_rows(@facility.normal_openings, Time.now.wday)
-        = render 'facilities/opn_hol_tbl'
+    %br
+    %h2 Map
+    %span
+      %small You can drag and zoom the map to see other nearby businesses
+    = render 'facilities/map_show'
 
-      %br
-      %h2 Map
-      %span
-        %small You can drag and zoom the map to see other nearby businesses
-      = render 'facilities/map_show'
+  .grid_6
+    .advertBox
 
-    %td{ :style=>'padding-left: 8px;' }
-      .advertBox
+    %h2 Address
+    %address
+      = comma_to_br(h(@facility.full_address))
+    - unless (@facility.phone || @facility.url).blank?
+      %ul.noBullet
+        - unless @facility.phone.blank?
+          %li= 'Tel:&nbsp;' + @facility.phone
+        - unless @facility.url.blank?
+          %li= link_to("More info", @facility.url)
 
-      %h2 Address
-      %address
-        = comma_to_br(h(@facility.full_address))
-      - unless (@facility.phone || @facility.url).blank?
-        %ul.noBullet
-          - unless @facility.phone.blank?
-            %li= 'Tel:&nbsp;' + @facility.phone
-          - unless @facility.url.blank?
-            %li= link_to("More info", @facility.url)
+    - unless @nearby.empty?
+      %h2 Nearby businesses
+      %ol
+        - @nearby[0...5].each_with_index do |nearby,index|
+          %li= link_to h(nearby.full_name), facility_slug_path(nearby.slug)
 
-      - unless @nearby.empty?
-        %h2 Nearby businesses
-        %ol
-          - @nearby[0...5].each_with_index do |nearby,index|
-            %li= link_to h(nearby.full_name), facility_slug_path(nearby.slug)
-
-      = render 'facilities/infobox'
+    = render 'facilities/infobox'
 

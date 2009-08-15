@@ -17,24 +17,26 @@
         body { background: url(/images/development-mode.png) #f9f; }
 
   %body{ :onload => @onload, :unload => @onunload }
-    %a{ :name => "top", :id => "top" }
     #container
+      %a#top{ :name => "top" }
       %a#skipToContent{:href=>'#content', :accesskey=>'s'}
         %img{:src=>'/images/invis.png',:width=>1,:height=>1, :alt=>'Skip to content'}
 
       = render 'partials/user_bar'
-
       = render 'partials/banner' unless @no_banner
       = render 'partials/search_bar' unless @no_search_bar
 
-      = yield :top_content
+      #main.container_16
 
-      #mainContent
         - flash.each do |name, msg|
           = content_tag :div, msg, :class => 'flash', :id => "flash-#{name}"
+              
+        = yield :top_content
 
-        %a{:name=>'content'}
-        = yield
+        .grid_16
+          %a#content{:name=>'content'}
+          = yield
+        .clearfix
 
       = render :partial => 'partials/footer'
     =# render :partial => 'partials/analytics' if RAILS_ENV == 'production'

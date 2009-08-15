@@ -1,3 +1,9 @@
+#flash-info.flash Test info message
+
+#flash-success.flash Test success message
+
+#flash-error.flash Test error message
+
 %h1= @page_title = "Test harness"
 
 %p
@@ -7,15 +13,6 @@
   Currently the website is under testing so there may be errors, bugs, incorrect or missing information.
   I am really keen to hear feedback from any users, so please
   = link_to( "get in touch", feedback_path) + '.'
-
-%h2 Flash
-
-#flash-info.flash Test info message
-
-#flash-success.flash Test success message
-
-#flash-error.flash Test error message
-
 
 
 %h2 Thanks
@@ -43,4 +40,20 @@
     = link_to "FAMFAMFAM", 'http://www.famfamfam.com/lab/icons/silk/'
     (Creative Commons icons)
   %li Any other projects I've forgotten, let me know if you want a link
+
+
+- form_tag 'woo' do
+
+  %small
+    * Mandatory field
+
+  %fieldset
+    %legend Form
+    %table.inputFormTable
+      %tr
+        %th= label :facility, :name, 'Name', :class => "mandatory"
+        %td= text_field_tag :name, :class => "fullWidth"
+        %td.hint The name of shop, business, etc.
+
+
 
