@@ -17,10 +17,4 @@
       %li= link_to 'Privacy', privacy_path
       %li= link_to 'Feedback', feedback_path
 
-    %p.bookmark= render :partial => 'partials/add_this' if RAILS_ENV == 'production'
-
-    - if current_page?(facilities_path) || current_page?(search_path)
-      %p
-        Opening Times server clock
-        = Time.current.strftime("%I:%M%p - %a %d %b %Y")
   .clearfix

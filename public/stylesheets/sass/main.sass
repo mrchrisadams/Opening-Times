@@ -134,22 +134,29 @@ a#skipToContent
           color: =!foreground1
           background-color #ccc
 
+#serverClock
+  font-size: small
+  color: #999
+
 .flash
-  :margin auto
-  :margin-top .5em
+  margin-top: 8px
+  text-align: center
+  padding: 4px 0
+
+.flash div
   :border 1px solid #999
   :color #000
-  :font-family sans-serif
-  :padding 4px 24px
-  :width 40%
-
-#flash-info
+  :margin-top .5em
+  :padding 4px 8px 4px 24px
+  :display inline
+ 
+.flash-info
   :background url(/images/exclamation.png) 4px 5px no-repeat #ff9
 
-#flash-success
+.flash-success
   :background url(/images/tick.png) 4px 5px no-repeat #9f9
 
-#flash-error
+.flash-error
   :background url(/images/cross.png) 4px 5px no-repeat #f99
 
 .highlight
@@ -215,7 +222,9 @@ ul.small
     &:focus
       :background= !highlight
 
-
+table
+  th, td
+    :vertical-align top
 
 table.openingTimes
   :padding 0
@@ -247,15 +256,11 @@ table.openingTimes
   td.day
     :color #333
     :padding-right 16px
-    .info
-      :font-size .4em
   td.hday
     :color #333
     :font-size 1em
     :padding-top 4px
     :white-space nowrap
-    .info
-      :font-size .6em
   td.comment
     :padding 2px
     :font-size small
@@ -264,17 +269,15 @@ table.openingTimes
       :color #333
       :font-weight normal
       :font-size .7em
-    .info
-      :font-size .4em
 
-
+.info
+  :font-size 12px
 
 table.inputFormTable
   :border-collapse collapse
   :border none
   th, td
     :padding 4px
-    :vertical-align top
   th
     :text-align right
     :font-weight normal
@@ -300,7 +303,6 @@ table.openingsForm
       :font-weight normal
     td
       :padding 2px
-      :vertical-align top
       :border-bottom 1px solid #ddd
     td.action
       :font-size 0.8em
@@ -310,7 +312,6 @@ table.reports
   th, td
     :border 1px solid #999
     :padding 3px
-    :vertical-align top
     :font-size smaller
   th
     :background #ddd

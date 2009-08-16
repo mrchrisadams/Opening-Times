@@ -56,6 +56,8 @@
         - unless @facility.url.blank?
           %li= link_to("More info", @facility.url)
 
+    = render 'partials/add_this'
+
     - unless @nearby.empty?
       %h2 Nearby businesses
       %ol
@@ -63,4 +65,4 @@
           %li= link_to h(nearby.full_name), facility_slug_path(nearby.slug)
 
     = render 'facilities/infobox'
-
+    = render 'partials/server_clock'

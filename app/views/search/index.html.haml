@@ -34,6 +34,8 @@
 
     = # render :partial=>'increase_distance' if @facilities.size < 10 and @distance != SearchController::DISTANCES.last
 
+    = render 'partials/server_clock'
+
   .grid_8
     = render :partial => "map_search"
 

@@ -28,8 +28,11 @@
 
       #main.container_16
 
-        - flash.each do |name, msg|
-          = content_tag :div, msg, :class => 'flash', :id => "flash-#{name}"
+        - unless flash.empty?
+          .grid_16
+            - flash.each do |name, msg|
+              .flash
+                = content_tag :div, msg, :class => "flash-#{name}"
               
         = yield :top_content
 
