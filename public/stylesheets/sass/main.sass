@@ -45,6 +45,9 @@ fieldset
     :color= !foreground2
     :font-size 1.5em
 
+address
+  :font-style normal
+
 .container_16
   background: #fff
 
@@ -93,34 +96,9 @@ a#skipToContent
   label
     :color #fff
 
-
-
 #main
   background: #fff
   padding: 0 0 2em 0
-
-.flash
-  :margin auto
-  :margin-top .5em
-  :border 1px solid #999
-  :color #000
-  :font-family sans-serif
-  :padding 4px 24px
-  :width 40%
-
-#flash-info
-  :background url(/images/exclamation.png) 4px 5px no-repeat #ff9
-
-#flash-success
-  :background url(/images/tick.png) 4px 5px no-repeat #9f9
-
-#flash-error
-  :background url(/images/cross.png) 4px 5px no-repeat #f99
-
-.highlight
-  :background= !highlight
-  :border 1px solid #cc6
-  :padding 4px
 
 
 #footer
@@ -152,9 +130,49 @@ a#skipToContent
         &:hover
           color: =!foreground1
           background-color #ccc
-  ul.small
-    font-size: small
 
+.flash
+  :margin auto
+  :margin-top .5em
+  :border 1px solid #999
+  :color #000
+  :font-family sans-serif
+  :padding 4px 24px
+  :width 40%
+
+#flash-info
+  :background url(/images/exclamation.png) 4px 5px no-repeat #ff9
+
+#flash-success
+  :background url(/images/tick.png) 4px 5px no-repeat #9f9
+
+#flash-error
+  :background url(/images/cross.png) 4px 5px no-repeat #f99
+
+.highlight
+  :background= !highlight
+  :border 1px solid #cc6
+  :padding 4px
+
+.open, .closed, .unsure
+  :padding 2px 4px 2px 4px
+  :color #fff
+
+.open
+  :background #060
+
+.closed
+  :background #600
+
+.unsure
+  :background #666
+
+.infoBox
+  :margin-top 1em
+  :border 1px solid #ccc
+  :background #eee
+  :font-size smaller
+  :padding 4px
 
 input.fullWidth
   :width 492px
@@ -176,6 +194,9 @@ input.cross
   :background url(/images/cross.png) no-repeat 8px 8px #ecc
   :color #700
 
+ul.small
+  font-size: small
+
 .errorExplanation
   :background #fdd
   :border 1px solid #c00
@@ -191,4 +212,105 @@ input.cross
     &:focus
       :background= !highlight
 
+
+
+table.openingTimes
+  :padding 0
+  :border-collapse collapse
+  col.day
+    :width 10em
+  col.time
+    :width 6em
+  col.dash
+    :width 1em
+  col.comment
+    :width 14em
+  tr#holidayOpenings
+    :border-top 3px double #bbb
+  tr.today
+    :background= !highlight
+    td.day
+      :color #000
+  th
+    :font-weight normal
+    :font-size 1.3em
+  td
+    :font-size 2em
+    :padding 0 8px 0 8px
+    :border-top 1px solid #ccc
+    :border-bottom 1px solid #ccc
+  .closed
+    :color #000
+  td.day
+    :color #333
+    :padding-right 16px
+    .info
+      :font-size .4em
+  td.hday
+    :color #333
+    :font-size 1em
+    :padding-top 4px
+    :white-space nowrap
+    .info
+      :font-size .6em
+  td.comment
+    :padding 2px
+    :font-size small
+  td
+    .ampm
+      :color #333
+      :font-weight normal
+      :font-size .7em
+    .info
+      :font-size .4em
+
+
+
+table.inputFormTable
+  :border-collapse collapse
+  :border none
+  th, td
+    :padding 4px
+    :vertical-align top
+  th
+    :text-align right
+    :font-weight normal
+  th.top
+    :text-align center
+  td.hint
+    :font-size .8em
+    :color #444
+  label
+    :color #666
+    :display block
+    :padding 4px 0 0 0
+    :white-space nowrap
+  label.mandatory
+    :color #000
+    &:after
+      content: " *"
+
+table.openingsForm
+  :border-collapse collapse
+  tr
+    th
+      :font-weight normal
+    td
+      :padding 2px
+      :vertical-align top
+      :border-bottom 1px solid #ddd
+    td.action
+      :font-size 0.8em
+
+table.reports
+  :border-collapse collapse
+  th, td
+    :border 1px solid #999
+    :padding 3px
+    :vertical-align top
+    :font-size smaller
+  th
+    :background #ddd
+  td.num
+    :text-align right
 

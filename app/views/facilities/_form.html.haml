@@ -62,14 +62,12 @@
 
     = error_messages_for 'normal opening', :object => @facility.normal_openings
 
-    %small
-      %ul
-        %li Leave blank any days when the business is closed.
-        %li
-          See
-          = link_to('how to enter closed for lunch or open past midnight', multipleopenings_path, :target => "_blank")
-        %li You can also type midnight (for 12AM), and midday (for 12PM)
-
+    %ul.small
+      %li Leave blank any days when the business is closed.
+      %li
+        See
+        = link_to('how to enter closed for lunch or open past midnight', multipleopenings_path, :target => "_blank")
+      %li You can also type midnight (for 12AM), and midday (for 12PM)
 
     %table#normalopenings.openingsForm
       %tr
