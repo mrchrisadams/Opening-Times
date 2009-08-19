@@ -12,7 +12,7 @@
         %br
         %strong= @time.strftime("%a %d %b %Y - %I:%M%p")
 
-    %table.resultsList
+    %table.facilityList
       - counter = 0
       - @facilities.each do |facility|
         - status = @status_manager.status(facility.id)
@@ -32,7 +32,7 @@
                   %br
               = number_with_precision(facility.distance,:precision=>1) + '&nbsp;miles&nbsp;' + compass(@location.heading_to(facility))
 
-    = # render :partial=>'increase_distance' if @facilities.size < 10 and @distance != SearchController::DISTANCES.last
+    = render 'increase_distance'
 
     = render 'partials/server_clock'
 

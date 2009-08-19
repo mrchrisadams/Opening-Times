@@ -41,6 +41,24 @@ class String
     self =~ /\A-?\d+\Z/
   end
 
+  #TODO I think this is built in to Ruby 1.9
+  def squish 
+    self.strip.gsub(/\s+/,' ')
+  end
+
+  # Capitalise words correctly
+  def titlecase
+    special_cases = ["McCartney"]  
+    tmp = self
+    tmp = tmp.downcase
+    tmp = tmp.gsub(/\b\w/){$&.upcase}
+    tmp = tmp.gsub(/'\w\b/){$&.downcase}
+    for word in special_cases
+      tmp = tmp.gsub(/#{word}/i,word)
+    end
+    tmp
+  end
+
   def tidy_text
     tmp = self
     tmp = tmp.gsub('&#039;',"'") #turn html single quote in to proper single quote

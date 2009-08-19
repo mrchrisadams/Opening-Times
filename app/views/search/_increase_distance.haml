@@ -1,0 +1,8 @@
+- if @facilities.size < 10 and @distance < SearchController::DISTANCES.last
+  %p
+    %small
+      You are currently searching for services with
+      = pluralize(@distance,'mile') + '.'
+      To get more results try searching within
+      - new_distance = SearchController::DISTANCES[SearchController::DISTANCES.index(@distance) + 1]
+      = link_to("#{new_distance} miles", :overwrite_params=>{:distance=>new_distance}) + '.'

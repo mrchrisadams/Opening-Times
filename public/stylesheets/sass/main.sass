@@ -26,8 +26,11 @@ a
     :color= !foreground2
   &:hover
     :background= !foreground2
-    padding: 2px 0
     color: #fff
+  
+a.plain
+  &:hover
+    background: #fff
 
 img 
   border: none
@@ -319,3 +322,15 @@ table.reports
   td.num
     :text-align right
 
+table.facilityList
+  border-collapse: collapse
+  tr td
+    border-bottom: 1px solid #ccc
+    padding: 4px 0
+  td.oc 
+    text-align: center
+    font-size: small
+    padding-right: 6px
+    img 
+      margin-bottom: 4px
+  
