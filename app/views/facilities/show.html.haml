@@ -47,14 +47,30 @@
     .advertBox
 
     %h2 Address
-    %address
-      = comma_to_br(h(@facility.full_address))
-    - unless (@facility.phone || @facility.url).blank?
-      %ul.noBullet
-        - unless @facility.phone.blank?
-          %li= 'Tel:&nbsp;' + @facility.phone
-        - unless @facility.url.blank?
-          %li= link_to("More info", @facility.url, :rel => 'nofollow')
+    .vcard
+      .org.fn
+        .organization-name
+          =h @facility.name
+      .adr
+        .street-address
+          = comma_to_br(h(@facility.address))
+        .postal-code
+          = @facility.postcode
+      - contact_info = ["phone","url"].reject { |x| @facility[x].blank? }
+      - unless contact_info.empty?
+        %ul.noBullet
+          - unless @facility.phone.blank?
+            %li
+              .tel
+                = 'Tel:&nbsp;' + h(@facility.phone)
+          - unless @facility.url.blank?
+            %li
+              .fn.org.url
+                = link_to("More info", @facility.url, :rel => 'nofollow')
+      .geo
+        %span.latitude= @facility.lat
+        %span.longitude= @facility.lng
+
 
     = render 'partials/add_this'
 

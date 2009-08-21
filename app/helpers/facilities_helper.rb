@@ -2,15 +2,15 @@ module FacilitiesHelper
 
   def fmt_time(text)
     return unless text
-    text.gsub!(/^12PM$/i,'midday')
-    text.gsub!(/^12AM$/i,'midnight')
+    text.gsub!(/^12PM$/i,'<span class="timeword">midday</span>')
+    text.gsub!(/^12AM$/i,'<span class="timeword">midnight</span>')
     text.gsub!(/am|pm/i,'<span class="ampm">\0</span>')
     text
   end
 
   def time_span_cells2(opens, closes)
     if opens == "12PM" && closes == "12PM"
-      "<td colspan='3' align='center'>24 <span class='ampm'>hours</span></td>\n"
+      "<td colspan='3' align='center'>24 <span class='timeword'>hours</span></td>\n"
     else
       "<td>#{fmt_time(opens)}</td>\n<td>-</td>\n<td>#{fmt_time(closes)}</td>\n"
     end
@@ -18,7 +18,7 @@ module FacilitiesHelper
 
   def time_span_cells(opening)
     if opening.opens_mins == 0 && opening.closes_mins == Opening::MINUTES_IN_DAY
-      "<td colspan='3' align='center'>24 <span class='ampm'>hours</span></td>\n"
+      "<td colspan='3' align='center'>24 <span class='timeword'>hours</span></td>\n"
     else
       "<td>#{fmt_time(opening.opens_at)}</td>\n<td>-</td>\n<td>#{fmt_time(opening.closes_at)}</td>\n"
     end
