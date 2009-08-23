@@ -21,7 +21,7 @@ ActionController::Routing::Routes.draw do |map|
 
   map.ip 'ip/:ip', :controller => 'ip', :ip => /\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}/
 
-  %w(about accessibility bankholidays copyright feedback guidelines harness help license multipleopenings privacy recentchanges recentlyremoved sitemap statistics).each do |a|
+  %w(about accessibility bankholidays copyright feedback guidelines harness help license multipleopenings privacy recentchanges recentlyremoved register sitemap statistics).each do |a|
     map.send "#{a}", "#{a}", :controller => 'about', :action => a
     map.send "#{a}", "#{a}.:format", :controller => 'about', :action => a
   end

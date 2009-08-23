@@ -1,8 +1,10 @@
 #banner.container_16
-  .grid_16
+  .grid_11
     %h2#siteTitle
       %a{ :href=>"/", :accesskey => '1' }
         %span{ :style => "margin: 1px"}= render :partial => 'partials/logo'
         Opening-Times.co.uk
+  .grid_5
+    = render 'partials/user_bar'
   .clearfix
 

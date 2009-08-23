@@ -28,6 +28,10 @@ class AboutController < ApplicationController
     end
   end
 
+  def register
+    redirect_to signup_path
+  end
+
   def sitemap
     @facilities = Facility.all
   end

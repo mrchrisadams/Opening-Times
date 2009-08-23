@@ -1,7 +1,6 @@
 - @no_banner = @no_search_bar = true
 - @onload = "sf();"
 - content_for :head do
-  %link{ :rel => "alternate", :type => "application/atom+xml", :href => recentchanges_path(:format => "xml") }
   %script{ :type=>'text/javascript' }
     function sf(){document.f.location.focus();}
 

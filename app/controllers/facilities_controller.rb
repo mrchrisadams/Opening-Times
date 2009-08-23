@@ -5,8 +5,10 @@ class FacilitiesController < ApplicationController
   before_filter :redirect_id_to_slug, :only => [:show]
 
   def index
+    page = params[:page].to_i
+    page = 1 unless page > 0
     @status_manager = StatusManager.new
-    @facilities = Facility.find(:all, :conditions => 'retired_at IS NULL', :order => 'updated_at DESC', :limit => 100)
+    @facilities = Facility.paginate(:all, :conditions => 'retired_at IS NULL', :order => 'updated_at DESC', :page => page)
   end
 
   # GET /facilities/new
