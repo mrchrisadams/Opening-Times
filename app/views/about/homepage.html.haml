@@ -4,21 +4,32 @@
   %script{ :type=>'text/javascript' }
     function sf(){document.f.location.focus();}
 
-#plainPage{ :style=>"text-align: center; margin-top: 22px;" }
-  :plain
-    <object type="application/x-shockwave-flash" data="/images/logo.swf" width="196" height="196">
-      <param name="movie" value="/images/logo.swf" />
-      <param name="wmode" value="transparent" />
-      <img id="homeclock" src="/images/logo.png" alt="Opening Times logo" width="196" height="196" />
-    </object>
-  %h1#siteTitle
-    Opening Times
-  %p
-    Enter a UK town or postcode to find out when nearby shops are open.
+- content_for :top_content do
+  .container_16
+    .grid_5.push_11
+      = render 'partials/user_bar'
+    .clearfix
 
-  #searchBar
-    = form_tag('/search', :name=>'f', :method => :get)
-    = label_tag 'location', 'Where'
-    = text_field_tag 'location', params[:location], :size => 14
-    = submit_tag 'Search', :name => nil, :class=>'button'
-    </form>
+  #homePage{ :style=>"text-align: center;" }
+    :plain
+      <object type="application/x-shockwave-flash" data="/images/logo.swf" width="196" height="196">
+        <param name="movie" value="/images/logo.swf" />
+        <param name="wmode" value="transparent" />
+        <img id="homeclock" src="/images/logo.png" alt="Opening Times logo" width="196" height="196" />
+      </object>
+    %h1#siteTitle
+      Opening Times
+    %p
+      Enter a UK town or postcode to see when nearby businesses are open.
+
+    #searchBar
+      = form_tag('/search', :name=>'f', :method => :get)
+      = label_tag 'location', 'Where'
+      = text_field_tag 'location', params[:location], :size => 14
+      = submit_tag 'Search', :name => nil, :class=>'button'
+      </form>
+      
+    %p 
+      Opening Times is like a wiki, you can  
+      = link_to 'add business opening times', new_facility_path
+      directly yourself.

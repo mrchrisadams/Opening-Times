@@ -1,7 +1,7 @@
 #searchBar.container_16
   .grid_16
     %form{ :action=>"/search", :method=>"get" }
-      = label_tag 'location', 'Where', :accesskey=>'4'
+      = label_tag 'location', 'Location', :accesskey=>'4', :title => "Enter a town, city, postcode, or lat/long"
       = text_field_tag 'location', params[:location], :size => 14
       = #label_tag 'group', 'What'
       = #render :partial=>'partials/groups_select'

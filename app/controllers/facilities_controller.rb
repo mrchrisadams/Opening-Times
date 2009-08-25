@@ -8,7 +8,7 @@ class FacilitiesController < ApplicationController
     page = params[:page].to_i
     page = 1 unless page > 0
     @status_manager = StatusManager.new
-    @facilities = Facility.paginate(:all, :conditions => 'retired_at IS NULL', :order => 'updated_at DESC', :page => page)
+    @facilities = Facility.paginate(:all, :conditions => 'retired_at IS NULL', :order => 'location', :page => page)
   end
 
   # GET /facilities/new

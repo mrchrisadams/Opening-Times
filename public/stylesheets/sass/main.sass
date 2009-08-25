@@ -69,7 +69,6 @@ a#skipToContent
   font-size: small
 
 #userBar a
-  color: #fff
   text-decoration: none
   padding: 2px
   &:hover
@@ -82,15 +81,14 @@ a#skipToContent
   border-bottom: 1px solid #fff
   h2
     margin: 0
-    a
-      :color= #fff
-      font-size: 1.8em
-      padding: 0
-      margin: 0
-      text-decoration: none
-      img, object
-        margin: 6px 12px
-        vertical-align: middle
+    font-size: 2.8em
+  a
+    color: #fff
+    padding: 2px 4px
+    text-decoration: none
+  img, object
+    margin: 6px 0 
+    vertical-align: middle
 
 #searchBar
   :background= !foreground2
@@ -168,7 +166,7 @@ a#skipToContent
   :padding 4px
 
 .open, .closed, .unsure
-  :padding 2px 4px 2px 4px
+  :padding 1px 4px
   :color #fff
 
 .open
@@ -179,6 +177,12 @@ a#skipToContent
 
 .unsure
   :background #666
+
+.advertBox
+  :border 1px solid green
+  :width 336px
+  :height 250px
+  :margin-top 15px
 
 .geo
   display: none
