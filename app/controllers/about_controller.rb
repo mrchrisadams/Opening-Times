@@ -37,8 +37,14 @@ class AboutController < ApplicationController
   end
 
   def statistics
+    @status_manager = StatusManager.new
+  
     @total_facilities = Facility.count
+    @total_active_facilities = Facility.count(:conditions => "retired_at IS NULL")
     @new_facilities_today = Facility.count(:id, :conditions => ["created_at > ?", Date.today])
+    @total_open = @status_manager.open_size
+    @percent_open = (100 * (@total_open.to_f / @total_active_facilities)).round
+    
 
     @total_users = User.count
     @new_users_today = User.count(:id, :conditions => ["created_at > ?", Date.today])

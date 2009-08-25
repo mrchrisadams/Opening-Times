@@ -4,10 +4,19 @@
 %table
   %tr
     %td Total facilities
-    %td= @total_facilities
+    %td
+      = @total_active_facilities
+      = '(' + @total_facilities.to_s
+      including retired)
   %tr
     %td New facilities today
     %td= @new_facilities_today
+  %tr
+    %td Total facilities currently open
+    %td
+      = @total_open
+      = "(#{@percent_open}%)"
+
 
 %h2 Users
 %table
