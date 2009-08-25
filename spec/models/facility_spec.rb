@@ -35,6 +35,7 @@ describe Facility do
 
     @facility.postcode = "sw1A  0aA"
     @facility.save!
+    @facility.reload
     @facility.postcode.should == "SW1A 0AA"
   end
 

@@ -14,6 +14,10 @@ class NormalOpening < Opening
     errors.add(:closes_at,"must be specified") if closes_mins.blank?
   end
 
+  def blank?
+    sequence.blank? && opens_mins.blank? && closes_mins.blank? && comment.blank?
+  end
+
   def wday
     sequence_to_wday(sequence) if sequence
   end

@@ -34,6 +34,10 @@ class StatusManager #< ActiveRecord::Base
     @on_holiday_facility_ids.include?(facility_id)
   end
 
+  def open_size
+    @facility_statuses.size
+  end
+
   private
 
   # Returns IDs of all Services that have a bank holiday at

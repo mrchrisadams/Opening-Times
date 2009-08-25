@@ -12,6 +12,10 @@ class Opening < ActiveRecord::Base
 #  validates_associated :facility
 #  validates_presence_of :facility_id
 
+  def before_validation
+    self.destroy if self.blank?
+  end
+
   def validate
     errors.add(:opens_at,'must be a valid time between 0:00 and 23:59') unless opens_mins.nil? || (0..MINUTES_IN_DAY-1).include?(opens_mins)
     errors.add(:closes_at,'must be a valid time between 0:01 and 0:00') unless closes_mins.nil? || (1..MINUTES_IN_DAY).include?(closes_mins)

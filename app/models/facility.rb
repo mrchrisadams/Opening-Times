@@ -43,11 +43,11 @@ class Facility < ActiveRecord::Base
     errors.add_to_base("One or more bank holiday opening times overlap or you have a closed and non closed bank holiday opening") if overlapping_or_closed_holiday_opening_for_same_facility?
   end
 
-  def after_validation
+  def before_save
     self.postcode = extract_postcode(postcode) # Uppercase, tidy spaces etc
     update_summary_normal_openings
     self.url = "http://" + url unless url.blank? || url =~ /\Ahttps?:\/\//
-  end
+  end  
 
   def before_create
     self.revision = 1
@@ -74,9 +74,8 @@ class Facility < ActiveRecord::Base
   def overlapping_or_closed_holiday_opening_for_same_facility?
     holiday_openings.each do |holiday_opening|
       holiday_openings.each do |c|
-        next if holiday_opening.object_id == c.object_id || holiday_opening.marked_for_destruction? || c.marked_for_destruction?
-        if holiday_opening.closed? ||
-           holiday_opening.within_mins?(c.opens_mins) || holiday_opening.within_mins?(c.opens_mins)
+        next if holiday_opening.object_id == c.object_id || holiday_opening.marked_for_destruction? || c.marked_for_destruction? || c.blank?
+        if holiday_opening.closed? || holiday_opening.within_mins?(c.opens_mins) || holiday_opening.within_mins?(c.opens_mins)
           holiday_opening.errors.add(:opens_at, " - overlaps with another bank holiday opening")
           return true
         end

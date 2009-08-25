@@ -23,6 +23,10 @@ class HolidayOpening < Opening
     end
   end
 
+  def blank?
+    !closed && opens_mins.blank? && closes_mins.blank? && comment.blank?
+  end
+
   def to_xml(options = {})
     return if marked_for_destruction?
     options[:indent] ||= 2
