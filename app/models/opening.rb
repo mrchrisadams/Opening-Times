@@ -65,7 +65,7 @@ class Opening < ActiveRecord::Base
   end
 
   def within_mins?(n_mins)
-    opens_mins && closes_mins && opens_mins <= n_mins && closes_mins > n_mins
+    n_mins && opens_mins && closes_mins && opens_mins <= n_mins && closes_mins > n_mins
   end
 
   def equal_mins?(o)
