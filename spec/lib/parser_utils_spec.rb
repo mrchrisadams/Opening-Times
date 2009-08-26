@@ -31,6 +31,9 @@ describe "extract_postcode" do
     extract_postcode("E1W 1YY").should == "E1W 1YY"
     extract_postcode("EC3 9AU").should == "EC3 9AU"
     extract_postcode("SR7 7HN").should == "SR7 7HN"
+    extract_postcode("B93 0LE").should == "B93 0LE"
+     
+#    extract_postcode("").should == ""
   end
 
 end
