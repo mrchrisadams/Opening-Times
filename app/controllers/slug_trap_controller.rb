@@ -8,6 +8,9 @@ class SlugTrapController < ApplicationController
 
     render 'facilities/_retired' and return if @facility.retired?
 
+    @multi = params[:multi] || "0"
+    @multi = @multi.split(",").map(&:to_i)
+
     @status_manager = StatusManager.new
     @status = @status_manager.status(@facility)
     respond_to do |format|

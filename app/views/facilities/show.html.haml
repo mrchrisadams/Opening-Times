@@ -37,15 +37,25 @@
       = normal_openings_rows(@facility.normal_openings, Time.now.wday)
       = render 'facilities/opn_hol_tbl'
 
-    %br
+    - if @multi.include?(1)   
+      .advertBox
+        = render 'partials/adverts/google_468x60'
+    
     %h2 Map
     %span
       %small You can drag and zoom the map to see other nearby businesses
     = render 'facilities/map_show'
 
-  .grid_6
-    .advertBox
+    - if @multi.include?(2)
+      .advertBox
+        = render 'partials/adverts/google_468x60'
 
+  .grid_6
+  
+    - if @multi.include?(3)
+      .advertBox
+        = render 'partials/adverts/google_234x60'
+    
     %h2 Address
     .vcard
       .org.fn
@@ -71,8 +81,11 @@
         %span.latitude= @facility.lat
         %span.longitude= @facility.lng
 
-
     = render 'partials/add_this'
+
+    - if @multi.include?(4)
+      .advertBox
+        = render 'partials/adverts/google_336x280'
 
     - unless @nearby.empty?
       %h2 Nearby businesses
