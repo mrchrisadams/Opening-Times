@@ -1,0 +1,34 @@
+%h1= @page_title = "Length of openings"
+
+%p
+  Show openings with a minimum length of
+  = @min
+  minutes
+  = "(" + mins_to_length(@min) + ")"
+  and a maximum of
+  = @max
+  minutes
+  = "(" + mins_to_length(@max) + ")"
+
+%p= page_entries_info @openings
+
+- unless @openings.empty?
+  %table.reports
+    %tr
+      %th Day
+      %th Opens
+      %th Closes
+      %th Comment
+      %th Facility
+      
+    - @openings.each do |opening|
+      %tr
+        %td= opening.week_day
+        %td= fmt_time(opening.opens_at)
+        %td= fmt_time(opening.closes_at)
+        %td= opening.comment
+        %td= link_to h(opening.facility.full_name), opening.facility
+
+  %br
+  = will_paginate @openings
+
