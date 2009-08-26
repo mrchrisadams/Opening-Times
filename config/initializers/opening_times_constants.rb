@@ -1,6 +1,8 @@
 EMAIL_REGX = /\A([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})\Z/i
 
-POSTCODE_REGX = \
+POSTCODE_REGX = /[A-Z]{1,2}[0-9R][0-9A-Z]?\s*[0-9][ABD-HJLNP-UW-Z]{2}/i
+
+POSTCODE_REGX2 = \
 /\b(
 ( # begin postal district group
 (?:[BEGLMNS][1-9]\d?) |
@@ -35,7 +37,7 @@ ZE)
 (?:EC[1-4]) |
 (?:SW1))[ABEHMNPRVWXY]?)
 ) # end postal district group
-(?:\s*)?
-([0-9][ABD-HJLNP-UW-Z]{2})
+(?:\s*)
+([0-9][ABD-HJLNP-UW-YZ]{2})
 ) # end complete group
 /ix
