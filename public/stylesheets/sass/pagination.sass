@@ -5,24 +5,29 @@
     :padding .2em .5em
   span.disabled
     :color #AAA
+  span.disabled
+    &:hover
+      :color #AAA
+      :background #fff
   span.current
-    :font-weight bold
     :color #fff
     :background #036564
     :border 1px solid #036564
   a
-    :border 1px solid #036564
-    :color #033649
+    :border 1px solid #ccc
+    :color #036564
     :text-decoration none
     &:hover, &:focus
       :border-color #033649
-      :background #ccc
-      :color #033649
+      :background #ddd
   .page_info
     :color #aaa
     :padding-top .8em
   .prev_page, .next_page
-    :border-width 1px
+    :border none
+    &:hover
+      :background #036564
+      :color #fff
   .prev_page
     :margin-right 1em
   .next_page
