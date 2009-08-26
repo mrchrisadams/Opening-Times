@@ -1,0 +1,45 @@
+%h1= @page_title = "Number of openings per service"
+
+%p
+  Facilities which don't have a minimum of 
+  = @min
+  or a maximum of
+  = @max
+  openings per week.
+  
+%p
+  %small
+    Limited to first 
+    = @limit.to_s + ", "
+    ordered by last updated.
+
+%p
+  Found
+  = @facilities.size
+  out of 
+  = Facility.count
+  services.
+  
+- form_tag '', :method=>:get do
+  = label :min, "Min"
+  = text_field_tag "min", @min, :size => 2
+  = label :max, "Max"
+  = text_field_tag "max", @max, :size => 2
+  = submit_tag "Update", :name=>nil, :class => 'button'
+
+%p
+  %hr
+
+- unless @facilities.empty?
+  %table.reports
+    %tr
+      %th Count
+      %th Facility
+      %th Edit
+      %th Updated
+    - @facilities.each do |facility|
+      %tr
+        %td.num= facility.openings_count
+        %td= link_to h(facility.full_name), facility
+        %td= link_to 'edit', edit_facility_path(facility)
+        %td= time_ago_in_words(facility.updated_at) + " ago"

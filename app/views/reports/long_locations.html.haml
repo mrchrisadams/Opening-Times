@@ -1,0 +1,19 @@
+%h1= @page_title = "Long locations"
+
+%p= page_entries_info @facilities
+
+- unless @facilities.empty?
+  %table.reports
+    %tr
+      %th Location
+      %th Length
+      %th Name     
+    - @facilities.each do |facility|
+      %tr
+        %td=h facility.location
+        %td= facility.location.length
+        %td= link_to h(facility.name), facility
+
+  %br
+  = will_paginate @facilities
+

@@ -1,0 +1,12 @@
+%h1= @page_title = "Integrity reports"
+
+%p The following reports are designed to help spot incorrection information. 
+
+%ul
+  %li
+    = link_to 'Noon openings', :action => :noon
+  %li
+    = link_to 'Long locations', :action => 'long_locations'
+  %li
+    = link_to 'Openings count', :action => 'openings_count'
+    

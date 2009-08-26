@@ -29,6 +29,8 @@ ActionController::Routing::Routes.draw do |map|
   map.search 'search.:format', :controller => 'search', :defaults => { :format => nil }
 #  map.fireeagle 'search/fireeagle', :controller => 'search', :action => 'fireeagle'
 
+  map.reports 'reports/:action', :controller => 'reports'
+
   map.facility_slug ':slug.:format', :controller => 'slug_trap', :action => 'show', :defaults => { :format => nil }
 
   # Sample of regular route:
