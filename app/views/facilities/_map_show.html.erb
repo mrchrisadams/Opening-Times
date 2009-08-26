@@ -45,7 +45,7 @@ function initialize() {
     var locationMarker = new GMarker(latlng, { icon:locationIcon } )
     map.addOverlay(locationMarker);
 
-    <% info = "<strong>#{@facility.full_name}</strong><br />#{comma_to_br(@facility.address)}, #{@facility.postcode}" -%>
+    <% info = "<strong>#{@facility.full_name}</strong><br />Currently <span class='#{@status.downcase}'>#{@status}</span>" -%>
     locationMarker.openInfoWindowHtml("<%= escape_javascript(info) %>",{maxWidth:250});
   }
 }
