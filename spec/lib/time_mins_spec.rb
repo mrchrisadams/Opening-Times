@@ -200,6 +200,29 @@ describe "mins_to_time" do
 
 end
 
+describe "mins_to_length" do
+
+  it "should turn minutes in to a length of time" do
+    mins_to_length(0).should == ""
+
+    mins_to_length(1).should == "1 min"
+    mins_to_length(2).should == "2 mins"
+
+    mins_to_length(60).should == "1 hour"
+    mins_to_length(120).should == "2 hours"
+
+    mins_to_length(61).should == "1 hour 1 min"
+    mins_to_length(62).should == "1 hour 2 mins"
+
+    mins_to_length(121).should == "2 hours 1 min"
+    mins_to_length(122).should == "2 hours 2 mins"
+
+    mins_to_length(1439).should == "23 hours 59 mins"
+    mins_to_length(1440).should == "24 hours"
+  end
+
+end
+
 describe "sequence_to_wday" do
   it "should turn sequence to Time.wday" do
     sequence_to_wday(1).should == 2 #Mon

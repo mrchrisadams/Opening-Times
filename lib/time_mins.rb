@@ -48,20 +48,29 @@ def time_to_mins(time)
 end
 
 # turns minutes past midnight in to a Time
-def mins_to_time(t,time_format = nil)
+def mins_to_time(t, time_format = nil)
   return unless t.is_a?(Fixnum)
   if time_format
     Time.parse((t / 60 % 24).to_s + ':' + (t % 60).to_s.rjust(2,'0')).strftime(time_format)
   else
-#    return 'midnight' if t == 0
-#    return 'noon' if t == 720
-
     # Formats time without minutes unless neccssary, i.e. 9AM, 9:03AM, 5PM, 5:30PM
     out = (((t / 60) % 12) == 0 ? '12' : ((t / 60) % 12)).to_s
     out += ':' + (t % 60).to_s.rjust(2,'0') unless (t % 60) == 0
-    out += (t % 1440 == 0 || (t % 1440) / 60 < 12) ? 'AM' : 'PM'
+    out += (t % 1440 == 0 || (t % 1440)/60 < 12) ? 'AM' : 'PM'
     out
   end
+end
+
+def mins_to_length(t)
+  out = ""
+  out += pluralize(t/60, "hour") unless t/60 == 0
+  out += " "
+  out += pluralize(t%60, "min") unless t%60 == 0
+  out.squish
+end
+
+def pluralize(n, s)
+  "#{n} #{s}" + (n == 1 ? '' : 's')
 end
 
 def sequence_to_wday(s)
