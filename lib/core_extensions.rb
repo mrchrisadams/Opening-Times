@@ -6,7 +6,7 @@ class String
 
   # Capitalise words correctly
   def to_titlecase
-    special_cases = ["McCartney"]
+    special_cases = ["McCartney","and","of"]
     tmp = self
     tmp = tmp.downcase
     tmp = tmp.gsub(/\b\w/){$&.upcase}

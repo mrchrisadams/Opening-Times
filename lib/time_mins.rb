@@ -2,7 +2,7 @@ require 'date'
 
 #Turn a string in to a DateTime with a bit of guess work,
 # parse_time("9", "AM"), hint should be "AM" or "PM" to hint as which side of noon you want
-def parse_time(s, hint)
+def parse_time(s, hint=nil)
   begin
     s.gsub!(/\s/,'')
     s.sub!('.',':')
@@ -16,7 +16,7 @@ def parse_time(s, hint)
     s.insert(-3,':00') if s =~ /^\d\d?(AM|PM)$/
     s = "0:00" if s == "24:00"
 
-    s += hint unless s =~ /A|PM$/ || s =~ /^0\d/
+    s += hint unless hint.nil? || s =~ /A|PM$/ || s =~ /^0\d/
 
     d = DateTime.parse(s)
     d = Time.parse("#{d.hour}:#{d.min}")
