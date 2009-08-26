@@ -17,7 +17,7 @@ h1, h2, h3
 
 h1
   :font
-    :size 3em
+    :size 2.7em
 
 a
   :color= !foreground2
@@ -55,8 +55,9 @@ fieldset
 address
   :font-style normal
 
-.container_16
-  background: #fff
+#main
+  .container_16, .grid_1, .grid_2, .grid_3, .grid_4, .grid_5, .grid_6, .grid_7, .grid_8, .grid_9, .grid_10, .grid_11, .grid_12, .grid_13, .grid_14, .grid_15, .grid_16
+    background: #fff
 
 a#skipToContent
   float: left
@@ -179,10 +180,8 @@ a#skipToContent
   :background #666
 
 .advertBox
-  :border 1px solid green
-  :width 336px
-  :height 250px
-  :margin-top 15px
+  :margin 15px 0
+  :text-align center
 
 .geo
   display: none
@@ -240,7 +239,7 @@ table.openingTimes
   :padding 0
   :border-collapse collapse
   col.day
-    :width 10em
+    :width 8em
   col.time
     :width 6em
   col.dash
@@ -255,7 +254,7 @@ table.openingTimes
       :color #000
   th
     :font-weight normal
-    :font-size 1.3em
+    :font-size 1em
   td
     :vertical-align middle
     :font-size 2em
@@ -335,10 +334,12 @@ table.reports
 
 table.facilityList
   border-collapse: collapse
+  width: 100%
   tr td
     border-bottom: 1px solid #ccc
     padding: 4px 0
   td.oc 
+    width: 4em
     text-align: center
     font-size: small
     padding-right: 6px
