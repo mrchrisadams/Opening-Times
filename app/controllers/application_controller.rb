@@ -6,7 +6,7 @@ class ApplicationController < ActionController::Base
   helper_method :current_user_session, :current_user, :lockdown?
   filter_parameter_logging :password, :password_confirmation
 
-  protect_from_forgery # See ActionController::RequestForgeryProtection for details
+#  protect_from_forgery # See ActionController::RequestForgeryProtection for details
 
   private
 

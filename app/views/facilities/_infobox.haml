@@ -10,7 +10,7 @@
         %span.longitude= @facility.lng
     %li
       Updated:
-      = @facility.updated_at.strftime("%I:%M, %d %b %Y")
+      = @facility.updated_at.strftime("%I:%M%p, %d %b %Y")
     %li
       Updated by user:
       = link_to @facility.user_id, user_path(@facility.user_id)
