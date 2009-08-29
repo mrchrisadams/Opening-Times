@@ -27,12 +27,11 @@ module ParserUtils
   end
 
   def extract_postcode(text)
-#-    text = text.gsub(/o/i,'0') # replace o with zero
     return unless text
-    postcode = text.scan(POSTCODE_REGX).flatten.first.to_s
-    if postcode and postcode != ""
-      postcode.gsub(/\s+/,'').insert(-4,' ').upcase
-    end
+    text = text.strip.sub(/\bo(\w\w)$/i,'0\1') # replace o with zero
+    postcode = text[POSTCODE_REGX]
+    return nil unless postcode
+    postcode.gsub(/\s+/,'').insert(-4,' ').upcase 
   end
 
   def extract_address(text)

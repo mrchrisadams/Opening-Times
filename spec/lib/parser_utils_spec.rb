@@ -26,6 +26,14 @@ describe "extract_postcode" do
     extract_postcode("bn27 \n \t 1jl").should == "BN27 1JL"
   end
 
+  it "should replace o with 0 where appropriate" do
+    extract_postcode("RG2 ODD").should == "RG2 0DD"
+  end
+  
+  it "should not replace o with 0 where it doesn't need to" do
+    extract_postcode("PO15 5UB").should == "PO15 5UB"  
+  end
+
   it "should accept the following postcodes" do
     # postcodes I've had problems with in the past
     extract_postcode("E1W 1YY").should == "E1W 1YY"
