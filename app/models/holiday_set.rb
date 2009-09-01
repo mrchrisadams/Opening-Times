@@ -9,7 +9,7 @@ class HolidaySet < ActiveRecord::Base
 
   def self.find_by_postcode(postcode)
     case 
-      when postcode =~ /^TD|DG|KA|ML|EH|KY|FK|G|PA|PH|AB|IV|KW/
+      when postcode =~ /^(TD|DG|KA|ML|EH|KY|FK|G|PA|PH|AB|IV|KW)\d/
         return find_by_name("Scotland")
       when postcode =~ /^BT/
         return find_by_name("Northern Ireland")
