@@ -19,10 +19,6 @@ describe NormalOpening do
     @opening.should_not be_valid
   end
 
-  it "should not allow overlapping times on the same day" do
-
-  end
-
   it "should know whether a minute is within the opening" do
     @opening.within_mins?(time_to_mins(Time.parse("9:12AM"))).should be_true
     @opening.within_mins?(time_to_mins(Time.parse("8:12AM"))).should be_false
@@ -49,39 +45,3 @@ describe NormalOpening do
   end
 
 end
-
-# Class method tests
-
-#describe "NormalOpening.select_open_ids" do
-#  before(:each) do
-#    @service = mock(Service)
-#    @service.stub!(:id).and_return(:id)
-#    NormalOpening.delete_all
-#    @t = Time.parse("2008-12-15 09:35") # Monday
-#  end
-
-#  it "should return an empty Set when there are no HolidayOpenings" do
-#    NormalOpening.select_open_ids(@t).should == Set.new
-#  end
-
-#  it "should return a Hash of all Service.ids which have a HolidayOpening on that day" do
-#    NormalOpening.create!(:service_id=>1, :week_day=>"Mon", :opens_at=>"9AM", :closes_at=>"5PM")
-#    NormalOpening.create!(:service_id=>2, :week_day=>"Mon", :opens_at=>"10AM", :closes_at=>"4PM")
-#    NormalOpening.create!(:service_id=>3, :week_day=>"Tue", :opens_at=>"9AM", :closes_at=>"5PM")
-#    NormalOpening.create!(:service_id=>4, :week_day=>"Tue", :opens_at=>"10AM", :closes_at=>"4PM")
-
-#    NormalOpening.select_open_ids(@t).should include(1)
-#    NormalOpening.select_open_ids(@t).should_not include(2,3,4,5) # 5 - Service with no holiday openings
-#    @t = @t + 2.hours # Time matters for select_open
-#    NormalOpening.select_open_ids(@t).should include(1,2)
-#    NormalOpening.select_open_ids(@t).should_not include(3,4,5) # 5 - Service with no holiday openings
-
-#    @t = @t + 1.day # Time matters for select_open
-#    NormalOpening.select_open_ids(@t).should include(3,4)
-#    NormalOpening.select_open_ids(@t).should_not include(1,2,5) # 5 - Service with no holiday openings
-#  end
-
-
-
-#end
-
