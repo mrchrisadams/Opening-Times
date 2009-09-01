@@ -52,9 +52,11 @@ function initialize() {
       return marker;
     }
 
-    <% @facilities.each_with_index do |n,index| -%>
+    <% @facilities.each_with_index do |n, index| -%>
+    <% num = @facilities.offset + index + 1
+       break if num > SearchController::RESULTS_LIMIT %>
     <% info = escape_javascript(link_to(n.full_name,n) + "<br />" + comma_to_br(n.address)) -%>
-    var marker = createMarker(<%= "#{n.lat}, #{n.lng} , #{index+1}" %>, "<%= @status_manager.status(n).downcase %>", "<%= info %>");
+    var marker = createMarker(<%= "#{n.lat}, #{n.lng} , #{num}" %>, "<%= @status_manager.status(n).downcase %>", "<%= info %>");
     map.addOverlay(marker);
     <% if index < 5 %>
     var point = new GLatLng(<%= "#{n.lat}, #{n.lng}" %>);

@@ -4,7 +4,8 @@ class SearchController < ApplicationController
 
   DISTANCES = [1, 2, 5, 10, 15, 20, 50]
   DISTANCE_DEFAULT = 15
-  NUM_SEARCH_RESULTS = 10
+  RESULTS_PER_PAGE = 10
+  RESULTS_LIMIT = 30
 
 # if no params then render nothing found
 # if @t then find group
@@ -29,7 +30,7 @@ class SearchController < ApplicationController
       @location = MultiGeocoder.geocode(@location + ", UK")
     end
 
-    @facilities = Facility.find(:all, :origin => @location, :within => @distance, :order => 'distance', :limit => NUM_SEARCH_RESULTS)
+    @facilities = Facility.paginate(:all, :origin => @location, :within => @distance, :order => 'distance', :page => params[:page], :per_page => RESULTS_PER_PAGE, :total_entries => RESULTS_LIMIT)
 
     @status_manager = StatusManager.new
 

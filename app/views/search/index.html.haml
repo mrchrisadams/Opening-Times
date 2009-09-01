@@ -13,13 +13,13 @@
         %strong= @time.strftime("%a %d %b %Y - %I:%M%p")
 
     %table.facilityList
-      - counter = 0
-      - @facilities.each do |facility|
+      - @facilities.each_with_index do |facility, index|
         - status = @status_manager.status(facility.id)
-        - counter += 1
+        - num = @facilities.offset + index + 1
+        - break if num > SearchController::RESULTS_LIMIT
         %tr
           %td.oc
-            = image_tag("markers/#{status.downcase}/marker#{counter}.png", :alt => status)
+            = image_tag("markers/#{status.downcase}/marker#{num}.png", :alt => status)
             %br
             %span{:class=>status.downcase}
               = status
@@ -33,6 +33,7 @@
               = number_with_precision(facility.distance,:precision=>1) + '&nbsp;miles&nbsp;' + compass(@location.heading_to(facility))
 
     = render 'increase_distance'
+    %p= will_paginate(@facilities, :outer_window => 0, :inner_window => 1)
 
     = render 'partials/server_clock'
 
