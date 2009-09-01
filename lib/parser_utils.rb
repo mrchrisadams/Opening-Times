@@ -70,7 +70,7 @@ module ParserUtils
   end
 
   def extract_lat_lng(text)
-    text.strip.scan(/\A(-?\d+\.\d+)\s*(?:\s|,)\s*(-?\d+\.\d+)\Z/).first
+    text.strip.scan(/(-?\d+\.\d+)\s*(?:\s|,|;)\s*(-?\d+\.\d+)/).first
   end
 
 end

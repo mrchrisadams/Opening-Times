@@ -25,7 +25,9 @@ class SearchController < ApplicationController
     logger.info "lat=#{l_lat}, lng=#{l_lng}"
     if l_lat && l_lng
       @location = Geokit::LatLng.new(l_lat, l_lng)
-    else
+    end
+    
+    unless @location
       logger.info "geocoding"
       @location = MultiGeocoder.geocode(@location + ", UK")
     end

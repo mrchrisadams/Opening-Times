@@ -24,7 +24,7 @@
             %span{:class=>status.downcase}
               = status
           %td
-            = link_to h(facility.full_name), facility
+            = link_to h(facility.full_name), facility_slug_path(facility.slug)
             .info
               - if @status_manager.on_holiday?(facility.id)
                 %strong
