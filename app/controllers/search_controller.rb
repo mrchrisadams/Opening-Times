@@ -25,14 +25,12 @@ class SearchController < ApplicationController
     logger.info "lat=#{l_lat}, lng=#{l_lng}"
     if l_lat && l_lng
       @location = Geokit::LatLng.new(l_lat, l_lng)
-    end
-    
-    unless @location
+    else
       logger.info "geocoding"
       @location = MultiGeocoder.geocode(@location + ", UK")
     end
 
-    @facilities = Facility.paginate(:all, :origin => @location, :within => @distance, :order => 'distance', :page => params[:page], :per_page => RESULTS_PER_PAGE, :total_entries => RESULTS_LIMIT)
+    @facilities = Facility.paginate(:all, :origin => @location, :within => @distance, :order => 'distance', :page => params[:page], :per_page => RESULTS_PER_PAGE)
 
     @status_manager = StatusManager.new
 
