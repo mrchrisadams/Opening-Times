@@ -5,12 +5,58 @@ class ReportsController < ApplicationController
 
   before_filter :set_limit
 
+  def filter
+    conditions = []
+    arguments = {}
+    
+    unless (@min_opens_at = params[:min_opens_at]).blank?
+      conditions << "opens_mins >= :min_opens_at"
+      arguments[:min_opens_at] = time_to_mins(@min_opens_at)
+    end
+    
+    unless params[:max_opens_at].blank?
+      conditions << "opens_mins <= :max_opens_at"
+      arguments[:max_opens_at] = time_to_mins(params[:max_opens_at])
+    end
+    
+    all_conditions = conditions.join(' AND ')
+    @woo = [all_conditions, arguments].inspect
+
+    @openings = NormalOpening.paginate(:all, :include => :facility, :conditions => [all_conditions, arguments], :page => params[:page])
+  end
+
   def long_locations
     @facilities = Facility.paginate(:all, :order => 'LENGTH(location) DESC', :page => params[:page])
   end
 
+  def noon_openings
+    @openings = NormalOpening.paginate(:all, :include => :facility, :conditions => "opens_mins = 720", :page => params[:page])
+  end
+
   def noon
-    @openings = NormalOpening.paginate(:all, :include => :facility, :conditions => "opens_mins = 720 or closes_mins = 720", :order => 'id DESC', :page => params[:page])
+    conditions = []
+    arguments = {}
+
+    @end = params[:end] 
+    case @end
+      when "opens"
+        conditions << "opens_mins = 720"
+      when "closes"
+        conditions << "closes_mins = 720"      
+      else
+        conditions << "opens_mins = 720 OR closes_mins = 720"
+    end
+
+    @week_day = params[:week_day] 
+    unless @week_day.blank?
+      @week_day = @week_day.to_i
+      conditions << "sequence = :sequence"
+      arguments[:sequence] = @week_day
+    end
+    
+    all_conditions = conditions.join(' AND ')
+  
+    @openings = NormalOpening.paginate(:all, :include => :facility, :conditions => [all_conditions, arguments], :page => params[:page])
   end
 
   def openings_count
@@ -21,10 +67,33 @@ class ReportsController < ApplicationController
   end
 
   def openings_length
-    @min = params[:min].to_i
-    @max = params[:max].to_i
+    @min = params[:min] 
+    @min = @min ? @min.to_i : 0
+    @max = params[:max]
+    @max = @max ? @max.to_i : 24 * 60
     @max = @min if @min > @max
-    @openings = Opening.paginate(:all, :include => :facility, :conditions => ["(closes_mins-opens_mins) BETWEEN ? AND ?",@min, @max], :order => 'id DESC', :page => params[:page])
+
+    conditions = ["(closes_mins - opens_mins) BETWEEN :min AND :max"]
+    arguments = {}
+    arguments[:min] = @min
+    arguments[:max] = @max
+       
+    @week_day = params[:week_day] 
+    unless @week_day.blank?
+      @week_day = @week_day.to_i
+      conditions << "sequence = :sequence"
+      arguments[:sequence] = @week_day
+    end
+    
+    all_conditions = conditions.join(' AND ')
+    
+    @openings = Opening.paginate(:all, :include => :facility, :conditions => [all_conditions, arguments], :order => '(closes_mins - opens_mins) DESC', :page => params[:page])
+  end
+
+  def outside_uk
+    # very rough bounding box for UK including NI
+    @status_manager = StatusManager.new
+    @facilities = Facility.paginate(:all, :conditions => "lat < 49.6 OR lat > 60.93 OR lng < -8.28 OR lng > 2.15", :order => 'updated_at DESC', :page => params[:page])
   end
 
 

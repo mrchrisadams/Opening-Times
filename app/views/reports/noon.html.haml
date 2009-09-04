@@ -1,4 +1,17 @@
+.reportsList
+  = render 'reports/report_list'    
+
 %h1= @page_title = "Noon openings/closings"
+
+%p This report is designed to find where an opening starts or ends at midday instead of midnight.
+
+
+- form_tag '', :method=>:get do
+  = label :week_day, "Week day"
+  = select_tag :week_day, "<option value=''>---</option>" + options_for_week_day(@week_day)
+  = label :end, "opens/closes"
+  = select_tag :end, options_for_select(%w(both opens closes), @end)
+  = submit_tag "Update", :name=>nil, :class => 'button'
 
 %p= page_entries_info @openings
 
@@ -17,7 +30,7 @@
         %td= fmt_time(opening.opens_at)
         %td= fmt_time(opening.closes_at)
         %td= opening.comment
-        %td= link_to h(opening.facility.full_name), opening.facility
+        %td= f_link(opening.facility)
 
   %br
   = will_paginate @openings

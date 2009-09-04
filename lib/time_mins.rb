@@ -65,7 +65,7 @@ def mins_to_length(t)
   out = ""
   out += pluralize(t/60, "hour") unless t/60 == 0
   out += " "
-  out += pluralize(t%60, "min") unless t%60 == 0
+  out += pluralize(t%60, "min") unless t%60 == 0 && t != 0
   out.squish
 end
 

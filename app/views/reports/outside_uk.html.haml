@@ -1,0 +1,30 @@
+.reportsList
+  = render 'reports/report_list'    
+
+%h1= @page_title = "Outside UK"
+
+%p= page_entries_info @facilities
+
+- unless @facilities.empty?
+  %table.reports
+    %tr
+      %th Location
+      %th Lat
+      %th Lng     
+      %th Address
+      %th Postcode
+    - @facilities.each do |facility|
+      %tr
+        %td= f_link(facility)
+        %td= facility.lat
+        %td= facility.lng
+        %td= h facility.address
+        %td= facility.postcode.sub(" ","&nbsp;")
+
+  %br
+  - @location = @facilities.first 
+  = render 'search/map_search'
+
+  %br
+  = will_paginate @facilities
+

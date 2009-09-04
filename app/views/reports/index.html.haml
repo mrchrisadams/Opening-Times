@@ -2,13 +2,4 @@
 
 %p The following reports are designed to help spot incorrection information. 
 
-%ul
-  %li
-    = link_to 'Noon openings', :action => :noon
-  %li
-    = link_to 'Long locations', :action => 'long_locations'
-  %li
-    = link_to 'Openings count', :action => 'openings_count'
-  %li
-    = link_to 'Openings length', :action => 'openings_length'
-    
+= render 'reports/report_list'    

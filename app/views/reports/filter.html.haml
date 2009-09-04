@@ -1,0 +1,28 @@
+.reportsList
+  = render 'reports/report_list'    
+
+%h1= @page_title = "Filter"
+
+%p= page_entries_info @openings
+
+
+- unless @openings.empty?
+  %table.reports
+    %tr
+      %th Day
+      %th Opens
+      %th Closes
+      %th Comment
+      %th Facility
+      
+    - @openings.each do |opening|
+      %tr
+        %td= opening.week_day
+        %td= fmt_time(opening.opens_at)
+        %td= fmt_time(opening.closes_at)
+        %td= opening.comment
+        %td= link_to h(opening.facility.full_name), opening.facility
+
+  %br
+  = will_paginate @openings
+

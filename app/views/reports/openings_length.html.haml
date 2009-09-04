@@ -1,3 +1,6 @@
+.grid_10
+.reportsList
+  = render 'reports/report_list'    
 %h1= @page_title = "Length of openings"
 
 %p
@@ -10,11 +13,23 @@
   minutes
   = "(" + mins_to_length(@max) + ")"
 
+- form_tag '', :method=>:get do
+  = label :week_day, "Week day"
+  = select_tag :week_day, "<option value=''>---</option>" + options_for_week_day(@week_day)
+  = label :min, "Min"
+  = select_tag :min, options_for_time_lengths(@min)
+  = label :max, "Max"
+  = select_tag "max", options_for_time_lengths(@max)
+  = submit_tag "Update", :name=>nil, :class => 'button'
+
+
+
 %p= page_entries_info @openings
 
 - unless @openings.empty?
   %table.reports
     %tr
+      %th Length
       %th Day
       %th Opens
       %th Closes
@@ -23,6 +38,7 @@
       
     - @openings.each do |opening|
       %tr
+        %td= opening.length
         %td= opening.week_day
         %td= fmt_time(opening.opens_at)
         %td= fmt_time(opening.closes_at)
