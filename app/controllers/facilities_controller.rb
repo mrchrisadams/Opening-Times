@@ -94,8 +94,9 @@ class FacilitiesController < ApplicationController
   private
 
     def redirect_id_to_slug
-      f = Facility.find_by_id(params[:id])
-      if f
+      if f = Facility.find_by_id(params[:id])
+        return redirect_to(facility_slug_path(f.slug))
+      elsif f = Facility.find_by_slug(params[:id])        
         return redirect_to(facility_slug_path(f.slug))
       else
         render :file => "#{RAILS_ROOT}/public/404.html", :status => 404
