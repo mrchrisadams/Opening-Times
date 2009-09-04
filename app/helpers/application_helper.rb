@@ -17,6 +17,15 @@ module ApplicationHelper
     link_to text, "##{text.slugify}"
   end
 
+  def f_link(f)
+    link = link_to h(f.full_name), facility_slug_path(f.slug)
+    if f.retired_at
+      content_tag :del, link
+    else
+      link
+    end
+  end
+
 
 end
 
