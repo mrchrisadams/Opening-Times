@@ -41,7 +41,7 @@ module ParserUtils
     address = br_to_comma(address)
     address.gsub!(/<[^>]*>/,'')
     address = address.tidy_text
-    address = address.to_titlecase
+    address = address.titlecase
     address = address.split(', ').uniq.join(', ') # remove any duplicated parts
     [address, postcode]
   end

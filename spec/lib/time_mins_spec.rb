@@ -203,7 +203,7 @@ end
 describe "mins_to_length" do
 
   it "should turn minutes in to a length of time" do
-    mins_to_length(0).should == ""
+    mins_to_length(0).should == "0 mins"
 
     mins_to_length(1).should == "1 min"
     mins_to_length(2).should == "2 mins"
