@@ -5,14 +5,14 @@ class String
   end
 
   # Capitalise words correctly
-  def to_titlecase
-    special_cases = ["McCartney","and","of"]
+  def titlecase
+    special_cases = ["McCartney","and","of","Co-operative","Co-op"]
     tmp = self
     tmp = tmp.downcase
     tmp = tmp.gsub(/\b\w/){$&.upcase}
     tmp = tmp.gsub(/'\w\b/){$&.downcase}
     for word in special_cases
-      tmp = tmp.gsub(/#{word}/i,word)
+      tmp = tmp.gsub(/\b#{word}\b/i,word)
     end
     tmp
   end

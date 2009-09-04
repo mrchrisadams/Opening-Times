@@ -43,30 +43,30 @@ end
 
 describe "to_titlecase" do
   it "should do nothing when nothing needs to be done" do
-    "Hello There".to_titlecase == "Hello There"
+    "Hello There".titlecase == "Hello There"
   end
 
   it "should make the first letter of each word uppercase" do
-    "hello there".to_titlecase.should == "Hello There"
+    "hello there".titlecase.should == "Hello There"
   end
 
   it "should make uppercase words titlecase" do
-    "HELLO THERE".to_titlecase.should == "Hello There"
+    "HELLO THERE".titlecase.should == "Hello There"
   end
 
   it "should make o'neil in to O'Neil, but not put's in to put'S" do
-    "Let's get Mike's drink from o'neils pub".to_titlecase.should == "Let's Get Mike's Drink From O'Neils Pub"
-    "o'neils o'Shane's O'CLOCK let's".to_titlecase.should == "O'Neils O'Shane's O'Clock Let's"
-    "welcome to bo'ness".to_titlecase.should == "Welcome To Bo'Ness"
+    "Let's get Mike's drink from o'neils pub".titlecase.should == "Let's Get Mike's Drink From O'Neils Pub"
+    "o'neils o'Shane's O'CLOCK let's".titlecase.should == "O'Neils O'Shane's O'Clock Let's"
+    "welcome to bo'ness".titlecase.should == "Welcome To Bo'Ness"
   end
 
   it "should deal with strange exceptions, such as McCartney" do
-    "lennon & mccartney".to_titlecase.should == "Lennon & McCartney"
-    "LENNON & MCCARTNEY".to_titlecase.should == "Lennon & McCartney"
+    "lennon & mccartney".titlecase.should == "Lennon & McCartney"
+    "LENNON & MCCARTNEY".titlecase.should == "Lennon & McCartney"
   end
 
   it "should allow punctuation in words" do
-    "oranges at half-time. I like (brackets)a,do you?a".to_titlecase.should == "Oranges At Half-Time. I Like (Brackets)A,Do You?A"
+    "oranges at half-time. I like (brackets)a,do you?a".titlecase.should == "Oranges At Half-Time. I Like (Brackets)A,Do You?A"
   end
 
 end
