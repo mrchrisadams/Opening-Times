@@ -11,7 +11,7 @@
         Showing facilitys open on
         %br
         %strong= @time.strftime("%a %d %b %Y - %I:%M%p")
-
+        
     %table.facilityList
       - @facilities.each_with_index do |facility, index|
         - status = @status_manager.status(facility.id)
@@ -31,6 +31,10 @@
                   Bank holiday opening times, please check details
                   %br
               = number_with_precision(facility.distance,:precision=>1) + '&nbsp;miles&nbsp;' + compass(@location.heading_to(facility))
+
+    %p
+      %small
+        Distances are as the crow flies
 
     = render 'increase_distance'
     %p= will_paginate(@facilities, :outer_window => 0, :inner_window => 1)
