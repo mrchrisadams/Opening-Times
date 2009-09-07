@@ -23,7 +23,6 @@ Rails::Initializer.run do |config|
   config.gem "geokit"
   config.gem "hpricot"
   config.gem 'mislav-will_paginate', :version => '~> 2.3.11', :lib => 'will_paginate', :source => 'http://gems.github.com'
-  config.gem "newrelic_rpm"
 
   # Only load the plugins named here, in the order given (default is alphabetical).
   # :all can be used as a placeholder for all plugins not explicitly named
