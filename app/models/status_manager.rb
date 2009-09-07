@@ -1,6 +1,6 @@
 require 'set'
 
-class StatusManager #< ActiveRecord::Base
+class StatusManager 
   include ActiveRecord
 
   OPEN   = :Open

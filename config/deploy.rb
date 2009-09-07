@@ -48,6 +48,8 @@ task :after_update_code do
   run "ln -nfs #{deploy_to}/#{shared_dir}/config/recaptcha.rb #{release_path}/config/initializers/recaptcha.rb"
 end
 
+after "deploy:symlink", "deploy:update_crontab"
+
 namespace :deploy do
   task :start, :roles => :app do
     run "touch #{current_release}/tmp/restart.txt"
@@ -61,4 +63,11 @@ namespace :deploy do
   task :restart, :roles => :app do
     run "touch #{current_release}/tmp/restart.txt"
   end
+  
+  desc "Update the crontab file"
+  task :update_crontab, :roles => :db do
+    run "cd #{release_path} && whenever --update-crontab #{application}"
+  end
 end
+
+
