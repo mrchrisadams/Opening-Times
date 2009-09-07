@@ -8,7 +8,7 @@ class Facility < ActiveRecord::Base
   has_many :facility_revisions
   belongs_to :user
   belongs_to :holiday_set
-  attr_accessible :name, :location, :description, :lat, :lng, :address, :postcode, :phone, :email, :url, :holiday_set_id, :normal_openings_attributes, :holiday_openings_attributes, :comment, :retired
+  attr_accessible :name, :location, :description, :lat, :lng, :address, :postcode, :phone, :url, :holiday_set_id, :normal_openings_attributes, :holiday_openings_attributes, :comment, :retired
 
   named_scope :active, :conditions => { :retired_at => nil }
 
@@ -18,7 +18,7 @@ class Facility < ActiveRecord::Base
   def before_validation
     self.slug = full_name.slugify
 
-    need_tidy = %w(name location description address phone email website)
+    need_tidy = %w(name location description address phone url)
     need_tidy.each do |x|
       self.attributes[x].strip! if attributes[x]
     end
@@ -28,7 +28,6 @@ class Facility < ActiveRecord::Base
 
   validates_presence_of :name, :location, :slug, :address, :revision, :user_id, :updated_from_ip, :holiday_set_id
   validates_format_of :postcode, :with => POSTCODE_REGX
-  validates_format_of :email, :with => EMAIL_REGX, :allow_blank => true
 
   validates_presence_of :comment, :if => :retired?, :message => "must be provided if facility is marked for removal"
 
@@ -154,7 +153,6 @@ class Facility < ActiveRecord::Base
       xml.tag!(:address, address)
       xml.tag!(:postcode, postcode)
       xml.tag!(:phone, phone) unless phone.blank?
-      xml.tag!(:email, email) unless email.blank?
       xml.tag!(:url, url) unless url.blank?
       xml.tag!(:latitude, lat)
       xml.tag!(:longitude, lng)
@@ -195,7 +193,7 @@ class Facility < ActiveRecord::Base
     self.lng = (s/"/longitude").text.to_f
 
     holiday_set = HolidaySet.find_by_name((s/"holiday_set").text)
-    self.holiday_set = holiday_set || HolidaySet.first
+    self.holiday_set = holiday_set || HolidaySet.find_by_postcode(postcode)
 
     (s/"normal-openings/opening").each do |opn|
       o = self.normal_openings.build
