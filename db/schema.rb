@@ -9,24 +9,23 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20090630193402) do
+ActiveRecord::Schema.define(:version => 20090904204215) do
 
   create_table "facilities", :force => true do |t|
     t.integer  "holiday_set_id"
     t.integer  "user_id"
-    t.string   "slug",                    :limit => 100
+    t.string   "slug",                    :limit => 200
     t.string   "name",                    :limit => 100
     t.string   "location",                :limit => 100
     t.string   "address"
     t.string   "postcode",                :limit => 8
     t.string   "phone",                   :limit => 15
-    t.string   "email"
-    t.string   "url"
+    t.string   "url",                     :limit => 2083
     t.text     "description"
     t.string   "summary_normal_openings"
-    t.decimal  "lat",                                    :precision => 15, :scale => 10
-    t.decimal  "lng",                                    :precision => 15, :scale => 10
-    t.integer  "revision",                                                               :default => 1
+    t.decimal  "lat",                                     :precision => 15, :scale => 10
+    t.decimal  "lng",                                     :precision => 15, :scale => 10
+    t.integer  "revision",                                                                :default => 1
     t.string   "comment",                 :limit => 100
     t.string   "updated_from_ip"
     t.datetime "retired_at"
@@ -69,20 +68,23 @@ ActiveRecord::Schema.define(:version => 20090630193402) do
   end
 
   create_table "openings", :force => true do |t|
-    t.integer "facility_id"
-    t.integer "opens_mins"
-    t.integer "closes_mins"
-    t.date    "starts_on"
-    t.date    "ends_on"
-    t.integer "sequence"
-    t.boolean "closed"
-    t.string  "comment",     :limit => 100
-    t.string  "type",        :limit => 20
+    t.integer  "facility_id"
+    t.integer  "opens_mins"
+    t.integer  "closes_mins"
+    t.date     "starts_on"
+    t.date     "ends_on"
+    t.integer  "sequence"
+    t.boolean  "closed"
+    t.string   "comment",     :limit => 100
+    t.string   "type",        :limit => 20
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   add_index "openings", ["facility_id"], :name => "index_openings_on_facility_id"
   add_index "openings", ["opens_mins", "closes_mins"], :name => "index_openings_on_opens_mins_and_closes_mins"
   add_index "openings", ["type"], :name => "index_openings_on_type"
+  add_index "openings", ["updated_at"], :name => "index_openings_on_updated_at"
 
   create_table "slug_traps", :force => true do |t|
     t.string   "slug",          :limit => 100
