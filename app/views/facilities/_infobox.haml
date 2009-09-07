@@ -4,10 +4,10 @@
       ID:
       = @facility.id
     %li
-      .geo
-        Geo:
-        %span.latitude= @facility.lat
-        %span.longitude= @facility.lng
+      Lat:
+      = @facility.lat
+      Lng:
+      = @facility.lng
     %li
       Updated:
       = @facility.updated_at.strftime("%I:%M%p, %d %b %Y")

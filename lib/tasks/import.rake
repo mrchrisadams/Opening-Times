@@ -3,7 +3,12 @@
 namespace :import do
 
   task(:xml => [:environment]) do
-    Facility.delete_all if RAILS_ENV == 'development'
+    if RAILS_ENV == 'development'
+      Facility.delete_all
+      FacilityRevision.delete_all
+      Opening.delete_all
+      SlugTrap.delete_all
+    end
     f = FacilityXmlSource.new(ENV['facility'])
     f.import
   end

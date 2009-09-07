@@ -4,6 +4,7 @@ config/initializers/recaptcha.rb
 coverage/*
 db/backup/*
 db/*.sqlite3
+db/*.sql
 doc/*
 log/*.log
 public/stylesheets/*.css

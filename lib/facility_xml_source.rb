@@ -3,7 +3,7 @@ require "progressbar"
 
 class FacilityXmlSource
 
-  DATA_ROOT = File.dirname(__FILE__) + "/../../opening-times-data/"
+  DATA_ROOT = File.dirname(__FILE__) + "/../../scrapers/data/"
 
   def initialize(facility_name)
     @facility_name = facility_name || "**" #because nil gets passed if nothing is specified on console
