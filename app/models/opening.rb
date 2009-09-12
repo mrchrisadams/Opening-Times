@@ -1,11 +1,13 @@
 class Opening < ActiveRecord::Base
 
+  abstract_class = true
   belongs_to :facility
 
   attr_accessible :facility_id, :opens_at, :closes_at, :comment
 
   MINUTES_IN_DAY = 1440 # 60 * 24
   DAYNAMES = %w(Mon Tue Wed Thu Fri Sat Sun)
+
 
   default_scope :order => 'starts_on,sequence,opens_mins'
 
