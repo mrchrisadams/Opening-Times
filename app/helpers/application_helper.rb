@@ -26,6 +26,24 @@ module ApplicationHelper
     end
   end
 
+  def az_links(collection, method, selected=[])
+    selected = selected.to_a
+    az = []
+    collection.each { |a| az << a[method][0,1].upcase }
+    az = az.uniq.sort
+    out = "\n"
+    ('A'..'Z').each do |letter|
+      if selected.include?(letter)
+        out += content_tag(:span, letter, :class => 'current')
+      elsif az.include?(letter)        
+        out += content_tag(:a, letter, :href=> "##{letter.downcase}")
+      else
+        out += content_tag(:span, letter, :class => "disabled")
+      end
+      out += "\n"
+    end
+    out
+  end
 
 end
 
