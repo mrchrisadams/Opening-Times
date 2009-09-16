@@ -10,6 +10,10 @@ ActionController::Routing::Routes.draw do |map|
     facilities.resources :facility_slug_traps, :as => :slugs
   end
 
+  map.resources :groups 
+
+  map.search 'search.:format', :controller => 'search', :defaults => { :format => nil }
+#  map.fireeagle 'search/fireeagle', :controller => 'search', :action => 'fireeagle'
 
   map.login "login", :controller => "user_sessions", :action => "new"
   map.logout "logout", :controller => "user_sessions", :action => "destroy"
@@ -30,9 +34,6 @@ ActionController::Routing::Routes.draw do |map|
   end
   
   map.connect 'services/:id', :controller => 'facilities', :action => 'show'
-
-  map.search 'search.:format', :controller => 'search', :defaults => { :format => nil }
-#  map.fireeagle 'search/fireeagle', :controller => 'search', :action => 'fireeagle'
 
   map.reports 'reports/:action', :controller => 'reports'
 

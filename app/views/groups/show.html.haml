@@ -1,0 +1,25 @@
+- @page_title = @group.name
+%h1= h(@group.name)
+
+- if @group.description
+  = simple_format(@group.description)
+
+- if @facilities.empty?
+  %p This group doesn't have any members.
+- else
+
+  %p 
+    = page_entries_info @facilities
+    in this group. Sorted by location. 
+
+  %table.facilityList
+    - @facilities.each do |facility|
+      %tr
+        %td
+          = f_link(facility)
+          .info
+            = h facility.full_address
+
+  %p= will_paginate(@facilities)
+
+

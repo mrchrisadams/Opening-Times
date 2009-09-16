@@ -1,0 +1,19 @@
+- @page_title = "Group not found"
+%h1= @page_title
+%p Sorry, there is no group matching that name. 
+
+- unless @matches.empty?
+  %p Did you mean?
+  %ul
+    - @matches.each do |m|
+      %li
+        = link_to h(m.name), m      
+
+%p
+  Please 
+  = link_to 'view all groups', groups_path
+  or try using the search above, you can 
+  = params[:q].blank? ? 'search just by location' : link_to('search just by location', :overwrite_params => {:group=>{:name=>nil}})
+  to see all services nearby.
+  
+%p &nbsp;

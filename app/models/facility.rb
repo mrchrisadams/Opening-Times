@@ -3,12 +3,17 @@ class Facility < ActiveRecord::Base
 
   include ParserUtils
 
+  MAX_GROUP_MEMBERSHIPS = 6 # Number of groups a Facility can be a member of
+
   has_many :normal_openings,  :dependent => :delete_all
   has_many :holiday_openings,  :dependent => :delete_all
   has_many :facility_revisions
   belongs_to :user
   belongs_to :holiday_set
-  attr_accessible :name, :location, :description, :lat, :lng, :address, :postcode, :phone, :url, :holiday_set_id, :normal_openings_attributes, :holiday_openings_attributes, :comment, :retired
+ 
+  has_many :group_memberships, :dependent => :destroy
+  has_many :groups, :through => :group_memberships
+  attr_accessible :name, :location, :description, :lat, :lng, :address, :postcode, :phone, :url, :holiday_set_id, :normal_openings_attributes, :holiday_openings_attributes, :comment, :retired, :groups_list
 
   named_scope :active, :conditions => { :retired_at => nil }
 
@@ -83,8 +88,6 @@ class Facility < ActiveRecord::Base
     false
   end
 
-
-
   def self.find_by_slug(slug)
     find(:first, :conditions => ["slug=?",slug.slugify])
   end
@@ -157,7 +160,7 @@ class Facility < ActiveRecord::Base
       xml.tag!(:latitude, lat)
       xml.tag!(:longitude, lng)
 
-#      xml.tag!(:bank_holiday_set, holiday_set.name)
+      xml.tag!(:bank_holiday_set, holiday_set.name)
 
       xml.tag!(:created_at, created_at)
       xml.tag!(:updated_at, updated_at)
@@ -165,6 +168,8 @@ class Facility < ActiveRecord::Base
       normal_openings.to_xml(:builder=>xml,:skip_instruct=>true) unless normal_openings.empty?
       holiday_openings.to_xml(:builder=>xml,:skip_instruct=>true) unless holiday_openings.empty?
 #      special_openings.to_xml(:builder=>xml,:skip_instruct=>true) unless special_openings.empty?
+
+      groups.to_xml(:builder=>xml,:skip_instruct=>true, :only => 'name') unless groups.empty?
     end
   end
 
@@ -203,8 +208,32 @@ class Facility < ActiveRecord::Base
       o = self.holiday_openings.build
       o.from_xml(opn)
     end
+
+    (s/"groups/group").each do |group|
+      group = Group.find_or_create_by_name(group['name'])
+      self.group_memberships.build(:group => group)
+    end
     self
   end
+
+  def groups_list
+    groups.map(&:name).join(",")
+  end
+
+  def groups_list=(s)
+    self.group_memberships.delete_all
+    
+    groups = s.split(",")
+    groups.reject!(&:blank?)
+    groups.map!(&:strip)
+    groups.uniq!
+    groups = groups.take(MAX_GROUP_MEMBERSHIPS)
+    groups.each do |group|
+      group = Group.find_or_create_by_name(group)
+      self.group_memberships.build(:group => group)
+    end    
+  end
+
 
 end
 

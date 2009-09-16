@@ -1,0 +1,36 @@
+- @page_title = @group.name
+%h1= h(@group.name)
+
+- if @group.description
+  = simple_format(@group.description)
+
+- if @facilities.empty?
+  %p This group doesn't have any members.
+- else
+
+  %p 
+    %small
+      = pluralize(@facilities.count, "member")
+      in this group. Sorted by location. 
+      - if @show_az
+        Use the A-Z links to jump to that letter.
+
+  - prev = ''
+  %table.facilityList
+    - prev = ''
+    - for facility in @facilities
+      - if @show_az && prev != facility.location[0,1].upcase
+        %tr.az_anchor
+          %td{ :colspan => 2 }
+            - prev = facility.location[0,1].upcase
+            %a{ :name=> prev.downcase, :id => prev.downcase }
+            .pagination= az_links(@facilities, 'location', prev)                        
+      %tr
+        %td
+          = f_link(facility)
+          .info
+            = h facility.full_address
+            %br  
+            = #fmt_time(facility.summary_normal_openings)
+
+  %p= link_to '&larr; View all groups', :controller => :groups

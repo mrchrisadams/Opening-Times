@@ -105,5 +105,11 @@
                 %br
                 = number_with_precision(nearby.distance,:precision=>1) + '&nbsp;miles&nbsp;' + compass(@facility.heading_to(nearby))
 
+    - unless @facility.groups.empty?
+      %h2 Groups
+      %ul
+        - @facility.groups.each do |group|
+          %li= link_to h(group.name), group
+
     = render 'facilities/infobox'
     = render 'partials/server_clock'
