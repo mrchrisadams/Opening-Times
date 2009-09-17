@@ -6,8 +6,10 @@ namespace :import do
     if RAILS_ENV == 'development'
       Facility.delete_all
       FacilityRevision.delete_all
-      Opening.delete_all
       SlugTrap.delete_all
+      Opening.delete_all
+      Group.delete_all
+      GroupMembership.delete_all
     end
     f = FacilityXmlSource.new(ENV['facility'])
     f.import
