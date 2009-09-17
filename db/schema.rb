@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20090908103514) do
+ActiveRecord::Schema.define(:version => 20090917075255) do
 
   create_table "facilities", :force => true do |t|
     t.integer  "holiday_set_id"
@@ -68,9 +68,14 @@ ActiveRecord::Schema.define(:version => 20090908103514) do
     t.text     "description"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "type"
+    t.decimal  "lat",                         :precision => 15, :scale => 10
+    t.decimal  "lng",                         :precision => 15, :scale => 10
+    t.string   "url",         :limit => 2083
   end
 
   add_index "groups", ["slug"], :name => "index_groups_on_slug", :unique => true
+  add_index "groups", ["type"], :name => "index_groups_on_type"
 
   create_table "holiday_events", :force => true do |t|
     t.integer  "holiday_set_id"

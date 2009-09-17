@@ -37,7 +37,7 @@ class GroupsController < ApplicationController
 
 #    @facilities = Facility.find(:all, :select=>'facilities.id, slug, name, location, address, postcode', :joins => 'LEFT OUTER JOIN group_memberships ON facilities.id = facility_id', :conditions => ["group_memberships.group_id=?", @group], :order => "location")
 
-    @facilities = Facility.paginate(:all, :select=>'facilities.id, slug, name, location, address, postcode', :joins => 'LEFT OUTER JOIN group_memberships ON facilities.id = facility_id', :conditions => ["group_memberships.group_id=?", @group], :order => "location", :page => params[:page])
+    @facilities = Facility.paginate(:all, :select=>'facilities.id, slug, name, location, address, postcode, lat, lng', :joins => 'LEFT OUTER JOIN group_memberships ON facilities.id = facility_id', :conditions => ["group_memberships.group_id=?", @group], :order => "location", :page => params[:page])
 
 #    @show_az = @facilities.size > 20
   

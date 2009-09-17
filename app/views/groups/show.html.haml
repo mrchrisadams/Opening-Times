@@ -1,6 +1,10 @@
 - @page_title = @group.name
 %h1= h(@group.name)
 
+- if @group.class == LocationGroup
+  -# @location = @facilities.first
+  = render 'search/map_search'
+
 - if @group.description
   = simple_format(@group.description)
 
