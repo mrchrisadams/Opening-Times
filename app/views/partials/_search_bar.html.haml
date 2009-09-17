@@ -3,8 +3,8 @@
     %form{ :action=>"/search", :method=>"get" }
       = label_tag 'location', 'Location', :accesskey=>'4', :title => "Enter a town, city, postcode, or lat/long"
       = text_field_tag 'location', params[:location], :size => 14
-      = #label_tag 'group', 'What'
-      = #render :partial=>'partials/groups_select'
+      = label_tag 'group', 'Group'
+      = text_field_tag 'group', params[:group], :size => 14
       = submit_tag 'Search', :name => nil, :class=>'button'
   .clearfix
 

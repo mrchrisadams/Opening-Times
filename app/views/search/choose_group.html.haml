@@ -1,0 +1,22 @@
+- @page_title = "No matching group"
+%h1= @page_title
+
+%p 
+  There is no group called 
+  = "\"#{h(@group)}\"."
+
+
+
+- if @matches
+  %p Did you mean
+
+  %ul
+    - for group in @matches
+      %li
+        - if @location.blank?
+          = link_to(h(group.name), group )
+        - else
+          = link_to(h(group.name), :overwrite_params=>{ :group => group.name } )
+          
+%p Groups are often named after a chain of stores, a type of service or a named location (i.e. Tesco, Supermarkets, Covent Garden). Please revise your search and try again.
+

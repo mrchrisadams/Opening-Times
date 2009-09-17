@@ -24,16 +24,11 @@ class GroupsController < ApplicationController
   # GET /groups/1.xml
   def show
     group_name = params[:id]
-    
-    if group_name != group_name.slugify
-      redirect_to(:action => :show, :id => group_name.slugify) and return
-    end
-  
+      
     @group = Group.find_by_slug(group_name)
 
     unless @group
-      @matches = Group.find_by_sql(["SELECT name, slug FROM groups WHERE name SOUNDS LIKE ?", params[:id]])
-      render :template => "groups/not_found", :status => 404 and return
+      redirect_to :controller => :search, :group => params[:id] and return  
     end
 
 #    params[:group] = @group.name #set the search field to current group
@@ -44,8 +39,7 @@ class GroupsController < ApplicationController
 
     @facilities = Facility.paginate(:all, :select=>'facilities.id, slug, name, location, address, postcode', :joins => 'LEFT OUTER JOIN group_memberships ON facilities.id = facility_id', :conditions => ["group_memberships.group_id=?", @group], :order => "location", :page => params[:page])
 
-
-    @show_az = @facilities.size > 20
+#    @show_az = @facilities.size > 20
   
     @status_manager = StatusManager.new
   end
