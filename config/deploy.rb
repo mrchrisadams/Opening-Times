@@ -47,9 +47,10 @@ desc "Link in the production database.yml"
 task :after_update_code do
   run "ln -nfs #{deploy_to}/#{shared_dir}/config/database.yml #{release_path}/config/database.yml"
   run "ln -nfs #{deploy_to}/#{shared_dir}/config/recaptcha.rb #{release_path}/config/initializers/recaptcha.rb"
+  run "ln -nfs #{deploy_to}/#{shared_dir}/data/ #{release_path}/data"
 end
 
-after "deploy:symlink", "deploy:update_crontab"
+after "deploy:symlink"
 
 namespace :deploy do
   task :start, :roles => :app do
@@ -65,10 +66,10 @@ namespace :deploy do
     run "touch #{current_release}/tmp/restart.txt"
   end
   
-  desc "Update the crontab file"
-  task :update_crontab, :roles => :db do
-    run "cd #{release_path} && whenever --update-crontab #{application}"
-  end
+#  desc "Update the crontab file"
+#  task :update_crontab, :roles => :db do
+#    run "cd #{release_path} && whenever --update-crontab #{application}"
+#  end
 end
 
 
