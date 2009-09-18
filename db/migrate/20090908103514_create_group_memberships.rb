@@ -4,7 +4,7 @@ class CreateGroupMemberships < ActiveRecord::Migration
       t.integer :group_id
       t.integer :facility_id
 
-      t.created_at :datetime
+      t.datetime :created_at
     end
     add_index :group_memberships, [:group_id, :facility_id]
   end

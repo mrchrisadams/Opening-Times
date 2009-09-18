@@ -56,7 +56,6 @@ ActiveRecord::Schema.define(:version => 20090917075255) do
     t.integer  "group_id"
     t.integer  "facility_id"
     t.datetime "created_at"
-    t.datetime "updated_at"
   end
 
   add_index "group_memberships", ["group_id", "facility_id"], :name => "index_group_memberships_on_group_id_and_facility_id"
