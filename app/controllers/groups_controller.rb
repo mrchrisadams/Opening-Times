@@ -1,7 +1,7 @@
 class GroupsController < ApplicationController
-  before_filter :require_user, :except => [:index, :show]
-  before_filter :check_lockdown, :except => [:index, :show]
-  before_filter :check_user, :except => [:index, :show]
+  before_filter :require_user, :except => [:index, :show, :sitemap]
+  before_filter :check_lockdown, :except => [:index, :show, :sitemap]
+  before_filter :check_user, :except => [:index, :show, :sitemap]
 
 #  caches_page :index, :show #
 
@@ -105,4 +105,9 @@ class GroupsController < ApplicationController
 #      format.xml  { head :ok }
 #    end
 #  end
+
+  def sitemap
+    @groups = Group.paginate(:all, :select => 'slug, updated_at', :page => params[:page], :per_page => SITEMAP_PAGE_SIZE)
+  end
+
 end

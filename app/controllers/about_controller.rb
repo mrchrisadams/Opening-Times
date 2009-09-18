@@ -33,7 +33,7 @@ class AboutController < ApplicationController
   end
 
   def sitemap
-    @facilities = Facility.all
+    @facilities = Facility.paginate(:all, :select => 'slug, updated_at', :page => params[:page])
   end
 
   def statistics

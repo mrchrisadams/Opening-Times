@@ -7,6 +7,7 @@ class Group < ActiveRecord::Base
   named_scope :active, :conditions => 'redirect_slug IS NULL'
 
   validates_uniqueness_of :name, :slug
+  validates_presence_of :name, :slug
 
   def before_validation_on_create
     self.slug = name.slugify

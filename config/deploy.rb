@@ -41,6 +41,7 @@ set :branch, "master"
 set :deploy_via, :remote_cache
 
 set :use_sudo, true
+set :rake, "/var/lib/gems/1.8/bin/rake"
 
 desc "Link in the production database.yml"
 task :after_update_code do

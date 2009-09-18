@@ -75,13 +75,10 @@ class FacilitiesController < ApplicationController
     end
   end
 
-
   def remove
     @facility = Facility.find(params[:id])
     @facility.comment = "" unless @facility.retired?
   end
-
-
 
   # DELETE /facilities/1
 #  def destroy
@@ -90,6 +87,9 @@ class FacilitiesController < ApplicationController
 #    redirect_to(facilities_url)
 #  end
 
+  def sitemap
+    @facilities = Facility.paginate(:all, :select => 'slug, updated_at', :page => params[:page], :per_page => SITEMAP_PAGE_SIZE)
+  end
 
   private
 

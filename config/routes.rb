@@ -5,12 +5,12 @@ ActionController::Routing::Routes.draw do |map|
   map.root :controller => 'about', :action => 'homepage'
 #  map.resources :facilities, :as => 'f'
 
-  map.resources :facilities, :as => 'f', :member => { :remove => :get } do |facilities|
+  map.resources :facilities, :as => 'f', :collection => { :sitemap => :get }, :member => { :remove => :get } do |facilities|
     facilities.resources :revisions, :path_names => { :delete => 'retire' }
     facilities.resources :facility_slug_traps, :as => :slugs
   end
 
-  map.resources :groups 
+  map.resources :groups, :collection => { :sitemap => :get }
 
   map.search 'search.:format', :controller => 'search', :defaults => { :format => nil }
 #  map.fireeagle 'search/fireeagle', :controller => 'search', :action => 'fireeagle'
@@ -26,7 +26,7 @@ ActionController::Routing::Routes.draw do |map|
 
   map.ip 'ip/:ip', :controller => 'ip', :ip => /\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}/
 
-  ABOUT_PAGES = %w(about accessibility bankholidays copyright feedback guidelines harness help license multipleopenings privacy recentchanges recentlyremoved register sitemap statistics)
+  ABOUT_PAGES = %w(about accessibility bankholidays copyright feedback guidelines harness help license multipleopenings privacy recentchanges recentlyremoved register sitemap sitemapindex statistics)
   
   ABOUT_PAGES.each do |a|
     map.send "#{a}", "#{a}", :controller => 'about', :action => a

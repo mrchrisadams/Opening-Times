@@ -1,3 +1,5 @@
+SITEMAP_PAGE_SIZE = 50_000 # for XML sitemaps
+
 EMAIL_REGX = /\A([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})\Z/i
 
 POSTCODE_REGX = /[A-Z]{1,2}[0-9R][0-9A-Z]?\s*[0-9][ABD-HJLNP-UW-Z]{2}/i
