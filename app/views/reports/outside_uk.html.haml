@@ -20,6 +20,7 @@
         %td= facility.lng
         %td= h facility.address
         %td= facility.postcode.sub(" ","&nbsp;")
+        %td= link_to('edit', edit_facility_path(facility))
 
   %br
   - @location = @facilities.first 

@@ -217,7 +217,7 @@ class Facility < ActiveRecord::Base
   end
 
   def groups_list
-    groups.map(&:name).join(",")
+    groups.map(&:name).join(", ")
   end
 
   def groups_list=(s)

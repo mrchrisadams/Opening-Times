@@ -63,7 +63,7 @@ class ReportsController < ApplicationController
     @min = (params[:min] || 7).to_i
     @max = (params[:max] || 7).to_i
     @max = @min if @min > @max
-    @facilities = Facility.find_by_sql("SELECT facilities.id, name, location, updated_at, count(openings.id) AS openings_count FROM facilities LEFT JOIN openings ON facilities.id = facility_id GROUP BY facilities.id HAVING openings_count < #{@min} or openings_count > #{@max} ORDER BY updated_at DESC LIMIT #{@limit}")
+    @facilities = Facility.find_by_sql("SELECT facilities.id, name, location, facilities.updated_at, count(openings.id) AS openings_count FROM facilities LEFT JOIN openings ON facilities.id = facility_id GROUP BY facilities.id HAVING openings_count < #{@min} or openings_count > #{@max} ORDER BY facilities.updated_at DESC LIMIT #{@limit}")
   end
 
   def openings_length

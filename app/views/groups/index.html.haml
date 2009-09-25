@@ -10,7 +10,7 @@
 %table.facilityList
   - for group in @groups
     %tr
-      %td.oc= number_with_delimiter(group[0])
+      %td.oc.num= number_with_delimiter(group[0])
       %td= link_to h(group[1]), :controller => :groups, :action => :show, :id => group[2]
 
 = #will_paginate(@groups)
