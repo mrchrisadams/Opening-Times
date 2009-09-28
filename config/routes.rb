@@ -26,7 +26,7 @@ ActionController::Routing::Routes.draw do |map|
 
   map.ip 'ip/:ip', :controller => 'ip', :ip => /\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}/
 
-  ABOUT_PAGES = %w(about accessibility bankholidays copyright feedback guidelines harness help license multipleopenings privacy recentchanges recentlyremoved register sitemap sitemapindex statistics)
+  ABOUT_PAGES = %w(about accessibility advertising bankholidays copyright feedback guidelines harness help license multipleopenings privacy recentchanges recentlyremoved register sitemap sitemapindex statistics)
   
   ABOUT_PAGES.each do |a|
     map.send "#{a}", "#{a}", :controller => 'about', :action => a
