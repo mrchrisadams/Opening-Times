@@ -39,7 +39,7 @@
     - @openings.each do |opening|
       %tr
         %td= opening.length
-        %td= opening.week_day
+        %td= opening.class == HolidayOpening ? 'Bank' : opening.week_day
         %td= fmt_time(opening.opens_at)
         %td= fmt_time(opening.closes_at)
         %td= opening.comment
