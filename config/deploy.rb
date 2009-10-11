@@ -28,9 +28,9 @@ set :deploy_to, "/www/#{application}"
 # set :scm, :subversion
 # see a full list by running "gem contents capistrano | grep 'scm/'"
 
-role :app, "beta.opening-times.co.uk"
-role :web, "beta.opening-times.co.uk"
-role :db, "beta.opening-times.co.uk", :primary => true
+role :app, "#{application}"
+role :web, "#{application}"
+role :db, "#{application}", :primary => true
 
 default_run_options[:pty] = true
 set :repository,  "git@github.com:aubergene/Opening-Times.git"
