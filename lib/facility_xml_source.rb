@@ -22,8 +22,17 @@ class FacilityXmlSource
 
     @files.each do |file|
       progress.inc
-      f = Facility.new
-      f.from_xml(File.open(file).read)
+
+      xml = File.open(file).read
+      doc = Hpricot.XML(xml)
+
+      s = (doc/"facility")
+      s = (doc/"service") if s.empty?
+
+      name = (s/"/name").text
+      location = (s/"/location").text
+      f = Facility.find_or_create_by_slug("#{name} - #{location}".slugify)
+      f.from_xml(xml)
       f.user_id = 0
       f.updated_from_ip = "0.0.0.0"
       f.save!

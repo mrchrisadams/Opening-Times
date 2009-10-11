@@ -175,45 +175,51 @@ class Facility < ActiveRecord::Base
 
 
   def from_xml(xml)
-    unless new_record?
-      [normal_openings].each do |o|
-        o.all.each { |x| x.mark_for_destruction }
+    Facility.transaction do 
+      unless new_record?
+        self.normal_openings.each do |o|
+          o.mark_for_destruction
+        end
+        self.holiday_openings.each do |o|
+          o.mark_for_destruction
+        end
       end
+
+      doc = Hpricot.XML(xml)
+
+      s = (doc/"facility")
+      s = (doc/"service") if s.empty?
+
+      self.name = (s/"/name").text
+      self.location = (s/"/location").text
+      self.description = (s/"/description").text
+      self.address = (s/"/address").text
+      self.postcode = (s/"/postcode").text
+      self.phone = extract_phone((s/"/phone").text)
+
+      self.url = (s/"/url").text #TODO there needs to be a url extractor
+      self.lat = (s/"/latitude").text.to_f #TODO this should do a geocode if they aren't specified
+      self.lng = (s/"/longitude").text.to_f
+
+      holiday_set = HolidaySet.find_by_name((s/"holiday_set").text)
+      self.holiday_set = holiday_set || HolidaySet.find_by_postcode(postcode)
+
+      (s/"normal-openings/opening").each do |opn|
+        o = self.normal_openings.build
+        o.from_xml(opn)
+      end
+      (s/"holiday-openings/opening").each do |opn|
+        o = self.holiday_openings.build
+        o.from_xml(opn)
+      end
+
+      self.group_memberships.delete_all
+      (s/"groups/group").each do |group|
+        group = Group.find_or_create_by_name(group['name'])
+        self.group_memberships.build(:group => group)
+      end
+      self
     end
-
-    doc = Hpricot.XML(xml)
-
-    s = (doc/"facility")
-    s = (doc/"service") if s.empty?
-
-    self.name = (s/"/name").text
-    self.location = (s/"/location").text
-    self.description = (s/"/description").text
-    self.address = (s/"/address").text
-    self.postcode = (s/"/postcode").text
-    self.phone = extract_phone((s/"/phone").text)
-
-    self.url = (s/"/url").text #TODO there needs to be a url extractor
-    self.lat = (s/"/latitude").text.to_f #TODO this should do a geocode if they aren't specified
-    self.lng = (s/"/longitude").text.to_f
-
-    holiday_set = HolidaySet.find_by_name((s/"holiday_set").text)
-    self.holiday_set = holiday_set || HolidaySet.find_by_postcode(postcode)
-
-    (s/"normal-openings/opening").each do |opn|
-      o = self.normal_openings.build
-      o.from_xml(opn)
-    end
-    (s/"holiday-openings/opening").each do |opn|
-      o = self.holiday_openings.build
-      o.from_xml(opn)
-    end
-
-    (s/"groups/group").each do |group|
-      group = Group.find_or_create_by_name(group['name'])
-      self.group_memberships.build(:group => group)
-    end
-    self
   end
 
   def groups_list
