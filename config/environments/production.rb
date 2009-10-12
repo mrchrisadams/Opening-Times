@@ -29,10 +29,12 @@ config.action_view.cache_template_loading            = true
 config.gem "newrelic_rpm"
   
 # 127.0.0.1
-GOOGLE_MAPS_API_KEY = "ABQIAAAAztgMQ8gk3qQo-szAq24XnRRi_j0U6kJrkFvY4-OX2XYmEAa76BTgtTteRs_j2eg-IPM4tRlshkDZlQ"
+# GOOGLE_MAPS_API_KEY = "ABQIAAAAztgMQ8gk3qQo-szAq24XnRRi_j0U6kJrkFvY4-OX2XYmEAa76BTgtTteRs_j2eg-IPM4tRlshkDZlQ"
 
 # beta.opening-times.co.uk
-GOOGLE_MAPS_API_KEY = "ABQIAAAAztgMQ8gk3qQo-szAq24XnRS2nt5tQfrsCRvkZWYugf3hlgQzEhSia2kJSzm0PVghPyNJasj3zSMFMw"
+#GOOGLE_MAPS_API_KEY = "ABQIAAAAztgMQ8gk3qQo-szAq24XnRS2nt5tQfrsCRvkZWYugf3hlgQzEhSia2kJSzm0PVghPyNJasj3zSMFMw"
+
+GOOGLE_MAPS_API_KEY = "ABQIAAAAztgMQ8gk3qQo-szAq24XnRR0L2lY_JtzxLQOiPPwPJmr0n1RhxQM1pLtcCcdbyhal4ob1jvbY-2dzg"
 
 RECAPTCHA_PUBLIC_KEY = ""
 RECAPTCHA_PRIVATE_KEY = ""
