@@ -14,7 +14,9 @@ function fitMap( map, points ) {
 
 function initialize() {
   if (GBrowserIsCompatible()) {
+    var latlng = new GLatLng(<%= @location.lat %>,<%= @location.lng %>);
     var map = new GMap2(document.getElementById("map_canvas"));
+  	map.setCenter(latlng, 13);
 
     map.addControl(new GLargeMapControl());
     map.addControl(new GMenuMapTypeControl());
@@ -24,21 +26,20 @@ function initialize() {
     map.addControl(mapControl);
 
     <% if @location %>
-  	map.setCenter(latlng, 13);
-    var latlng = new GLatLng(<%= @location.lat %>,<%= @location.lng %>);
     var locationIcon = new GIcon(G_DEFAULT_ICON);
     locationIcon.image = "http://maps.google.com/mapfiles/arrow.png";
     locationIcon.shadow = "http://www.google.com/mapfiles/arrowshadow.png";
     locationIcon.iconSize = new GSize(39, 34);
     locationIcon.shadowSize = new GSize(39, 34);
     locationIcon.iconAnchor = new GPoint(9, 34);
+    
+    var zoomMarkers = new Array();
+    zoomMarkers[0] = latlng;
 
     var locationMarker = new GMarker(latlng, { icon:locationIcon } )
     map.addOverlay(locationMarker);
     <% end -%>
 
-    var zoomMarkers = new Array();
-    zoomMarkers[0] = latlng;
 
     function createMarker(lat, lng, index, status, info) {
       point = new GLatLng(lat, lng);
