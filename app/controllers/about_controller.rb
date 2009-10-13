@@ -1,5 +1,7 @@
 class AboutController < ApplicationController
 
+  caches_page :homepage, :bankholidays, :sitemap #
+
   def bankholidays
     @holiday_sets = HolidaySet.all
     respond_to do |format|

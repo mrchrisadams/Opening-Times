@@ -72,7 +72,7 @@ class SearchController < ApplicationController
         return
       end
     else
-      @matches = Group.find_by_sql(["SELECT name, slug FROM groups WHERE slug SOUNDS LIKE ?", @group.slugify])
+      @matches = [] #Group.find_by_sql(["SELECT name, slug FROM groups WHERE slug SOUNDS LIKE ?", @group.slugify])
 #      render :template => "groups/not_found", :status => 404 and return
       render :template => "search/choose_group", :status => 404 and return
     end

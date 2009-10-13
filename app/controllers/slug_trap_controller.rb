@@ -15,7 +15,7 @@ class SlugTrapController < ApplicationController
     @status = @status_manager.status(@facility)
     respond_to do |format|
       format.html do
-        @nearby = Facility.find(:all, :conditions => ["id <> ?",@facility.id], :origin => @facility, :within => 20, :order => 'distance', :limit => 20)
+        @nearby = Facility.find(:all, :conditions => ["id <> ?",@facility.id], :origin => @facility, :within => 15, :order => 'distance', :limit => 10)
         render 'facilities/show'
       end
       format.xml  { render :xml => @facility }

@@ -3,7 +3,7 @@ class GroupsController < ApplicationController
   before_filter :check_lockdown, :except => [:index, :show, :sitemap]
   before_filter :check_user, :except => [:index, :show, :sitemap]
 
-#  caches_page :index, :show #
+  caches_page :index, :show #
 
   def index
     @groups = Group.connection.select_rows("SELECT count(group_memberships.id) AS count, name, slug FROM groups INNER JOIN group_memberships ON groups.id = group_id GROUP BY name, slug ORDER BY count DESC LIMIT 30")
