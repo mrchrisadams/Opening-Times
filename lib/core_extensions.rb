@@ -1,7 +1,7 @@
 class String
 
   def slugify
-    downcase.gsub("'",'').gsub('&',' and ').gsub(/[^A-Z0-9]/i,' ').strip.squeeze(' ').gsub(/\s/,'-')
+    downcase.gsub("'",'').gsub('&',' and ').gsub(/[^a-z0-9]/,' ').strip.squeeze(' ').gsub(' ','-')
   end
 
   # Capitalise words correctly
