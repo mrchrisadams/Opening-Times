@@ -37,7 +37,7 @@ ActionController::Routing::Routes.draw do |map|
 
   map.reports 'reports/:action', :controller => 'reports'
 
-  map.facility_slug ':slug.:format', :controller => 'slug_trap', :action => 'show', :defaults => { :format => nil }
+  map.facility_slug ':slug.:format', :controller => 'slug_trap', :action => 'show', :defaults => { :format => nil }, :slug => /[a-z0-9-]+/i
 
   # Sample of regular route:
   #   map.connect 'products/:id', :controller => 'catalog', :action => 'view'
