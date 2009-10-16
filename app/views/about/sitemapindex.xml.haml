@@ -1,16 +1,16 @@
 !!! xml
 %sitemapindex{ 'xmlns'=>"http://www.sitemaps.org/schemas/sitemap/0.9" }    
   %sitemap
-    %loc= url_for(:controller => :about, :action => :sitemap, :format => :xml)
+    %loc= url_for(:controller => :about, :action => :sitemap, :format => :xml, :only_path => false)
 
   - (Facility.count.to_f / SITEMAP_PAGE_SIZE).ceil.times do |i|
     %sitemap
-      %loc= url_for(:controller => :facilities, :action => :sitemap, :format => :xml, :page => i + 1)
+      %loc= url_for(:controller => :facilities, :action => :sitemap, :format => :xml, :page => i + 1, :only_path => false)
       %lastmod= Facility.maximum(:updated_at).strftime("%Y-%m-%d")
       
   - (Group.count.to_f / SITEMAP_PAGE_SIZE).ceil.times do |i|
     %sitemap
-      %loc= url_for(:controller => :groups, :action => :sitemap, :format => :xml, :page => i + 1)
+      %loc= url_for(:controller => :groups, :action => :sitemap, :format => :xml, :page => i + 1, :only_path => false)
       %lastmod= Group.maximum(:updated_at).strftime("%Y-%m-%d")
 
 

@@ -77,7 +77,7 @@
           - unless @facility.url.blank?
             %li
               .fn.org.url
-                = link_to("More info", @facility.url, :rel => 'nofollow')
+                = link_to("Official website", @facility.url, :rel => 'nofollow')
       .geo
         %span.latitude= @facility.lat
         %span.longitude= @facility.lng

@@ -1,7 +1,7 @@
 class FacilitiesController < ApplicationController
-  before_filter :require_user, :except => [:index, :show]
-  before_filter :check_lockdown, :except => [:index, :show]
-  before_filter :check_user, :except => [:index, :show]
+  before_filter :require_user, :except => [:index, :show, :sitemap]
+  before_filter :check_lockdown, :except => [:index, :show, :sitemap]
+  before_filter :check_user, :except => [:index, :show, :sitemap]
   before_filter :redirect_id_to_slug, :only => [:show]
 
   def index
