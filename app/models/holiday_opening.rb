@@ -7,20 +7,25 @@ class HolidayOpening < Opening
   attr_accessible :closed
 
   def before_validation
-    if closed?
-      self.opens_mins = self.closes_mins = nil
-    else  
-      self.closed = false 
-      true # set closed to false for consistent value in DB, returns true to allow validation to pass
+    unless closed?
+      self.closed = false # use false not nil
+      true # return true to allow validation to continue
     end
   end
 
   def validate
-    super
     unless closed?
       errors.add(:opens_at, "must be a valid time or opening set to closed") if opens_mins.blank?
       errors.add(:closes_at, "must be a valid time or opening set to closed") if closes_mins.blank?
     end
+    super
+  end
+
+  def closed=(state)
+    if state
+      self.opens_mins = self.closes_mins = nil
+    end
+    write_attribute(:closed, state)    
   end
 
   def blank?

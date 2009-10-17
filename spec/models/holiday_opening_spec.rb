@@ -8,24 +8,31 @@ describe HolidayOpening do
 
   it_should_behave_like "an opening"
 
-  it "should ensure a holiday opening is either closed or has valid openings" do
+  it "should require opens_mins" do 
     @opening.should be_valid
     @opening.opens_mins = nil
-    @opening.should_not be_valid
-    @opening.opens_at = "9AM"
+    @opening.should_not be_valid  
+  end
+  
+  it "should require closes_mins" do 
     @opening.should be_valid
     @opening.closes_mins = nil
     @opening.should_not be_valid
-    @opening.closes_at = "5PM"
+  end
+
+  it "can be closed" do 
     @opening.should be_valid
     @opening.closed = true
     @opening.should be_valid
-    #setting an opening to closed removes opens_mins and closes_mins
-    @opening.closed = false
-    @opening.should_not be_valid
-    @opening.opens_mins.should eql(nil)
-    @opening.closes_mins.should eql(nil)
   end
+  
+  it "should set opens_mins and closes_mins to null when closed" do 
+    @opening.should be_valid
+    @opening.closed = true
+    @opening.opens_mins.should be_nil
+    @opening.closes_mins.should be_nil
+  end
+  
 
 end
 
