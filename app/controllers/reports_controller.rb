@@ -96,6 +96,10 @@ class ReportsController < ApplicationController
     @facilities = Facility.paginate(:all, :conditions => "lat < 49.6 OR lat > 60.93 OR lng < -8.28 OR lng > 2.15", :order => 'updated_at DESC', :page => params[:page])
   end
 
+  def ip
+    redirect_to recentchanges_path unless @ip = params[:ip]
+    @revisions = FacilityRevision.find(:all, :conditions => ["ip = ?", params[:ip]], :limit => 100, :order => 'created_at DESC')
+  end
 
 
 #  def between_openings

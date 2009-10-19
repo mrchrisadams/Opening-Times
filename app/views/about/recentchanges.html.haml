@@ -21,7 +21,7 @@
       %td.num= link_to revision.revision, facility_revision_path(revision.facility_id, revision.id)
       %td.num= number_with_delimiter(revision.length)
       %td.num= link_to revision.user_id, user_path(revision.user_id)
-      %td.num= link_to revision.ip, ip_path(revision.ip)
+      %td.num= link_to revision.ip, :controller => :reports, :action => :ip, :ip => revision.ip
       %td= time_ago_in_words(revision.created_at) + " ago"
       %td=h revision.comment
 

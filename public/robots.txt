@@ -6,6 +6,7 @@ User-Agent: *
 Allow: /f/sitemap.xml
 Disallow: /f
 Disallow: /compare
+Disallow: /reports
 
 Sitemap: http://opening-times.co.uk/sitemapindex.xml
 

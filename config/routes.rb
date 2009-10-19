@@ -24,8 +24,6 @@ ActionController::Routing::Routes.draw do |map|
 
   map.compare 'compare/:a/:b', :controller => 'compare', :defaults => { :a => nil, :b => nil }
 
-  map.ip 'ip/:ip', :controller => 'ip', :ip => /\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}/
-
   ABOUT_PAGES = %w(about accessibility advertising bankholidays copyright feedback guidelines harness help license multipleopenings privacy recentchanges recentlyremoved register sitemap sitemapindex statistics)
   
   ABOUT_PAGES.each do |a|
@@ -35,7 +33,7 @@ ActionController::Routing::Routes.draw do |map|
   
   map.connect 'services/:id', :controller => 'facilities', :action => 'show'
 
-  map.reports 'reports/:action', :controller => 'reports'
+  map.reports 'reports/:action/:ip', :controller => 'reports', :defaults => { :ip => nil }, :ip => /\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}/
 
   map.facility_slug ':slug.:format', :controller => 'slug_trap', :action => 'show', :defaults => { :format => nil }, :slug => /[a-z0-9-]+/i
 
