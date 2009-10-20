@@ -16,16 +16,17 @@ class AboutController < ApplicationController
     @revisions = FacilityRevision.find(:all, :order => 'id DESC', :limit => 100)
     respond_to do |format|
       format.html
-      format.xml #TODO format this as ATOM
+      format.xml
       format.rss { redirect_to :format => :xml }
     end
   end
 
   def recentlyremoved
     @removed = Facility.find(:all, :conditions => "retired_at IS NOT NULL", :order => 'id DESC', :limit => 100)
+    render :text => "Nothing has been removed" and return if @removed.empty?    
     respond_to do |format|
       format.html
-      format.xml #TODO format this as ATOM
+      format.xml 
       format.rss { redirect_to :format => :xml }
     end
   end

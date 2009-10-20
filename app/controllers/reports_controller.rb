@@ -97,8 +97,19 @@ class ReportsController < ApplicationController
   end
 
   def ip
-    redirect_to recentchanges_path unless @ip = params[:ip]
-    @revisions = FacilityRevision.find(:all, :conditions => ["ip = ?", params[:ip]], :limit => 100, :order => 'created_at DESC')
+    if @ip = params[:ip]
+      @revisions = FacilityRevision.paginate(:all, :conditions => ["ip = ?", params[:ip]], :limit => 100, :order => 'created_at DESC', :page => params[:page])
+    end
+  end
+
+  def externallinks
+    @q = params[:q].strip
+    unless @q.blank?
+      q2 = @q.gsub('*','%')
+      @facilities = Facility.paginate(:all, :select => 'id, slug, name, location, url, updated_at', :conditions => ['url LIKE ?', q2], :order => 'updated_at DESC', :page => params[:page])
+    else
+      @facilities = Facility.paginate(:all, :select => 'id, slug, name, location, url, updated_at', :order => 'updated_at DESC', :page => params[:page])
+    end
   end
 
 

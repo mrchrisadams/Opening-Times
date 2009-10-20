@@ -1,0 +1,18 @@
+!!!XML
+%feed{ :xmlns => "http://www.w3.org/2005/Atom" }
+  %id= recentchanges_url
+  %link{ :href => recentchanges_url(:format => "xml"), :rel => "self" }
+  %title{ :type => "text" }= "Opening Times recently removed buinesses"
+  %updated= @removed.first.created_at.iso8601
+
+  - @removed.each do |r|
+    %entry
+      %id= facility_url(r)
+      %title{ :type => "text" }= h(r.full_name)
+      %link{ :rel => "alternate", :href => facility_url(r) }
+      %author
+        %name= "User ID: #{h(r.user_id)}"
+        %uri= user_url(r.user_id)
+      %updated= r.created_at.iso8601
+      %summary=h r.comment
+

@@ -21,6 +21,12 @@
 %p
   If this is incorrect you can still
   = link_to('edit this facility', edit_facility_path(@facility))
-  which can make it live again.
+  to make it live again.
 
 = render 'facilities/infobox'
+
+%h2 See also
+
+%ul
+  %li= link_to 'All recently removed businesses', recentlyremoved_path
+  %li= link_to 'Recent changes', recentchanges_path

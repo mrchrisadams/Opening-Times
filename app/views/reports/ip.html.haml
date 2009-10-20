@@ -1,35 +1,43 @@
+.reportsList
+  = render 'reports/report_list'    
+
 %h1= @page_title = "Changes by IP #{h(@ip)}"
 
-- if @revisions.empty?
-  %p There have been no updates from this IP address
-- else
-  %p Ordered by most recently updated
+- form_tag '', :method=>:get do
+  = label :ip, 'IP address'
+  = text_field_tag "ip", @ip
+  = submit_tag "Submit", :name=>nil, :class => 'button'
 
-  %table.reports
-    %tr
-      %th ID
-      %th Name
-      %th{ :title => "The revision count for this business" } Rev
-      %th{ :title => "Size of the XML in bytes" } Size
-      %th User
-      %th IP
-      %th Updated
-      %th Comment
+- if @revisions
+  - if @revisions.empty?
+    %p There have been no updates from this IP address
+  - else
+    %p Ordered by most recently updated
 
-    - for revision in @revisions
+    %p= page_entries_info @revisions
+
+    %table.reports
       %tr
-        %td.num= link_to revision.facility_id, facility_path(revision.facility_id)
-        %td= link_to h(revision.facility.full_name), facility_slug_path(revision.slug)
-        %td.num= link_to revision.revision, facility_revision_path(revision.facility_id, revision.id)
-        %td.num= number_with_delimiter(revision.length)
-        %td.num= link_to revision.user_id, user_path(revision.user_id)
-        %td.num= link_to_unless_current revision.ip, :ip => revision.ip
-        %td= time_ago_in_words(revision.created_at) + " ago"
-        %td=h revision.comment
+        %th ID
+        %th Name
+        %th{ :title => "The revision count for this business" } Rev
+        %th{ :title => "Size of the XML in bytes" } Size
+        %th User
+        %th IP
+        %th Updated
+        %th Comment
 
-%h2 See also
+      - for revision in @revisions
+        %tr
+          %td.num= link_to revision.facility_id, facility_path(revision.facility_id)
+          %td= link_to h(revision.facility.full_name), facility_slug_path(revision.slug)
+          %td.num= link_to revision.revision, facility_revision_path(revision.facility_id, revision.id)
+          %td.num= number_with_delimiter(revision.length)
+          %td.num= link_to revision.user_id, user_path(revision.user_id)
+          %td.num= link_to_unless_current revision.ip, :ip => revision.ip
+          %td= time_ago_in_words(revision.created_at) + " ago"
+          %td=h revision.comment
 
-%ul
-  %li= link_to 'Recent changes', recentchanges_path
-  %li= link_to 'Recently removed', recentlyremoved_path
+    %br
+    = will_paginate @revisions
 

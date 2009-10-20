@@ -1,0 +1,30 @@
+.grid_10
+.reportsList
+  = render 'reports/report_list'    
+%h1= @page_title = "External links"
+
+%p External links, please check for spam. Use * as wildcard match. Sorted by most recently updated.
+
+- form_tag '', :method=>:get do
+  = text_field_tag 'q', @q
+  = submit_tag "Filter urls", :name=>nil, :class => 'button'
+
+%p= page_entries_info @facilities
+
+- unless @facilities.empty?
+  %table.reports
+    %tr
+      %th ID
+      %th Business
+      %th URL
+      
+    - @facilities.each do |facility|
+      %tr
+        %td
+          %span{ :title => "Updated #{time_ago_in_words(facility.updated_at)} ago" }= facility.id
+        %td= f_link facility
+        %td= link_to h(facility.url)
+
+  %br
+  = will_paginate @facilities
+
