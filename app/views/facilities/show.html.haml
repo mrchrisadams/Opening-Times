@@ -56,7 +56,7 @@
     - if @multi.include?(3)
       .advertBox
         = render 'partials/adverts/google_234x60'
-    
+  
     %h2 Address
     .vcard
       .org.fn
@@ -77,12 +77,12 @@
           - unless @facility.url.blank?
             %li
               .fn.org.url
-                = link_to("Official website", @facility.url, :rel => 'nofollow')
+                = link_to("Official website", @facility.url)
       .geo
         %span.latitude= @facility.lat
         %span.longitude= @facility.lng
 
-    - if @multi.include?(4)
+    - if true || @multi.include?(4)
       .advertBox
         = render 'partials/adverts/google_336x280'
 
