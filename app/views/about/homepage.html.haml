@@ -25,9 +25,7 @@
     #searchBar
       = form_tag('/search', :name=>'f', :method => :get)
       = label_tag 'location', 'Where'
-      = text_field_tag 'location', params[:location], :size => 14
-      = label_tag 'group', 'Group'
-      = text_field_tag 'group', params[:group], :size => 14
+      = text_field_tag 'location', params[:location], :size => 34
       = submit_tag 'Search', :name => nil, :class=>'button'
       </form>
       
