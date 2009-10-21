@@ -29,11 +29,7 @@ class ReportsController < ApplicationController
     @facilities = Facility.paginate(:all, :order => 'LENGTH(location) DESC', :page => params[:page])
   end
 
-  def noon_openings
-    @openings = NormalOpening.paginate(:all, :include => :facility, :conditions => "opens_mins = 720", :page => params[:page])
-  end
-
-  def noon
+  def midday
     conditions = []
     arguments = {}
 
@@ -45,6 +41,32 @@ class ReportsController < ApplicationController
         conditions << "closes_mins = 720"      
       else
         conditions << "opens_mins = 720 OR closes_mins = 720"
+    end
+
+    @week_day = params[:week_day] 
+    unless @week_day.blank?
+      @week_day = @week_day.to_i
+      conditions << "sequence = :sequence"
+      arguments[:sequence] = @week_day
+    end
+    
+    all_conditions = conditions.join(' AND ')
+  
+    @openings = NormalOpening.paginate(:all, :include => :facility, :conditions => [all_conditions, arguments], :page => params[:page])
+  end
+
+  def midnight
+    conditions = []
+    arguments = {}
+
+    @end = params[:end] 
+    case @end
+      when "opens"
+        conditions << "opens_mins = 0"
+      when "closes"
+        conditions << "closes_mins = 1440"
+      else
+        conditions << "opens_mins = 0 OR closes_mins = 1440"
     end
 
     @week_day = params[:week_day] 

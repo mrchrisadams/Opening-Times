@@ -1,6 +1,7 @@
 %h2 Reports
 %ul
-  %li= link_to_unless_current 'Noon', :action => :noon
+  %li= link_to_unless_current 'Midday', :action => :midday
+  %li= link_to_unless_current 'Midnight', :action => :midnight
   %li= link_to_unless_current 'Long locations', :action => 'long_locations'
   %li= link_to_unless_current 'Openings count', :action => 'openings_count'
   %li= link_to_unless_current 'Openings length', :action => 'openings_length'
