@@ -125,9 +125,9 @@ class ReportsController < ApplicationController
   end
 
   def externallinks
-    @q = params[:q].strip
+    @q = params[:q]
     unless @q.blank?
-      q2 = @q.gsub('*','%')
+      q2 = @q.gsub('*','%').strip
       @facilities = Facility.paginate(:all, :select => 'id, slug, name, location, url, updated_at', :conditions => ['url LIKE ?', q2], :order => 'updated_at DESC', :page => params[:page])
     else
       @facilities = Facility.paginate(:all, :select => 'id, slug, name, location, url, updated_at', :order => 'updated_at DESC', :page => params[:page])
