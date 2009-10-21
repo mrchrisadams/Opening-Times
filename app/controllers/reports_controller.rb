@@ -114,8 +114,13 @@ class ReportsController < ApplicationController
 
   def outside_uk
     # very rough bounding box for UK including NI
+    @min_lat = 49.6 
+    @max_lat = 60.93
+    @min_lng = -8.28
+    @max_lng = 2.15
+    
     @status_manager = StatusManager.new
-    @facilities = Facility.paginate(:all, :conditions => "lat < 49.6 OR lat > 60.93 OR lng < -8.28 OR lng > 2.15", :order => 'updated_at DESC', :page => params[:page])
+    @facilities = Facility.paginate(:all, :conditions => ["lat < ? OR lat > ? OR lng < ? OR lng > ?", @min_lat, @max_lat, @min_lng, @max_lng], :order => 'updated_at DESC', :page => params[:page])
   end
 
   def ip

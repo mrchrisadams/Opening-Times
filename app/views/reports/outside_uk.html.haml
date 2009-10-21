@@ -3,6 +3,12 @@
 
 %h1= @page_title = "Outside UK"
 
+%p
+  This report shows businesses outside of the bounding box of 
+  = "#{@min_lat}, #{@min_lng}"
+  to
+  = "#{@max_lat}, #{@max_lng}."
+
 %p= page_entries_info @facilities
 
 - unless @facilities.empty?
