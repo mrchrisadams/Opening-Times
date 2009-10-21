@@ -101,6 +101,8 @@ class FacilitiesController < ApplicationController
           return redirect_to(facility_slug_path(f.slug))
         elsif f = Facility.find_by_slug(id)
           return redirect_to(facility_slug_path(f.slug))
+        elsif f = SlugTrapFacility.find_by_slug(id)
+          return redirect_to(facility_slug_path(f.slug))
         end
       end
       render :file => "#{RAILS_ROOT}/public/404.html", :status => 404
