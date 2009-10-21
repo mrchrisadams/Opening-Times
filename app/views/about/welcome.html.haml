@@ -1,0 +1,17 @@
+%h1= @page_title = "Welcome to Opening Times"
+
+%p Thank you for registering, you are now logged in and can make changes. 
+  
+%p 
+  You've come this far, don't be shy, be
+  %b
+    bold
+  \- please try one of the following
+
+%ul
+  %li= link_to 'Add a new business', new_facility_path
+  %li Find an existing business and improve the information, perhaps you can make the map location more accurate or add a link to their website
+  %li= link_to 'Read the community guidelines', guidelines_path
+  %li= link_to 'Get in touch and let me know what you think of the editing form', feedback_path 
+
+
