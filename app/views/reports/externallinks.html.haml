@@ -23,7 +23,7 @@
         %td
           %span{ :title => "Updated #{time_ago_in_words(facility.updated_at)} ago" }= facility.id
         %td= f_link facility
-        %td= link_to h(facility.url)
+        %td= link_to h(facility.url), h(facility.url)
 
   %br
   = will_paginate @facilities
